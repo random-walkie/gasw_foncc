@@ -4,3 +4,4 @@ scipy>=1.13.1
 matplotlib>=3.10
 matplotlib_venn>=1.1.1
 wordcloud>=1.9.4
+seaborn>=0.13.2
