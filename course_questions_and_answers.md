@@ -32,137 +32,149 @@ This cloud model promotes availability and is composed of five essential charact
 <details>
 <summary>Answer</summary>
 
-**Virtualization** is the main enabling technology for cloud computing. It refers to the partitioning of a single physical server into multiple logical servers, where each logical server behaves like a physical server and can run an operating system and applications independently.
+**Virtualization** is the main enabling technology for cloud computing. It involves partitioning a single physical server into multiple logical servers, each capable of running an operating system and applications independently.
 
-A **hypervisor** is software that runs virtual machines and manages the virtualization.
-
-**Key aspects of virtualization**:
+Key aspects:
+- **Separates** resources and services from the physical system
 - **Partitioning**: Single physical system providing many applications and OS's
-- **Isolation**: Each VM is isolated from other VMs (one crashing doesn't affect others)
-- **Encapsulation**: VM can be presented to an application as an entity
+- **Isolation**: Each VM is isolated from others; if one crashes, it doesn't affect others
+- **Encapsulation**: VM can be presented as an entity; application crashes don't affect others
 
-**Types of virtualization**:
-- **Network Virtualization**: Combining available resources in a network by splitting bandwidth into channels
-- **Storage Virtualization**: Pooling physical storage from multiple devices (e.g., SANs)
-- **Server Virtualization**: Masking server resources (processors, RAM, OS) to increase resource sharing
+A **hypervisor** is software that runs virtual machines and can be:
+- **Type 1 (Native)**: Sits directly on hardware (e.g., MS Hyper-V)
+- **Type 2 (Hosted)**: Runs as software on other hardware/OS (e.g., VMware Player)
 
-Virtualization enables cloud computing by allowing efficient utilization of hardware, isolation between different users/applications, and flexible allocation of resources.
+Virtualization enables cloud computing by allowing efficient resource utilization, isolation, and dynamic allocation.
 </details>
 
-**Q4: Compare grid computing and cloud computing.**
+**Q4: Compare Grid Computing and Cloud Computing.**
 <details>
 <summary>Answer</summary>
 
-| Grid Computing | Cloud Computing |
-|----------------|-----------------|
-| Application oriented | Service oriented |
-| Tasks divided into sub-tasks and allocated to machines | Provides services on demand |
-| Interconnected computers working on a large-scale task | Accessed via internet |
-| Usually owned by an organization within a corporate network | Owned by an infrastructure provider |
-| Management is decentralized | Management is centralized |
+**Grid Computing**:
+- Application oriented
+- Tasks are divided into sub-tasks and allocated to machines
+- Interconnected computers working on a large-scale task
+- Usually owned by an organization within a corporate network
+- Management is decentralized
+
+**Cloud Computing**:
+- Service oriented
+- Provides services on demand
+- Accessed via internet
+- Owned by an infrastructure provider
+- Management is centralized
 </details>
 
-**Q5: What are the types of hypervisors?**
+**Q5: What are the benefits of cloud computing from a consumer perspective?**
 <details>
 <summary>Answer</summary>
 
-1. **Type 1 (Native)**:
-    - Sit directly on the hardware
-    - Example: Microsoft Hyper-V
-
-2. **Type 2 (Hosted)**:
-    - Run as software on other hardware and OS
-    - Example: VMware Player
+From a consumer perspective, cloud computing offers:
+- Accessibility via a browser or web service API
+- No need to buy computer hardware/software
+- Pay-for-use model (only pay for what you use)
+- Scalability to handle varying workloads
+- Reduced maintenance overhead
+- Access to advanced services and technologies
 </details>
 
-## Week 2: Cloud Service Models and Deployment Types
+## Week 2: Cloud Models and Patterns
 
-**Q6: What are the three main cloud service models?**
+**Q6: Describe the three main cloud service models.**
 <details>
 <summary>Answer</summary>
 
 1. **Software as a Service (SaaS)**:
-    - Complete application offered as a service on demand
-    - Single instance serves multiple users/organizations
-    - Users don't manage the infrastructure
-    - Examples: Google Apps, Salesforce, MailChimp, Slack
+    - A complete application offered as a service on demand
+    - Single instance serves multiple end users/organizations
+    - Users access via client devices
+    - Users don't manage underlying infrastructure
+    - Examples: Google Apps, Salesforce, Microsoft 365, Slack
 
 2. **Platform as a Service (PaaS)**:
-    - Development environment encapsulated and offered as a service
-    - Users deploy applications using languages/tools supported by the provider
+    - Development environment offered as a service
+    - Users deploy applications using provider-supported languages/tools
     - Users control deployed apps but not underlying infrastructure
-    - Examples: Google App Engine, Force.com, AWS Elastic Beanstalk
+    - Examples: Google App Engine, AWS Elastic Beanstalk, Heroku, Microsoft Azure
 
 3. **Infrastructure as a Service (IaaS)**:
-    - Provision of processing, storage, networks, and computing resources
-    - Users can deploy arbitrary software including OS and applications
-    - Users control OS, storage, and apps but not underlying infrastructure
-    - Examples: AWS EC2, Rackspace, Google Compute Engine
+    - Provision of fundamental computing resources (processing, storage, networks)
+    - Users deploy and run arbitrary software including OS and applications
+    - Users control OS, storage, and applications but not underlying cloud infrastructure
+    - Examples: AWS EC2, Google Compute Engine, Microsoft Azure IaaS
 </details>
 
-**Q7: What are the cloud deployment model types?**
+**Q7: What is the relationship between control and convenience in cloud service models?**
+<details>
+<summary>Answer</summary>
+
+There's an inverse relationship between control and convenience across the service models:
+
+- **IaaS**: Highest control, lowest convenience
+    - Users manage OS, middleware, runtime, applications
+    - More administration responsibility
+
+- **PaaS**: Medium control, medium convenience
+    - Users manage applications and data
+    - Provider manages runtime, middleware, OS
+
+- **SaaS**: Lowest control, highest convenience
+    - Users only manage their data and limited configuration
+    - Everything else is managed by the provider
+
+This trade-off is often compared to making a cake:
+- IaaS: Making from scratch with basic ingredients
+- PaaS: Using a pre-made mix but still baking yourself
+- SaaS: Buying a fully prepared cake
+</details>
+
+**Q8: What are the four cloud deployment models?**
 <details>
 <summary>Answer</summary>
 
 1. **Public Cloud**:
-    - Available for all
-    - Third-party service provider makes services, storage, and resources available
+    - Available to all users
+    - Provided by third-party service providers
+    - Resources available to general public
+    - Examples: AWS, Microsoft Azure, Google Cloud
 
 2. **Private Cloud**:
-    - Available within an organization
-    - Used by a single organization; can be internally or externally hosted
+    - Available within a single organization
+    - Can be internally or externally hosted
+    - Used by a single organization
+    - Greater control and security
 
 3. **Hybrid Cloud**:
     - Combination of public and private cloud types
-    - Usually private for sensitive data and strategic applications with public services
+    - Usually private for sensitive data and strategic applications
+    - Public for less critical services
+    - Allows data and application portability
 
 4. **Community Cloud**:
     - Shared by several organizations
-    - A collaborative platform used by several distinct organizations to share applications
-</details>
-
-**Q8: What is the "cake analogy" for cloud service models?**
-<details>
-<summary>Answer</summary>
-
-The cake analogy compares cloud service models to different ways of getting a cake:
-
-1. **Traditional On-Premises (Make from scratch)**:
-    - You control everything
-    - Need all ingredients and equipment
-    - Requires most effort and expertise
-
-2. **IaaS (Pre-mixed ingredients)**:
-    - Basic ingredients are provided
-    - You still mix, bake, and decorate
-    - Requires significant effort but less than from scratch
-
-3. **PaaS (Cake in a pan, ready to bake)**:
-    - Most components prepared for you
-    - You just bake and decorate
-    - Requires moderate effort
-
-4. **SaaS (Fully baked cake from bakery)**:
-    - Complete product ready to use
-    - No preparation required
-    - Minimal effort but least control
+    - Collaborative platform for distinct organizations
+    - Shared applications and common concerns
+    - Example: Government clouds shared by multiple agencies
 </details>
 
 **Q9: What are the key cloud application design principles?**
 <details>
 <summary>Answer</summary>
 
+Key cloud application design principles include:
+
 1. **Scaling elasticity**:
-    - Horizontal (more machines/workers)
-    - Vertical (more compute power - CPUs)
-    - Identify bottlenecks (e.g., split read/write databases)
+    - Horizontal scaling: Adding more machines/workers
+    - Vertical scaling: Adding more compute power (CPUs)
+    - Identifying bottlenecks (e.g., split read/write databases)
 
 2. **Redundancy**:
-    - Replicate databases
-    - Partition data:
-        - Horizontal shards (subsets of data, e.g., customers A-H)
-        - Vertical (frequently vs. less frequently used fields)
-        - Functional (access by context - invoices vs. inventory)
+    - Replicating databases (with integrity resolution)
+    - Partitioning data:
+        - Horizontal shards (e.g., customers A-H)
+        - Vertical (frequently vs. rarely used fields)
+        - Functional (access by context)
 
 3. **Error correction**:
     - Self-healing (degrade gracefully, focus on critical functions)
@@ -170,376 +182,297 @@ The cake analogy compares cloud service models to different ways of getting a ca
 
 4. **Evolution**:
     - High cohesion, loose coupling
-    - Restricted interfaces to minimize dependency changes
+    - Restricted interfaces
 </details>
 
 **Q10: What are some common cloud design patterns and their purposes?**
 <details>
 <summary>Answer</summary>
 
-**Availability Patterns**:
-- **Queue-based Load Leveling**: Buffer between tasks and services
-- **Throttling**: Control resource consumption by setting limits
+Cloud design patterns address specific challenges:
 
-**Data Management Patterns**:
-- **Cache-Aside**: Load data from store and improve repeat access
-- **Sharding**: Horizontal/vertical database partitioning
+**Availability**:
+- Queue-based Load Leveling: Buffers between tasks and services
+- Throttling: Controls resource consumption by setting limits
 
-**Design and Implementation Patterns**:
-- **Backends for Frontends**: Customize backends for specific frontend needs
-- **Static Content Hosting**: Deliver static web pages separately
+**Data Management**:
+- Cache-Aside: Improves repeat access performance
+- Sharding: Horizontal/vertical database partitioning
 
-**Messaging Patterns**:
-- **Priority Queue**: Support different service level agreements
-- **Asynchronous Request-Reply**: Decouple backend from frontend processing
+**Design and Implementation**:
+- Backends for Frontends: Specialized backends for different client types
+- Static Content Hosting: Separate delivery of static web content
 
-**Resiliency Patterns**:
-- **Retry**: Handle faults transparently
-- **Bulkhead**: Isolate application elements into pools for fault tolerance
+**Messaging**:
+- Priority Queue: Handles different service level agreements
+- Asynchronous Request-Reply: Decouples frontend from backend processing
 
-**Security Patterns**:
-- **Federated Identity**: Delegate authentication to external provider
-- **Valet Key**: Client token for managing restricted access
+**Resiliency**:
+- Retry: Transparent fault handling
+- Bulkhead: Isolates application elements into pools
+
+**Security**:
+- Federated Identity: Delegates authentication to external providers
+- Valet Key: Client token for managing restricted access
 </details>
 
 ## Week 3: Cloud Architecture and Services
 
-**Q11: What's the difference between N-tier and Microservices architecture?**
+**Q11: What is the difference between N-tier architecture and Microservices architecture?**
 <details>
 <summary>Answer</summary>
 
 **N-tier Architecture**:
 - Traditional architecture dividing application into layers
-- Typically includes presentation, business logic, and data access layers
+- Typical layers: presentation, business logic, data access
 - Often used with IaaS
-- **Strengths**: Natural fit for migration from traditional systems
+- **Strengths**: Natural fit for migration from on-premises
 - **Weaknesses**: Updating layered systems can be difficult depending on modularity
 
 **Microservices Architecture**:
 - Software made up of small independent services
 - Each service provides a single capability
-- Services are loosely coupled and communicate through APIs
+- Services communicate through APIs
 - Implementation can change as long as API remains consistent
 - **Strengths**: Works well with complexity, innovation, and high-velocity updates
-- **Weaknesses**: Requires appropriate development culture
+- **Weaknesses**: Requires correct development team culture and infrastructure
 </details>
 
-**Q12: What are containers and how do they differ from virtual machines?**
+**Q12: What is a container in cloud computing?**
 <details>
 <summary>Answer</summary>
 
-**Containers**:
-- Standalone, all-in-one packages including executable and dependencies
-- Can run on laptop, server, or virtual machine
-- Portable, scalable, and individualized
-- Share the host OS kernel but have isolated user spaces
+A **container** is a standalone, all-in-one package that includes an executable and all its dependencies. Key characteristics:
 
-**Virtual Machines (VMs)**:
-- Complete OS and application running on hypervisor
-- Include full copy of an OS, application, binaries, and libraries
-- Typically several GB in size
+- Self-contained unit that can run on a laptop, server, or virtual machine
+- Portable across different environments
+- Scalable for different workloads
+- Provides isolation between applications
 
-**Key Differences**:
-- Containers are lighter weight (MB vs GB)
-- Containers start in seconds vs minutes for VMs
-- Containers share the OS kernel while VMs have complete OS copies
-- VMs provide stronger isolation but with higher resource overhead
+Containers differ from virtual machines:
+- Containers share the host OS kernel but have isolated user spaces
+- VMs have their own OS and kernel
+- Containers are lighter, start faster, and use fewer resources than VMs
+
+Common container technologies:
+- **Docker**: Open-source platform for creating, deploying, and running containers
+- **Kubernetes**: Platform for orchestrating containers (deployment, scaling, management)
 </details>
 
-**Q13: What are some key AWS services for computing and containers?**
+**Q13: Describe the basic components of a typical cloud web application architecture.**
 <details>
 <summary>Answer</summary>
 
-1. **Elastic Compute Cloud (EC2)**:
-    - Most common building block
-    - Create virtual computers with chosen OS, memory, compute power
-    - Common use case: Web applications
-    - Can be scaled with load balancers, Cloud Watch, and Auto Scaling
+A typical cloud web application architecture includes:
 
-2. **Elastic Beanstalk**:
-    - Includes auto-scaling for instances
-    - Automates setup while allowing control of underlying instances
+1. **Front Door/Load Balancer**: Routes HTTP requests to web front end, provides security
 
-3. **Lightsail**:
-    - Simplified deployment (e.g., WordPress site)
-    - Less control but easier to use
-    - Always-running server in the cloud
+2. **Content Delivery Network (CDN)**: Caches publicly available content for lower latency
 
-4. **Lambda (Serverless Computing)**:
-    - Functions as a Service (FaaS)
-    - No always-running server required
-    - Triggered by events
-    - Pay only for computing power used
-
-5. **Container Services**:
-    - **Docker**: Platform for creating, deploying, running containers
-    - **Kubernetes**: Platform for orchestrating containers
-    - **Elastic Container Service**: AWS service for managing containers
-    - **App Runner**: Automates working with and deploying containers
-</details>
-
-**Q14: What is a typical web app architecture in the cloud?**
-<details>
-<summary>Answer</summary>
-
-A typical modern web application might include:
-
-1. **Front Door**: Load balancer that routes HTTP requests and provides security
-
-2. **Content Delivery Network (CDN)**: Caches content for lower latency and faster delivery
-
-3. **Web Front End**: Organizes requests for frontend interactivity, using app service plan and queue function
+3. **Web Front End**: Organizes requests for frontend interactivity, uses app service plan and queue functions
 
 4. **Data Storage & Cache**:
     - Cache for frequent requests
     - Database for persistent data
-    - Cosmos DB for global service
+    - Global services (e.g., Cosmos DB)
 
-5. **Authentication**:
-    - Active Directory for user authentication
+5. **Authentication**: Services like Active Directory for user authentication
 
-6. **Infrastructure Services**:
-    - DNS hosting
-    - App service plan (provides VMs)
-    - Storage blob (unstructured data)
+6. **DNS**: Hosting service for domain names
+
+Key services involved:
+- App Service: Platform for creating/deploying apps
+- App Service Plan: Provides VMs
+- SQL Server: Logical view of databases
+- Storage Blob: Object storage for unstructured data
 </details>
 
-## Week 4: Cloud Data and Analytics
-
-**Q15: What are the main cloud data services offered by AWS?**
+**Q14: What are some examples of specialized cloud services for different industries?**
 <details>
 <summary>Answer</summary>
 
-1. **Simple Storage Service (S3)**:
-    - General object storage
-    - Based on Amazon's internal storage system
+Cloud providers offer specialized services for different industries and use cases:
 
-2. **Elastic Block Storage (EBS)**:
-    - Fast storage for data-intensive apps
-    - Highly configurable
+**Movie Recommendations**:
+1. Front-end website collects user-movie interaction data
+2. Historical data stored in blob storage
+3. Data Science Virtual Machine (DSVM) used for experimentation
+4. Machine Learning coordinates experimentation
+5. Trained model preserved in database
+6. Model deployed to web/app service
 
-3. **Elastic File System (EFS)**:
-    - Fast storage for data-intensive apps
-    - Fully managed but higher cost
+**Games**:
+1. Traffic Manager directs client requests to appropriate endpoints
+2. Game-specific backend services (e.g., PlayFab)
+3. CDN and Storage for cached content and game resources
+4. Databases for game data and analytics
+5. Leaderboard implementation with caching for performance
 
-4. **Relational Database Service (RDS)**:
-    - SQL database with high throughput
-    - Scaling and backup capabilities
-    - Used for mobile/online games
-
-5. **Elastic Cache**:
-    - Used with RDS for fast performance and low latency
-
-6. **Aurora**:
-    - SQL database compatible with MySQL
-    - Includes serverless option (pay for database access only)
-
-7. **Timestream**:
-    - Time series database with built-in time-based queries
-
-8. **Neptune**:
-    - Graph database for highly connected data sets
-    - Used for social graphs and recommendation engines
+These specialized services allow for optimized industry-specific solutions without rebuilding basic infrastructure.
 </details>
 
-**Q16: What is the difference between a data lake and a data warehouse?**
+## Week 4: Cloud Data
+
+**Q15: What are the main types of cloud data services?**
 <details>
 <summary>Answer</summary>
 
-**Data Lake (e.g., AWS Lake Formation)**:
-- Stores unstructured data
-- Raw data in its native format
-- Flexible schema
-- Used for varied data types and exploratory analysis
+Cloud providers offer various data services:
 
-**Data Warehouse (e.g., AWS Redshift)**:
-- Stores structured data
-- Processed data with defined schema
-- Used for business intelligence and reporting
+**Storage Services**:
+- **Simple Storage Service (S3)**: General object storage
+- **Elastic Block Storage**: Fast storage for data-intensive apps
+- **Elastic File System**: Fully managed, fast file storage
 
-Both are often used in preparation for data analysis.
+**Database Services**:
+- **Relational Database Service (RDS)**: SQL databases with high throughput
+- **Aurora**: SQL database compatible with MySQL
+- **Elastic Cache**: For use with RDS, provides low-latency performance
+- **Timestream**: Time series database
+- **Neptune**: Graph database for highly connected datasets
+
+**Data Preparation**:
+- **Lake Formation**: Data lake for unstructured data
+- **Redshift**: Data warehouse for structured data
+- **Glue**: ETL (Extract, Transform, Load) service that automates data preparation
+- **Data Exchange**: For purchasing third-party data
 </details>
 
-**Q17: What are some AWS data analytics services?**
+**Q16: What is data analysis in the context of cloud computing?**
 <details>
 <summary>Answer</summary>
 
-1. **Kinesis**: Real-time data analytics
+**Data Analysis** in cloud computing involves searching large stores of data to discover patterns and trends that go beyond simple analysis. Common techniques include:
 
-2. **Glue**:
-    - ETL (Extract, Transform, Load) service
-    - Automates data preparation
+1. **Support Vector Machine (SVM)**: Finds a line or hyperplane that best separates groups of data points
 
-3. **Glue Studio**: Code-free, serverless ETL
+2. **Regression Analysis**: Predictive modeling technique that investigates relationships between dependent and independent variables; used for forecasting and finding causal relationships
 
-4. **Data Exchange**: Purchase data from third parties (e.g., market research)
+3. **Network Analysis**: Family of algorithms based on graph theory that examines relationships between nodes; used in social media and search engines (e.g., Google PageRank)
 
-5. **SageMaker**: Comprehensive machine learning platform
+4. **Sentiment Analysis**: Identifies and categorizes opinions in text data to determine attitudes (positive, negative, neutral) toward products, brands, or services
 </details>
 
-**Q18: Explain the difference between data analysis and machine learning.**
+**Q17: What is machine learning in the cloud and what are its applications?**
 <details>
 <summary>Answer</summary>
 
-**Data Analysis**:
-- Searching large stores of data to discover patterns and trends
-- Uses statistical methods to understand existing data
-- Focuses on summarizing past data to derive insights
-- Examples: regression analysis, network analysis, sentiment analysis
+**Machine Learning (ML)** in the cloud involves training predictive models based on mathematical algorithms to analyze relationships between data points and predict unknown values.
 
-**Machine Learning**:
-- Uses sophisticated mathematical algorithms to segment data and evaluate probability of future events
-- Builds models that learn from data to make predictions or decisions
-- Focus on using past data to predict future outcomes
-- Examples: image recognition, recommendation systems, natural language processing
+The ML process typically includes:
+1. Exploring source data to determine relationships
+2. Training and validating models to find optimal prediction
+3. Deploying the optimal model as a service
+
+Common cloud applications of ML:
+- **Search Engine Refinement**: Learning from user interactions with results
+- **Virtual Personal Assistants**: Collecting and refining information based on previous interactions
+- **Social Media**: Friend suggestions, face recognition, content recommendations
+- **Image Style Transfer**: Applying artistic styles to images
+- **Recommendation Systems**: Suggesting products, content, or connections
+
+Cloud providers offer ML services like:
+- **SageMaker** (AWS)
+- **Azure ML** (Microsoft)
+- **Rekognition** (image processing)
+- **Lex** (speech processing)
 </details>
 
-**Q19: What are some machine learning techniques and applications?**
+## Week 5: Cloud Issues
+
+**Q18: What are the key strengths of cloud computing?**
 <details>
 <summary>Answer</summary>
 
-**Techniques**:
-- **Support Vector Machines (SVM)**: Finds optimal boundaries between data classes
-- **Neural Networks**: Layered structures mimicking human brain connections
-- **Regression Models**: Predict relationships between variables
-- **Clustering**: Group similar data points together
+Key strengths of cloud computing include:
 
-**Applications**:
-1. **Search Engine Refinement**:
-    - Algorithms watch user responses to search results
-    - Learn from user behavior to improve future results
-
-2. **Virtual Personal Assistants** (e.g., Alexa):
-    - Collect and refine information based on previous interactions
-    - Tailor results to user preferences
-
-3. **Social Media Features**:
-    - Friend suggestions based on connections and interactions
-    - Face recognition in photos
-    - Similar content recommendations (e.g., Pinterest pins)
-
-4. **Image Style Transfer**:
-    - Applying artistic styles to photographs
-    - Generating new images with characteristics of input samples
+- **Flexibility**: Various service models (IaaS, PaaS, SaaS) to meet different needs
+- **Scalability**: Ability to scale up/down resources in response to demand
+- **Elasticity**: Dynamic adaptation to traffic fluctuations
+- **Reliability**: Services consistently available over time
+- **Availability**: Services working properly when accessed
+- **Resilience**: Services working despite changing circumstances
+- **Sustainability**: Potential for more efficient resource utilization
 </details>
 
-## Week 5: Cloud Issues and Considerations
-
-**Q20: What is a SWOT analysis of cloud computing?**
+**Q19: What are the main weaknesses of cloud computing?**
 <details>
 <summary>Answer</summary>
 
-**Strengths**:
-- Flexibility
-- Scalability
-- Reliability
-- Availability
-- Resilience
-- Sustainability
+Major weaknesses of cloud computing include:
 
-**Weaknesses**:
-- Dependency - vendor lock-in
-- Data ownership
-- Infrastructure requirements
-- Inherent latency (operation time)
-- Service quality guarantees
-- Legacy systems and migration challenges
-
-**Opportunities**:
-- Ease of utilization
-- Simplified maintenance and upgrade
-- Access to services for innovation
-- Lower cost
-- Low barrier to entry
-- Energy saving
-
-**Threats**:
-- Cross compatibility issues
-- Hidden costs
-- Knowledge & expertise requirements
-- Adoption resistance
-- Security concerns
-- Geopolitical factors
+- **Dependency/Vendor Lock-in**: Difficulty moving between cloud providers
+- **Data Ownership**: Questions about who controls data and derived insights
+- **Infrastructure Requirements**: Need for reliable, high-bandwidth connectivity
+- **Inherent Latency**: Operations potentially slower than on-premises
+- **Service Quality Guarantees**: Limited compensation for outages
+- **Legacy Systems and Migration**: Challenges in moving existing systems to cloud
 </details>
 
-**Q21: What is the shared responsibility model in cloud computing?**
+**Q20: What are the opportunities presented by cloud computing?**
 <details>
 <summary>Answer</summary>
 
-The shared responsibility model defines what security responsibilities belong to the cloud provider versus the customer:
+Key opportunities of cloud computing:
 
-**Cloud Provider Typically Responsible For**:
+- **Ease of Utilization**: Simple selection of services
+- **Simplified Maintenance/Upgrade**: Centralized management
+- **Access to Services for Innovation**: Advanced data analysis and machine learning
+- **Lower Cost**: Potential cost savings (capital vs. operational expenses)
+- **Low Barrier to Entry**: Easier for small businesses to access enterprise-grade technology
+- **Energy Saving**: Potential reduction in energy consumption through shared resources
+</details>
+
+**Q21: What are the threats or challenges when adopting cloud computing?**
+<details>
+<summary>Answer</summary>
+
+Significant threats and challenges to cloud adoption:
+
+- **Cross-Compatibility**: Issues moving between different cloud platforms
+- **Hidden Costs**: Unexpected expenses, especially for advanced features
+- **Knowledge & Expertise**: Steep learning curves and specialized skills required
+- **Adoption Resistance**: Organizational reluctance to change
+- **Security**: Traditional and new threats in a complex environment
+- **Geopolitics**: Data sovereignty and international legal concerns
+</details>
+
+**Q22: What is the Shared Responsibility Model in cloud security?**
+<details>
+<summary>Answer</summary>
+
+The **Shared Responsibility Model** defines how security responsibilities are divided between cloud providers and customers:
+
+**Cloud Provider Responsibilities** typically include:
 - Physical security of data centers
 - Network infrastructure
-- Hypervisor security
-- Host operating system security
+- Host infrastructure
+- Virtualization layer
 
-**Customer Typically Responsible For**:
+**Customer Responsibilities** typically include:
 - Data security and encryption
 - Identity and access management
 - Application security
-- Operating system security (for IaaS)
-- Network and firewall configuration
+- Operating system configuration
 
 The exact division varies by service model:
-- In IaaS, customers have more responsibility
-- In PaaS, responsibilities are more evenly shared
-- In SaaS, the provider handles most security aspects
+- In **IaaS**, customers have more security responsibilities
+- In **PaaS**, some responsibilities shift to the provider
+- In **SaaS**, providers handle most security aspects, but customers retain responsibility for data and access management
 
-Understanding this model is crucial for proper cloud security implementation.
-</details>
-
-**Q22: What are the main security concerns in cloud computing?**
-<details>
-<summary>Answer</summary>
-
-**Traditional Security Concerns**:
-- User authentication
-- Data integrity
-- Confidentiality
-- Distributed Denial of Service (DDoS) attacks
-
-**Cloud-Specific Security Concerns**:
-- Managing traditional threats in a complex environment
-- Need for security automation tools
-- Gaps in customer and provider responsibilities
-- "Leaky buckets" (e.g., poorly configured Amazon S3 storage)
-    - Example breaches: WWE, Verizon Wireless, Time Warner Cable
-
-**Security Best Practices**:
-- Clear consistent leadership/management
-- Proactive monitoring
-- Intrusion detection (ID/authentication, behavior anomaly)
-- Micro-segmentation of resources
-</details>
-
-**Q23: What is data localization and why is it important?**
-<details>
-<summary>Answer</summary>
-
-**Data Localization**:
-- Legal requirements to store data within the borders of specific countries or regions
-- Varies by jurisdiction (e.g., Europe vs. Asia have different requirements)
-
-**Importance**:
-- Compliance with local data protection laws
-- Jurisdictional control over data
-- Protection of citizens' privacy
-- National security concerns
-
-Cloud providers must manage these requirements across their global infrastructure, often creating region-specific data centers to accommodate these laws.
+Understanding this model is crucial to ensuring comprehensive security coverage without gaps.
 </details>
 
 ## Week 6: Networks Introduction
 
-**Q24: What is a computer network?**
+**Q23: What is a computer network?**
 <details>
 <summary>Answer</summary>
 
 Interconnected computing devices that can exchange data and share resources with each other using communications protocols over physical or wireless technologies.
 </details>
 
-**Q25: What are the three categories of network components?**
+**Q24: What are the three categories of network components?**
 <details>
 <summary>Answer</summary>
 
@@ -548,7 +481,7 @@ Interconnected computing devices that can exchange data and share resources with
 3. **Media** - Connectivity (metallic cables, fiber optic cables, wireless transmission)
 </details>
 
-**Q26: What are the two main functions of intermediary devices?**
+**Q25: What are the two main functions of intermediary devices?**
 <details>
 <summary>Answer</summary>
 
@@ -556,7 +489,7 @@ Interconnected computing devices that can exchange data and share resources with
 2. Direct data (e.g., along alternate pathways where there is a link failure)
 </details>
 
-**Q27: Compare peer-to-peer and client-server networks.**
+**Q26: Compare peer-to-peer and client-server networks.**
 <details>
 <summary>Answer</summary>
 
@@ -569,7 +502,7 @@ Interconnected computing devices that can exchange data and share resources with
 - **Disadvantages**: Harder to set up, more complex, higher cost
 </details>
 
-**Q28: Describe the different network physical topologies.**
+**Q27: Describe the different network physical topologies.**
 <details>
 <summary>Answer</summary>
 
@@ -580,7 +513,7 @@ Interconnected computing devices that can exchange data and share resources with
 - **Tree**: Hierarchical structure typically used by telecoms (e.g., cable TV)
 </details>
 
-**Q29: What is the difference between circuit-switched and packet-switched networks?**
+**Q28: What is the difference between circuit-switched and packet-switched networks?**
 <details>
 <summary>Answer</summary>
 
@@ -599,7 +532,7 @@ Interconnected computing devices that can exchange data and share resources with
 
 ## Week 6: Communication Concepts
 
-**Q30: What is message encoding?**
+**Q29: What is message encoding?**
 <details>
 <summary>Answer</summary>
 
@@ -611,7 +544,7 @@ For network transmission:
 3. The destination host receives and decodes the signals
 </details>
 
-**Q31: What is segmentation and why is it important?**
+**Q30: What is segmentation and why is it important?**
 <details>
 <summary>Answer</summary>
 
@@ -627,7 +560,7 @@ Segmentation is dividing data streams into smaller pieces for transmission.
 The transport layer handles segmenting data for manageability and reassembling the segments at the destination.
 </details>
 
-**Q32: What is encapsulation in networking?**
+**Q31: What is encapsulation in networking?**
 <details>
 <summary>Answer</summary>
 
@@ -638,7 +571,7 @@ De-encapsulation is the reverse process that occurs when the recipient removes t
 
 ## Week 6: Network Models and Protocols
 
-**Q33: What is a protocol in networking?**
+**Q32: What is a protocol in networking?**
 <details>
 <summary>Answer</summary>
 
@@ -652,7 +585,7 @@ A protocol is a set of rules that determines:
 Networking protocols define the formatting, addressing, routing, and error recovery methods for data transmission.
 </details>
 
-**Q34: What is the difference between a protocol model and a protocol suite?**
+**Q33: What is the difference between a protocol model and a protocol suite?**
 <details>
 <summary>Answer</summary>
 
@@ -660,7 +593,7 @@ Networking protocols define the formatting, addressing, routing, and error recov
 - **Protocol Suite**: A collection of inter-related protocols (e.g., TCP/IP suite)
 </details>
 
-**Q35: Describe the OSI model and its layers.**
+**Q34: Describe the OSI model and its layers.**
 <details>
 <summary>Answer</summary>
 
@@ -677,7 +610,7 @@ The OSI (Open Systems Interconnection) model is a conceptual framework with 7 la
 The OSI model provides an extensive list of functions that can occur at each layer and describes the interaction between layers.
 </details>
 
-**Q36: Compare the OSI model and the TCP/IP model.**
+**Q35: Compare the OSI model and the TCP/IP model.**
 <details>
 <summary>Answer</summary>
 
@@ -693,7 +626,7 @@ The OSI model is a conceptual framework, while TCP/IP is implemented in software
 
 ## Week 7: Protocol Data Units (PDUs)
 
-**Q37: What are Protocol Data Units (PDUs) and how do they change across layers?**
+**Q36: What are Protocol Data Units (PDUs) and how do they change across layers?**
 <details>
 <summary>Answer</summary>
 
@@ -709,7 +642,7 @@ Data encapsulation order: data → segment → packet → frame → bit
 Data de-encapsulation order: bit → frame → packet → segment → data
 </details>
 
-**Q38: What happens during encapsulation and de-encapsulation?**
+**Q37: What happens during encapsulation and de-encapsulation?**
 <details>
 <summary>Answer</summary>
 
@@ -724,7 +657,7 @@ Data de-encapsulation order: bit → frame → packet → segment → data
 
 ## Week 7: Application, Presentation, and Session Layers (Layers 7, 6, 5)
 
-**Q39: What is the role of the Application Layer (Layer 7)?**
+**Q38: What is the role of the Application Layer (Layer 7)?**
 <details>
 <summary>Answer</summary>
 
@@ -738,7 +671,7 @@ The Application Layer:
 These protocols enable web browsing, file transfer, emails, and virtual terminals. For example, browsers are not in the application layer but use application layer protocols like HTTP/HTTPS.
 </details>
 
-**Q40: What is the role of the Presentation Layer (Layer 6)?**
+**Q39: What is the role of the Presentation Layer (Layer 6)?**
 <details>
 <summary>Answer</summary>
 
@@ -748,7 +681,7 @@ The Presentation Layer has three primary functions:
 3. **Encryption/Decryption**: Secures data for transmission (e.g., SSL protocol)
 </details>
 
-**Q41: What is the role of the Session Layer (Layer 5)?**
+**Q40: What is the role of the Session Layer (Layer 5)?**
 <details>
 <summary>Answer</summary>
 
@@ -763,7 +696,7 @@ The Session Layer:
 
 ## Week 8: Transport Layer (Layer 4)
 
-**Q42: What are the main functions of the Transport Layer?**
+**Q41: What are the main functions of the Transport Layer?**
 <details>
 <summary>Answer</summary>
 
@@ -774,7 +707,7 @@ The Transport Layer is responsible for four basic processes:
 4. **Flow Control**: Managing data transmission rates
 </details>
 
-**Q43: Compare TCP and UDP protocols.**
+**Q42: Compare TCP and UDP protocols.**
 <details>
 <summary>Answer</summary>
 
@@ -794,7 +727,7 @@ The Transport Layer is responsible for four basic processes:
 Developers choose between TCP and UDP based on their application requirements, balancing reliability against network overhead.
 </details>
 
-**Q44: What are port numbers and what is their purpose?**
+**Q43: What are port numbers and what is their purpose?**
 <details>
 <summary>Answer</summary>
 
@@ -812,7 +745,7 @@ Common port numbers:
 - Port 25: SMTP (email)
 </details>
 
-**Q45: What is a socket in networking?**
+**Q44: What is a socket in networking?**
 <details>
 <summary>Answer</summary>
 
@@ -827,7 +760,7 @@ It uniquely identifies a communication session between applications. The IP addr
 
 ## Week 8: Network Layer (Layer 3)
 
-**Q46: What are the main functions of the Network Layer?**
+**Q45: What are the main functions of the Network Layer?**
 <details>
 <summary>Answer</summary>
 
@@ -836,7 +769,7 @@ The Network Layer is responsible for:
 2. **Addressing**: Providing logical addressing for end devices
 </details>
 
-**Q47: What is routing and how does it work?**
+**Q46: What is routing and how does it work?**
 <details>
 <summary>Answer</summary>
 
@@ -847,7 +780,7 @@ Routing is the process of directing packets to a destination host on another net
 - Path determination algorithms like OSPF (Open Shortest Path First) find the best route
 </details>
 
-**Q48: Explain IP addressing.**
+**Q47: Explain IP addressing.**
 <details>
 <summary>Answer</summary>
 
@@ -859,7 +792,7 @@ IP addressing is a key function of network layer protocols:
     - Host address: used by the last router to deliver to the destination device
 </details>
 
-**Q49: What are the different types of IP addresses?**
+**Q48: What are the different types of IP addresses?**
 <details>
 <summary>Answer</summary>
 
@@ -869,7 +802,7 @@ IP addressing is a key function of network layer protocols:
 - **Dynamic IP**: Assigned dynamically and can change (common for home internet)
 </details>
 
-**Q50: What is a subnet mask and how does it work?**
+**Q49: What is a subnet mask and how does it work?**
 <details>
 <summary>Answer</summary>
 
@@ -883,7 +816,7 @@ A subnet mask is a 32-bit number that:
 Example: With mask 255.255.255.0, the first three octets identify the network, and the last octet identifies the host on that network.
 </details>
 
-**Q51: What is Network Address Translation (NAT) and what issues does it have?**
+**Q50: What is Network Address Translation (NAT) and what issues does it have?**
 <details>
 <summary>Answer</summary>
 
@@ -905,9 +838,35 @@ Example: With mask 255.255.255.0, the first three octets identify the network, a
 - Scalability issues in large networks
 </details>
 
-**Q52: Compare IPv4 and IPv6.**
+**Q51: Compare IPv4 and IPv6.**
 <details>
 <summary>Answer</summary>
 
 **IPv4**:
-- 32-bit addresses (approximately
+- 32-bit addresses (approximately 4.3 billion addresses)
+- Address depletion is a major issue
+- Limited security features
+- Requires NAT to extend address space
+
+**IPv6**:
+- 128-bit addresses (vastly larger address space)
+- Improved packet handling
+- Eliminates need for NAT
+- Integrated security features
+</details>
+
+## Week 7-8: Protocol Implementation
+
+**Q52: What is the TCP/IP Protocol Stack in action?**
+<details>
+<summary>Answer</summary>
+
+The TCP/IP Protocol Stack in action involves multiple layers working together:
+
+1. **Application Layer**: The data to be sent (e.g., HTML page from web server)
+2. **Transport Layer**: TCP header is added to the data, creating segments and managing conversations between client and server
+3. **Internet Layer**: IP header is added, creating packets with source/destination IP addresses
+4. **Network Access Layer**: Ethernet information is added to both ends of the IP packet, creating a data link frame that can be delivered across the network
+
+Each layer adds its own header information through encapsulation, and each receiving layer removes the corresponding header through de-encapsulation.
+</details>
