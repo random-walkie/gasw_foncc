@@ -638,7 +638,7 @@ PDUs are the data units at each layer of the OSI model:
 4. **Frame** - Layer 2 (Data Link, including Ethernet)
 5. **Bit** - Layer 1 (Physical)
 
-Data encapsulation order: data → segment → packet → frame → bit
+Data encapsulation order: data → segment → packet → frame → bit   
 Data de-encapsulation order: bit → frame → packet → segment → data
 </details>
 
