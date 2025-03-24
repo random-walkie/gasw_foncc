@@ -8,7 +8,7 @@
 #
 # This configuration is suitable for:
 # - Learning network protocols
-exit# - Educational environments
+# - Educational environments
 #
 # It is NOT recommended for production deployments without additional security measures.
 FROM python:3.12-bookworm
