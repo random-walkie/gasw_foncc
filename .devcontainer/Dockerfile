@@ -1,18 +1,36 @@
-# Base Image
-FROM quay.io/jupyter/base-notebook
+# Scapy Development Environment
+#
+# SECURITY NOTE:
+# This Dockerfile creates an environment with elevated network capabilities
+# (NET_RAW, NET_ADMIN) which are required for Scapy to function properly for
+# packet crafting and network analysis. These elevated privileges are necessary
+# for development and educational purposes but reduce container isolation.
+#
+# This configuration is suitable for:
+# - Learning network protocols
+exit# - Educational environments
+#
+# It is NOT recommended for production deployments without additional security measures.
+FROM python:3.12-bookworm
 
-# pip
+# Install system dependencies required for network tools and Scapy
+RUN apt-get update && apt-get install -y \
+    iputils-ping \
+    tcpdump \
+    wireshark \
+    net-tools \
+    iproute2 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Upgrade pip
 RUN pip install --upgrade pip
 
-# If the steps of a `Dockerfile` use files that are different from the `context` file, COPY the
-# file of each step separately; and RUN the file immediately after COPY
 WORKDIR /app
 
 COPY /.devcontainer/requirements.txt /app
 RUN pip install --requirement /app/requirements.txt --no-cache-dir
 
-# Port
-EXPOSE 8050
+EXPOSE 8888
 
-# ENTRYPOINT
-ENTRYPOINT ["bash"]
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
