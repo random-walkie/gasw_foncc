@@ -59,8 +59,8 @@ http-analyzer https://example.com --verbose
 ```
 
 See the individual project READMEs for more detailed usage instructions:
-- [TCP Connection Monitor Documentation](projects/tcp_monitor/README.md)
-- [HTTP Request Analyzer Documentation](projects/http_analyzer/README.md)
+- [TCP Connection Monitor Documentation](tcp-connection-monitor/README.md)
+- [HTTP Request Analyzer Documentation](http-request-analyzer/README.md)
 
 ## Learning Approach
 
