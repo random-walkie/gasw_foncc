@@ -30,8 +30,8 @@ To work with the networking projects included in this repository:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/network-cloud-computing.git
-cd network-cloud-computing
+git clone https://github.com/random-walkie/gasw_foncc.git
+cd gasw_foncc
 
 # Create virtual environment
 python -m venv venv
