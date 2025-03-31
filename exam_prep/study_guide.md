@@ -386,14 +386,14 @@ graph LR
 - Changes in one layer don't affect other layers
 - Each layer communicates with its counterpart on the receiving system
 
-#### Application Layer (Layer 7)
+### Application Layer (Layer 7)
 
-##### Function
+#### Function
 - Provides network services directly to end-user applications
 - Closest layer to the end user
 - Provides the interface between applications and the network
 
-##### Key Protocols
+#### Key Protocols
 - **HTTP/HTTPS**: Web browsing
 - **FTP**: File Transfer Protocol
 - **SMTP**: Email transmission
@@ -402,58 +402,58 @@ graph LR
 - **Telnet/SSH**: Remote access
 - **SNMP**: Network management
 
-##### Important Concepts
+#### Important Concepts
 - Application layer operates at both ends of the communication
 - It is NOT the application itself, but the interface used by applications
 - Determines resource availability and synchronizes communication
 
-#### Presentation Layer (Layer 6)
+### Presentation Layer (Layer 6)
 
-##### Function
+#### Function
 - Formats data for compatibility between different systems
 - Handles data translation, compression, and encryption
 - Ensures that the data from the Application layer can be understood by remote systems
 
-##### Key Services
+#### Key Services
 - **Data Translation**: Converts between different formats (e.g., ASCII to EBCDIC)
 - **Data Compression**:
   - Lossless: Preserves all original data (e.g., ZIP)
   - Lossy: Approximation with some data loss (e.g., JPEG)
 - **Encryption/Decryption**: Secures data for transmission (e.g., SSL/TLS)
 
-##### Important Concepts
+#### Important Concepts
 - Acts as the "translator" of the network
 - Ensures independence between application processes and data representation details
 - Frees the applications from concerns of data representation
 
-#### Session Layer (Layer 5)
+### Session Layer (Layer 5)
 
-##### Function
+#### Function
 - Establishes, maintains, and terminates connections (sessions) between applications
 - Manages dialogue control and synchronization
 - Provides checkpointing for long transfers
 
-##### Key Services
+#### Key Services
 - **Session Establishment**: Setting up communication
 - **Session Maintenance**: Keeping track of which application's data is which
 - **Session Termination**: Orderly shutdown of connections
 - **Dialog Control**: Determining which side transmits and when
 - **Synchronization**: Setting checkpoints for recovery
 
-##### Examples in Practice
+#### Examples in Practice
 - NetBIOS and similar session services
 - Remote Procedure Call (RPC) frameworks
 - Authentication and authorization services
 - Managing sessions for web pages with multiple elements
 
-#### Transport Layer (Layer 4)
+### Transport Layer (Layer 4)
 
-##### Function
+#### Function
 - Provides end-to-end communication between applications
 - Segments data for transmission and reassembles at destination
 - Controls reliability, flow, and error recovery
 
-##### Key Protocols
+#### Key Protocols
 
 **TCP (Transmission Control Protocol)**
 - Connection-oriented
@@ -471,7 +471,7 @@ graph LR
 - Lower overhead, faster transmission
 - Used for applications prioritizing speed over reliability (streaming, DNS, VoIP)
 
-##### Key Concepts
+#### Key Concepts
 - **Segmentation**: Dividing data into smaller units
 - **Port Numbers**: Identifying specific applications (0-65535)
   - Well-known ports: 0-1023 (e.g., HTTP-80, HTTPS-443, FTP-21)
@@ -482,22 +482,22 @@ graph LR
 - **Flow Control**: Preventing sender from overwhelming receiver
 - **Error Control**: Detecting and retransmitting lost segments
 
-#### Network Layer (Layer 3)
+### Network Layer (Layer 3)
 
-##### Function
+#### Function
 - Routing and forwarding packets between different networks
 - Logical addressing (IP addresses)
 - Path determination (finding best route)
 - Packet handling and fragmentation
 
-##### Key Protocols
+#### Key Protocols
 - **IPv4**: 32-bit addressing, limited address space
 - **IPv6**: 128-bit addressing, vastly expanded address space
 - **ICMP**: Internet Control Message Protocol, error reporting
 - **OSPF**: Open Shortest Path First, interior routing protocol
 - **BGP**: Border Gateway Protocol, exterior routing protocol
 
-##### Key Concepts
+#### Key Concepts
 - **Logical Addressing**: IP addresses identify networks and hosts
 - **Routing**: Determining best path for data through multiple networks
 - **Routers**: Layer 3 devices that connect networks and forward packets
@@ -505,20 +505,20 @@ graph LR
 - **Fragmentation**: Breaking packets into smaller units to match network requirements
 - **Time to Live (TTL)**: Preventing endless packet circulation
 
-#### Data Link Layer (Layer 2)
+### Data Link Layer (Layer 2)
 
-##### Function
+#### Function
 - Provides node-to-node connectivity and data transfer
 - Physical addressing (MAC addresses)
 - Access to the media
 - Error detection for physical transmission
 - Frame formatting
 
-##### Sublayers
+#### Sublayers
 - **Logical Link Control (LLC)**: Interface with Network layer, service access points
 - **Media Access Control (MAC)**: Addressing and media access methods
 
-##### Media Access Control Methods
+#### Media Access Control Methods
 - **CSMA/CD** (Carrier Sense Multiple Access with Collision Detection)
   - Used in traditional Ethernet
   - Detects collisions after they occur
@@ -529,33 +529,33 @@ graph LR
   - Uses RTS/CTS (Request to Send/Clear to Send) mechanism
 - **Token Passing**: Token circulates, only holder can transmit (used in Token Ring networks)
 
-##### Key Concepts
+#### Key Concepts
 - **MAC Address**: 48-bit physical address assigned to network interfaces
 - **Frame**: The Protocol Data Unit (PDU) at the Data Link layer
 - **Collision Domain**: Network segment where collisions can occur
 - **Switches**: Layer 2 devices that forward frames based on MAC addresses
 - **ARP**: Address Resolution Protocol, maps IP addresses to MAC addresses
 
-#### Physical Layer (Layer 1)
+### Physical Layer (Layer 1)
 
-##### Function
+#### Function
 - Transmits raw bit stream over physical medium
 - Defines electrical, mechanical, procedural specifications
 - Converts digital data to appropriate signals for the medium
 
-##### Key Specifications
+#### Key Specifications
 - **Physical Characteristics**: Cables, connectors, pins, etc.
 - **Voltage Levels**: Electrical signaling standards
 - **Data Rates**: Bits per second transmission speed
 - **Maximum Distances**: Cable length limitations
 - **Physical Topology**: How devices are physically arranged
 
-##### Transmission Media Types
+#### Transmission Media Types
 - **Copper Cable**: Electrical signals (e.g., Ethernet)
 - **Fiber Optic**: Light signals, higher bandwidth, immune to EMI
 - **Wireless**: Radio waves (e.g., Wi-Fi, Bluetooth)
 
-##### Important Concepts
+#### Important Concepts
 - **Bandwidth**: Capacity of a medium to carry data
 - **Throughput**: Actual data transfer rate achieved
 - **Latency**: Delay in data transmission
