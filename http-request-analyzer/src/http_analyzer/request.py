@@ -70,6 +70,28 @@ class HTTPRequest:
 
 
     def get_session_info(self):
-        """Extract session information (cookies, etc.)."""
-        # TODO: Extract and return cookie and authorization info
-        pass
+        """Extract session-related information from request headers.
+
+        This method demonstrates how session information is maintained
+        at the Session Layer (Layer 5) of the OSI model through HTTP headers.
+
+        Returns:
+            dict: A dictionary containing session information such as cookies
+                  and authorization credentials.
+        """
+        # Extract and return cookie and authorization info
+        # Initialize session info dictionary with empty values
+        session_info = {
+            'cookies': '',
+            'authorization': ''
+        }
+
+        # Extract cookie information
+        for header_name, header_value in self.headers.items():
+            if header_name.lower() == 'cookie':
+                session_info['cookies'] = header_value
+            elif header_name.lower() == 'authorization':
+                session_info['authorization'] = header_value
+            # You could add other session-related headers here if needed
+
+        return session_info

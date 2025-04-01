@@ -207,7 +207,86 @@ class TestHTTPRequest(unittest.TestCase):
         self.assertEqual(request.get_content_type(), "application/xml",
                          "Should correctly find Content-Type among multiple headers")
 
+    def test_get_session_info_empty(self):
+        """Test session info extraction when no session-related headers are present."""
+        request = HTTPRequest("GET", "http://example.com")
 
+        session_info = request.get_session_info()
+
+        # Even with no session headers, the method should return a dictionary
+        self.assertIsInstance(session_info, dict, "Session info should always be a dictionary")
+
+        # Dictionary should have expected keys, even if their values are empty
+        self.assertIn('cookies', session_info, "Session info should include 'cookies' key")
+        self.assertIn('authorization', session_info, "Session info should include 'authorization' key")
+
+        # Values should be empty or None for non-existent headers
+        self.assertFalse(session_info['cookies'], "Cookies should be empty when no Cookie header exists")
+        self.assertFalse(session_info['authorization'], "Authorization should be empty when no Authorization header exists")
+
+    def test_get_session_info_with_cookies(self):
+        """Test session info extraction when Cookie header is present."""
+        # Create a request with a Cookie header
+        headers = {"Cookie": "sessionid=abc123; user=john"}
+        request = HTTPRequest("GET", "http://example.com", headers=headers)
+
+        session_info = request.get_session_info()
+
+        # The cookies value should match the Cookie header
+        self.assertEqual(session_info['cookies'], "sessionid=abc123; user=john",
+                         "Cookies value should match the Cookie header exactly")
+
+        # Authorization should still be empty
+        self.assertFalse(session_info['authorization'], "Authorization should be empty when no Authorization header exists")
+
+    def test_get_session_info_with_authorization(self):
+        """Test session info extraction when Authorization header is present."""
+        # Create a request with an Authorization header
+        headers = {"Authorization": "Bearer token123"}
+        request = HTTPRequest("GET", "http://example.com", headers=headers)
+
+        session_info = request.get_session_info()
+
+        # The authorization value should match the Authorization header
+        self.assertEqual(session_info['authorization'], "Bearer token123",
+                         "Authorization value should match the Authorization header exactly")
+
+        # Cookies should still be empty
+        self.assertFalse(session_info['cookies'], "Cookies should be empty when no Cookie header exists")
+
+    def test_get_session_info_with_both(self):
+        """Test session info extraction when both Cookie and Authorization headers are present."""
+        # Create a request with both Cookie and Authorization headers
+        headers = {
+            "Cookie": "sessionid=abc123; user=john",
+            "Authorization": "Bearer token123"
+        }
+        request = HTTPRequest("GET", "http://example.com", headers=headers)
+
+        session_info = request.get_session_info()
+
+        # Both values should match their respective headers
+        self.assertEqual(session_info['cookies'], "sessionid=abc123; user=john",
+                         "Cookies value should match the Cookie header exactly")
+        self.assertEqual(session_info['authorization'], "Bearer token123",
+                         "Authorization value should match the Authorization header exactly")
+
+    def test_get_session_info_case_insensitivity(self):
+        """Test that session info extraction works regardless of header case."""
+        # Create a request with differently-cased headers
+        headers = {
+            "cookie": "sessionid=abc123",  # lowercase
+            "AUTHORIZATION": "Basic dXNlcjpwYXNz"  # uppercase
+        }
+        request = HTTPRequest("GET", "http://example.com", headers=headers)
+
+        session_info = request.get_session_info()
+
+        # The method should be case-insensitive when looking for headers
+        self.assertEqual(session_info['cookies'], "sessionid=abc123",
+                         "Cookies should be found regardless of header case")
+        self.assertEqual(session_info['authorization'], "Basic dXNlcjpwYXNz",
+                         "Authorization should be found regardless of header case")
 
 if __name__ == '__main__':
     unittest.main()
