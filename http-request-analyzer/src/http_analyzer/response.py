@@ -1,3 +1,6 @@
+from json import loads
+import re
+
 class HTTPResponse:
     """Represents an HTTP response with parsing and analysis capabilities."""
 
@@ -75,8 +78,14 @@ class HTTPResponse:
 
     def get_decoded_body(self):
         """Attempt to decode the response body based on Content-Type."""
-        # TODO: Handle different content types:
+        # Handle different content types:
         # - application/json: parse as JSON
         # - text/*: decode as text with appropriate charset
         # - image/* or other binary: indicate binary data
-        pass
+        text_type_regex = re.compile(r'text/*')
+        if "application/json" in self.get_content_type():
+            return loads(self.body)
+        elif any((match := text_type_regex.search(item)) for item in self.get_content_type()):
+            return self.body.decode("utf-8")
+        else:
+            return "Binary data"

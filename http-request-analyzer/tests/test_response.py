@@ -143,3 +143,49 @@ class TestHTTPResponse(unittest.TestCase):
         # Check that cache control was extracted
         self.assertEqual(session_info['cache_control'], ['private, max-age=3600'])
 
+    def test_get_decoded_body_success_json(self):
+        # Given a HTTP response with JSON content
+        response = HTTPResponse(b'HTTP/1.1 200 OK\r\n' \
+                                b'Content-Length: 17\r\n' \
+                                b'Content-Type: application/json\r\n' \
+                                b'\r\n' \
+                                b'{ "Key": "Value" }')
+        expected_decoded_body = {"Key": "Value"}
+
+        # When get_decoded_body() method is called
+        decoded_body = response.get_decoded_body()
+
+        # Then the decoded body should match the expected decoded body
+        self.assertEqual(expected_decoded_body, decoded_body)
+
+    def test_get_decoded_body_success_text(self):
+        # Given a HTTP response with plain text content
+        raw_response = b'HTTP/1.1 200 OK\r\n' \
+                       b'Content-Length: 4\r\n' \
+                       b'Content-Type: text/plain\r\n' \
+                       b'\r\n' \
+                       b'Test'
+        response = HTTPResponse(raw_response)
+        expected_decoded_body = "Test"
+
+        # When get_decoded_body() method is called
+        decoded_body = response.get_decoded_body()
+
+        # Then the decoded body should match the expected decoded body
+        self.assertEqual(expected_decoded_body, decoded_body)
+
+    def test_get_decoded_body_unknown_content_type(self):
+        # Given a HTTP response with an unknown content type
+        raw_response = b'HTTP/1.1 200 OK\r\n' \
+                       b'Content-Length: 4\r\n' \
+                       b'Content-Type: unknown/dummy\r\n' \
+                       b'\r\n' \
+                       b'Data'
+        response = HTTPResponse(raw_response)
+        expected_message = "Binary data"
+
+        # When get_decoded_body() method is called
+        decoded_body = response.get_decoded_body()
+
+        # Then the returned value should be a message that indicates binary data
+        self.assertEqual(decoded_body, expected_message)
