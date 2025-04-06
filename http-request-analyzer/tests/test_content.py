@@ -1,3 +1,4 @@
+from gzip import compress as gzip_compress
 import unittest
 from src.http_analyzer.content import ContentHandler
 
@@ -24,12 +25,13 @@ class TestContentHandler(unittest.TestCase):
         self.assertEqual(response_content, {'key': 'value', 'key2': 'value2'})
 
 
-    # def test_handle_compression(self):
-    #     decompressed_content = ContentHandler.handle_compression(
-    #         b'\x1f\x8b\x08\x00\x00\x00\x00\x00\x02\xff\x0b\xf9\xcf\x0c\x02\x00\x00\x00\xff\xff\x01\x00\x00\xff\xff\x03\x00\xca\x57\xc8\xc1\x0c\x00\x00\x00',
-    #         'gzip')
-    #     self.assertIsInstance(decompressed_content, bytes)
-    #     self.assertEqual(decompressed_content, b'Hello World!\n')
+    def test_handle_compression(self):
+        test_data = b'Hello World!\n'
+        compressed = gzip_compress(test_data)
+
+        decompressed_content = ContentHandler.handle_compression(compressed, 'gzip')
+        self.assertIsInstance(decompressed_content, bytes)
+        self.assertEqual(decompressed_content, test_data)
 
 
 if __name__ == "__main__":

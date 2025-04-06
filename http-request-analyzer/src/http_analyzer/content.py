@@ -1,5 +1,13 @@
+from gzip import BadGzipFile, GzipFile
 from json import loads
 from json import dumps
+import logging
+logger = logging.getLogger(__name__)
+from zlib import decompress as zlib_decompress
+from zlib import error as zlib_error
+from zlib import MAX_WBITS as ZLIB_MAX_WBITS
+from io import BytesIO
+
 class ContentHandler:
     """Handles the transformation, encoding, and formatting of HTTP content.
 
@@ -11,7 +19,7 @@ class ContentHandler:
     """
 
     @staticmethod
-    def decode_content(content_bytes: bytes, content_type: dict, encoding=None):
+    def decode_content(content_bytes: bytes, content_type: str, encoding=None) -> (dict, str, bytes):
         """Decode content bytes based on Content-Type header.
 
         Args:
@@ -37,7 +45,7 @@ class ContentHandler:
             return content_bytes
 
     @staticmethod
-    def encode_content(data, mime) -> tuple:
+    def encode_content(data: any, mime: str) -> tuple:
         """Encode Python data into bytes for HTTP transmission.
 
         Args:
@@ -60,7 +68,7 @@ class ContentHandler:
         return encoded_content, updated_content_type
 
     @staticmethod
-    def decode_form_data(content_bytes, encoding='utf-8'):
+    def decode_form_data(content_bytes, encoding='utf-8') -> dict:
         """Decode application/x-www-form-urlencoded content."""
         # Decode bytes to string
         decoded_content = content_bytes.decode(encoding)
@@ -74,20 +82,43 @@ class ContentHandler:
         # Return dictionary of form data
         return form_data
 
-    # @staticmethod
-    # def handle_compression(content_bytes, content_encoding):
-    #     """Decompress content based on Content-Encoding header.
-    #
-    #     Args:
-    #         content_bytes: Compressed content
-    #         content_encoding: Value of Content-Encoding header
-    #
-    #     Returns:
-    #         Decompressed content bytes
-    #     """
-    #     # TODO: Check for supported compression methods in content_encoding
-    #     # TODO: Handle 'gzip' compression using gzip module
-    #     # TODO: Handle 'deflate' compression using zlib module
-    #     # TODO: Handle 'br' (Brotli) compression if available
-    #     # TODO: Return decompressed bytes or original bytes if no compression
-    #     pass
+    @staticmethod
+    def handle_compression(content_bytes: bytes, content_encoding: str) -> bytes:
+        """Decompress content based on Content-Encoding header.
+
+        Args:
+            content_bytes: Compressed content
+            content_encoding: Value of Content-Encoding header
+
+        Returns:
+            Decompressed (or original) content bytes
+        """
+        # Return decompressed bytes or original bytes if no compression
+        if content_encoding.lower() == 'gzip':
+            # First approach: Use GzipFile with BytesIO
+            buffer = BytesIO(content_bytes)
+            try:
+                with GzipFile(fileobj=buffer, mode='rb') as f:
+                    return f.read()
+            except BadGzipFile as e:
+                logger.error(f"\nBad gzip file: {e}")
+                # Second approach: Try with different mode or wbits
+                try:
+                    # The number 16+MAX_WBITS tells zlib to accept a gzip format
+                    return zlib_decompress(content_bytes, 16+ZLIB_MAX_WBITS)
+                except Exception as e2:
+                    logger.error(f"\nZlib decompression failed: {e2}")
+                    # Third approach: Last resort - return as is
+                    return content_bytes
+
+        elif content_encoding.lower() == 'deflate':
+            try:
+                # Try standard deflate
+                return zlib_decompress(content_bytes)
+            except zlib_error:
+                try:
+                    # Try raw deflate (no zlib wrapper)
+                    return zlib_decompress(content_bytes, -ZLIB_MAX_WBITS)
+                except Exception as e:
+                    logger.error(f"\nDeflate decompression failed: {e}")
+                    return content_bytes
