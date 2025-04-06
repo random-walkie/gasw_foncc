@@ -1,5 +1,4 @@
-from json import loads
-import re
+from src.http_analyzer.content import ContentHandler
 
 class HTTPResponse:
     """Represents an HTTP response with parsing and analysis capabilities."""
@@ -82,10 +81,5 @@ class HTTPResponse:
         # - application/json: parse as JSON
         # - text/*: decode as text with appropriate charset
         # - image/* or other binary: indicate binary data
-        text_type_regex = re.compile(r'text/*')
-        if "application/json" in self.get_content_type():
-            return loads(self.body)
-        elif any((match := text_type_regex.search(item)) for item in self.get_content_type()):
-            return self.body.decode("utf-8")
-        else:
-            return "Binary data"
+        content_type = ''.join(self.get_content_type())
+        return ContentHandler.decode_content(self.body, content_type)

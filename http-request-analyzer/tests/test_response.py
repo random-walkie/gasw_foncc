@@ -182,10 +182,10 @@ class TestHTTPResponse(unittest.TestCase):
                        b'\r\n' \
                        b'Data'
         response = HTTPResponse(raw_response)
-        expected_message = "Binary data"
+        expected_message = b"Data"
 
         # When get_decoded_body() method is called
         decoded_body = response.get_decoded_body()
 
-        # Then the returned value should be a message that indicates binary data
+        # Then the returned value should be the raw response
         self.assertEqual(decoded_body, expected_message)
