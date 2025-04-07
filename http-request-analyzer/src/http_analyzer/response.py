@@ -43,9 +43,13 @@ class HTTPResponse:
         # Parse header lines into a dictionary
         for line in header_lines[1:]:
             if len(line) > 0:
-                parts = line.split(b": ")
-                # I have to do this, because we may have repeated header names, such as Set-Cookies
-                self.headers.setdefault(parts[0].decode("utf-8"), []).append(parts[1].decode("utf-8"))
+                # Check if the line contains ": " to ensure it's a valid header
+                if b": " in line:
+                    parts = line.split(b": ")
+                    self.headers.setdefault(parts[0].decode("utf-8"), []).append(parts[1].decode("utf-8"))
+                else:
+                    # Handle incomplete or malformed header
+                    continue
 
     def is_success(self) -> bool:
         """Check if the response indicates success (2xx status)."""
