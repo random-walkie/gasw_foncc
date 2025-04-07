@@ -7,7 +7,7 @@ class HTTPRequest:
     specifically the formatting and parameters of HTTP requests.
     """
 
-    def __init__(self, method, url, headers=None, body=None):
+    def __init__(self, method: str, url: str, headers=None, body=None):
         """Initialize an HTTP request object.
 
         Args:
