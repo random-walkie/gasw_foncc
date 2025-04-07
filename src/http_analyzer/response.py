@@ -1,4 +1,4 @@
-from src.http_analyzer.content import ContentHandler
+from http_analyzer.content import ContentHandler
 
 class HTTPResponse:
     """Represents an HTTP response with parsing and analysis capabilities."""

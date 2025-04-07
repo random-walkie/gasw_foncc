@@ -7,7 +7,7 @@ handling top-level exception management and CLI invocation.
 """
 
 import sys
-from src.http_analyzer.cli import HTTPAnalyzerCLI
+from http_analyzer.cli import HTTPAnalyzerCLI
 
 def main():
     """Main entry point for the application."""

@@ -11,8 +11,8 @@ import logging
 import textwrap
 from urllib.parse import urlparse
 
-from src.http_analyzer.session import HTTPSession
-from src.http_analyzer.ssl_handler import SSLHandler
+from http_analyzer.session import HTTPSession
+from http_analyzer.ssl_handler import SSLHandler
 
 
 class HTTPAnalyzerCLI:

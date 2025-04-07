@@ -1,9 +1,9 @@
 import socket
 from urllib.parse import urlparse
-from src.http_analyzer.response import HTTPResponse
-from src.http_analyzer.ssl_handler import SSLHandler
+from http_analyzer.response import HTTPResponse
+from http_analyzer.ssl_handler import SSLHandler
 
-from request import HTTPRequest
+from http_analyzer.request import HTTPRequest
 
 
 class HTTPClient:

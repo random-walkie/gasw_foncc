@@ -1,6 +1,6 @@
-from src.http_analyzer.request import HTTPRequest
-from src.http_analyzer.content import ContentHandler
-from src.http_analyzer.client import HTTPClient
+from http_analyzer.request import HTTPRequest
+from http_analyzer.content import ContentHandler
+from http_analyzer.client import HTTPClient
 from urllib.parse import urlparse
 
 class HTTPSession:
@@ -28,7 +28,7 @@ class HTTPSession:
         self.client = HTTPClient()
         self.content_handler = ContentHandler()
 
-    def post(self, url, data=None, headers=None, json=None, timeout=10):
+    def post(self, url, data=None, headers=None, json=None, timeout=200):
         """Send a POST request to the specified URL.
 
         Args:
@@ -116,7 +116,7 @@ class HTTPSession:
         # Return the response object
         return response_obj
 
-    def get(self, url, headers=None, timeout=10):
+    def get(self, url, headers=None, timeout=200):
         """Send a GET request to the specified URL.
 
         Args:
