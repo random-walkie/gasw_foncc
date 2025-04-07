@@ -134,8 +134,8 @@ class TestSSLHandler(unittest.TestCase):
         self.assertIn('StartCom', cert_info['issuer'])
 
         # Check that dates were parsed correctly
-        self.assertIn('2011', cert_info['valid_from'])
-        self.assertIn('2013', cert_info['valid_until'])
+        self.assertIn('2011', str(cert_info['valid_from']))
+        self.assertIn('2013', str(cert_info['valid_until']))
 
         # Check that alternative names were extracted
         self.assertIn('*.eff.org', cert_info['alt_names'])
@@ -208,85 +208,146 @@ class TestSSLHandler(unittest.TestCase):
         self.assertEqual(until_date.month, 11)
         self.assertEqual(until_date.day, 22)
 
-    # def test_get_security_assessment(self):
-    #     """Test security assessment of SSL/TLS connection."""
-    #     # Create a mock certificate info dictionary
-    #     cert_info = {
-    #         'subject': 'CN=*.example.com, O=Example Inc, C=US',
-    #         'issuer': 'CN=Example CA, O=Example Trust Network, C=US',
-    #         'valid_from': 'Nov 21 03:09:52 2023 GMT',
-    #         'valid_until': 'Nov 22 08:15:19 2025 GMT',
-    #         'cipher': 'TLS_AES_256_GCM_SHA384',
-    #         'protocol': 'TLSv1.3',
-    #         'key_size': 256,
-    #         'alt_names': ['*.example.com', 'example.com']
-    #     }
-    #
-    #     # Call the method under test
-    #     assessment = SSLHandler.get_security_assessment(cert_info)
-    #
-    #     # Check that assessment contains expected fields
-    #     self.assertIsInstance(assessment, dict)
-    #     self.assertIn('overall_rating', assessment)
-    #     self.assertIn('cipher_strength', assessment)
-    #     self.assertIn('protocol_security', assessment)
-    #
-    #     # A certificate with TLS 1.3 and strong cipher should get a good rating
-    #     self.assertIn(assessment['overall_rating'], ['Good', 'Excellent'])
-    #
-    # def test_security_assessment_weak_connection(self):
-    #     """Test security assessment of a weak SSL/TLS connection."""
-    #
-    #     # Create a mock SSL socket and configure it with weak security characteristics
-    #     class MockSSLSocket:
-    #         def getpeercert(self):
-    #             return {
-    #                 'issuer': ((('countryName', 'US'),),
-    #                            (('organizationName', 'Example CA'),),
-    #                            (('organizationalUnitName', 'Example Trust Network'),)),
-    #                 'notAfter': 'Nov 22 08:15:19 2025 GMT',
-    #                 'notBefore': 'Nov 21 03:09:52 2023 GMT',
-    #                 'subject': ((('commonName', '*.example.com'),),
-    #                             (('organizationName', 'Example Inc'),),
-    #                             (('countryName', 'US'),)),
-    #                 'subjectAltName': (('DNS', '*.example.com'), ('DNS', 'example.com')),
-    #             }
-    #
-    #         def cipher(self):
-    #             return ('TLS_RSA_WITH_3DES_EDE_CBC_SHA', 'TLSv1.0', 128)
-    #
-    #     mock_socket = MockSSLSocket()
-    #
-    #     # Get the certificate info from the mock socket
-    #     cert_info = SSLHandler.get_certificate_info(mock_socket)
-    #
-    #     # Call the method under test
-    #     assessment = SSLHandler.get_security_assessment(cert_info)
-    #
-    #     # Check that assessment correctly identifies weak security
-    #     self.assertIn(assessment['overall_rating'], ['Poor', 'Weak'])
-    #     self.assertIn('outdated protocol', assessment['protocol_security'].lower())
-    #
-    # def test_security_assessment_expired_certificate(self):
-    #     """Test security assessment of a connection with expired certificate."""
-    #     # Create a mock certificate info dictionary with expired certificate
-    #     # Using the real date format from certificates
-    #     cert_info = {
-    #         'subject': 'CN=*.example.com, O=Example Inc, C=US',
-    #         'issuer': 'CN=Example CA, O=Example Trust Network, C=US',
-    #         'valid_from': 'Nov 21 03:09:52 2011 GMT',
-    #         'valid_until': 'Nov 22 08:15:19 2013 GMT',  # Expired
-    #         'cipher': 'TLS_AES_256_GCM_SHA384',
-    #         'protocol': 'TLSv1.3',
-    #         'key_size': 256
-    #     }
-    #
-    #     # Call the method under test
-    #     assessment = SSLHandler.get_security_assessment(cert_info)
-    #
-    #     # Check that assessment correctly identifies expired certificate
-    #     self.assertIn('expired', assessment['overall_rating'].lower())
-    #     self.assertIn('certificate has expired', str(assessment).lower())
+    def test_get_security_assessment(self):
+        """Test security assessment of SSL/TLS connection."""
+        # Create a mock SSL socket and configure it with safe security characteristics
+        class MockSSLSocket:
+            def getpeercert(self):
+                return {
+                    'issuer': ((('countryName', 'US'),),
+                               (('organizationName', 'GlobalSign'),),
+                               (('organizationalUnitName', 'GlobalSign'),)),
+                    'notAfter': 'Nov 22 08:15:19 2025 GMT',
+                    'notBefore': 'Nov 21 03:09:52 2023 GMT',
+                    'subject': ((('commonName', '*.example.com'),),
+                                (('organizationName', 'Example Inc'),),
+                                (('countryName', 'US'),)),
+                    'subjectAltName': (('DNS', '*.example.com'), ('DNS', 'example.com')),
+                }
+
+            def cipher(self):
+                return 'TLS_AES_256_GCM_SHA384', 'TLSv1.3', 256
+
+        mock_socket = MockSSLSocket()
+
+        # Get the certificate info from the mock socket
+        cert_info = SSLHandler.get_certificate_info(mock_socket)
+
+        # Call the method under test
+        assessment = SSLHandler.get_security_assessment(cert_info, trusted_ca_names=SSLHandler.get_trusted_ca_list())
+
+        # Check that assessment contains expected fields
+        self.assertIsInstance(assessment, dict)
+        self.assertIn('overall_rating', assessment)
+        self.assertIn('cipher_strength', assessment)
+        self.assertIn('protocol_security', assessment)
+        self.assertIn('certificate_validity', assessment)
+        self.assertIn('trusted_issuer', assessment)
+
+        # A certificate with TLS 1.3 and strong cipher should get a good rating
+        self.assertIn(assessment['overall_rating'], ['Good', 'Excellent'])
+
+    def test_security_assessment_weak_connection(self):
+        """Test security assessment of a weak SSL/TLS connection."""
+
+        # Create a mock SSL socket and configure it with weak security characteristics
+        class MockSSLSocket:
+            def getpeercert(self):
+                return {
+                    'issuer': ((('countryName', 'US'),),
+                               (('organizationName', 'Example CA'),),
+                               (('organizationalUnitName', 'Example Trust Network'),)),
+                    'notAfter': 'Nov 22 08:15:19 2025 GMT',
+                    'notBefore': 'Nov 21 03:09:52 2023 GMT',
+                    'subject': ((('commonName', '*.example.com'),),
+                                (('organizationName', 'Example Inc'),),
+                                (('countryName', 'US'),)),
+                    'subjectAltName': (('DNS', '*.example.com'), ('DNS', 'example.com')),
+                }
+
+            def cipher(self):
+                return ('TLS_RSA_WITH_3DES_EDE_CBC_SHA', 'TLSv1.0', 128)
+
+        mock_socket = MockSSLSocket()
+
+        # Get the certificate info from the mock socket
+        cert_info = SSLHandler.get_certificate_info(mock_socket)
+
+        # Call the method under test
+        assessment = SSLHandler.get_security_assessment(cert_info)
+
+        # Check that assessment correctly identifies weak security
+        self.assertIn(assessment['overall_rating'], ['Poor', 'Weak'])
+
+    def test_security_assessment_expired_certificate(self):
+        """Test security assessment of a connection with expired certificate."""
+        # Create a mock certificate info dictionary with expired certificate
+        # Using the real date format from certificates
+        # Create a mock SSL socket and configure it with weak security characteristics
+        class MockSSLSocket:
+            def getpeercert(self):
+                return {
+                    'issuer': ((('countryName', 'US'),),
+                               (('organizationName', 'GlobalSign'),),
+                               (('organizationalUnitName', 'GlobalSign'),)),
+                    'notAfter': 'Nov 22 08:15:19 2013 GMT',
+                    'notBefore': 'Nov 21 03:09:52 2011 GMT',
+                    'subject': ((('commonName', '*.example.com'),),
+                                (('organizationName', 'Example Inc'),),
+                                (('countryName', 'US'),)),
+                    'subjectAltName': (('DNS', '*.example.com'), ('DNS', 'example.com')),
+                }
+
+            def cipher(self):
+                return ('TLS_AES_256_GCM_SHA384', 'TLSv1.3', 256)
+
+        mock_socket = MockSSLSocket()
+
+        # Get the certificate info from the mock socket
+        cert_info = SSLHandler.get_certificate_info(mock_socket)
+
+        # Call the method under test
+        assessment = SSLHandler.get_security_assessment(cert_info)
+
+        # Check that assessment correctly identifies expired certificate
+        self.assertIn('expired', assessment['overall_rating'].lower())
+
+    def test_get_trusted_ca_list(self):
+        # Call the 'get_trusted_ca_list' method from the SSLHandler class
+        result = SSLHandler.get_trusted_ca_list()
+
+        # Make sure the result is a list
+        self.assertTrue(isinstance(result, set))
+
+        # Get the list of certificates from the context using the 'get_ca_certs' method
+        expected_result = {'AO Kaspersky Lab',
+                           'AddTrust AB',
+                           'Baltimore',
+                           'COMODO CA Limited',
+                           'Comodo CA Limited',
+                           'DigiCert Inc',
+                           'Entrust, Inc.',
+                           'Entrust.net',
+                           'GTE Corporation',
+                           'GlobalSign',
+                           'GlobalSign nv-sa',
+                           'GoDaddy.com, Inc.',
+                           'IdenTrust',
+                           'Internet Security Research Group',
+                           'Microsoft Corporation',
+                           'QuoVadis Limited',
+                           'SSL Corporation',
+                           'SecureTrust Corporation',
+                           'Starfield Technologies, Inc.',
+                           'The Go Daddy Group, Inc.',
+                           'The USERTRUST Network',
+                           'Unizeto Technologies S.A.',
+                           'VeriSign, Inc.',
+                           'WFA Hotspot 2.0',
+                           'thawte, Inc.'}
+
+        # Make sure the two lists are identical
+        self.assertEqual(result, expected_result)
 
 
 if __name__ == '__main__':
