@@ -1,8 +1,7 @@
 import unittest
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import Mock
 from src.http_analyzer.session import HTTPSession
 from src.http_analyzer.request import HTTPRequest
-from src.http_analyzer.response import HTTPResponse
 
 class TestHTTPSession(unittest.TestCase):
     """Test suite for the HTTPSession class.
