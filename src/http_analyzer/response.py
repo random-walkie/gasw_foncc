@@ -86,4 +86,9 @@ class HTTPResponse:
         # - text/*: decode as text with appropriate charset
         # - image/* or other binary: indicate binary data
         content_type = ''.join(self.get_content_type())
-        return ContentHandler.decode_content(self.body, content_type)
+        # Check for Content-Encoding header and decompress if needed
+        body = self.body
+        if 'Content-Encoding' in self.headers:
+            content_encoding = self.headers['Content-Encoding'][0]  # Get the first encoding value
+            body = ContentHandler.handle_compression(body, content_encoding)
+        return ContentHandler.decode_content(body, content_type)

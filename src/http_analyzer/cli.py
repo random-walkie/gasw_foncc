@@ -12,7 +12,8 @@ import textwrap
 from urllib.parse import urlparse
 
 from http_analyzer.session import HTTPSession
-from http_analyzer.ssl_handler import SSLHandler
+from http_analyzer.formatters.response_formatter import ResponseFormatter
+from http_analyzer.security.security_analyzer import SecurityAnalyzer
 
 
 class HTTPAnalyzerCLI:
@@ -20,10 +21,11 @@ class HTTPAnalyzerCLI:
 
     def __init__(self):
         """Initialize the CLI with argument parser."""
-        self.parser = self._create_argument_parser()
-        self.logger = self._configure_logger()
+        self.parser = HTTPAnalyzerCLI._create_argument_parser()
+        self.logger = HTTPAnalyzerCLI._configure_logger()
 
-    def _create_argument_parser(self):
+    @staticmethod
+    def _create_argument_parser():
         """Create and configure the argument parser."""
         parser = argparse.ArgumentParser(
             description='HTTP Request Analyzer - Explore Network Protocols',
@@ -33,6 +35,7 @@ class HTTPAnalyzerCLI:
                   http-analyzer https://example.com
                   http-analyzer -m POST -d '{"key":"value"}' https://api.example.com
                   http-analyzer -v --analyze-ssl https://secure.example.com
+                  http-analyzer --pretty-html https://example.com
                 ''')
         )
 
@@ -84,10 +87,21 @@ class HTTPAnalyzerCLI:
             action='store_true',
             help='Perform SSL/TLS security analysis for HTTPS'
         )
+        parser.add_argument(
+            '--pretty-html',
+            action='store_true',
+            help='Format HTML responses for better readability'
+        )
+        parser.add_argument(
+            '--no-color',
+            action='store_true',
+            help='Disable colored output'
+        )
 
         return parser
 
-    def _configure_logger(self):
+    @staticmethod
+    def _configure_logger():
         """Configure and return a logger instance."""
         return logging.getLogger(__name__)
 
@@ -113,78 +127,6 @@ class HTTPAnalyzerCLI:
 
         return headers
 
-    def display_response(self, response, verbose=False):
-        """Display HTTP response with appropriate formatting.
-
-        Args:
-            response: HTTPResponse object
-            verbose: Whether to show detailed information
-        """
-        # Status line
-        print(f"Status: {response.status_code} {response.status_message}")
-
-        # Headers
-        if verbose:
-            print("\nHeaders:")
-            for name, values in response.headers.items():
-                print(f"{name}: {', '.join(values)}")
-
-        # Body
-        try:
-            body = response.get_decoded_body()
-
-            # Basic content formatting
-            content_type = response.get_content_type()
-            if content_type and 'application/json' in content_type[0]:
-                # Pretty-print JSON
-                print("\nBody:")
-                print(json.dumps(body, indent=2))
-            elif content_type and 'text/' in content_type[0]:
-                # For text content, wrap long lines
-                print("\nBody:")
-                print(textwrap.fill(str(body), width=80))
-            else:
-                # For binary or unknown content types
-                print(f"\nBody (length: {len(str(body))} bytes)")
-                if len(str(body)) > 0:
-                    print(body)
-        except Exception as e:
-            self.logger.error(f"Error decoding response body: {e}")
-            print("\nBody decoding failed. Raw body:")
-            print(response.body)
-
-    def analyze_security(self, session, url):
-        """Analyze and display security information about the connection.
-
-        Args:
-            session: HTTPSession object
-            url: Original request URL
-        """
-        if not url.startswith('https'):
-            print("SSL/TLS analysis is only available for HTTPS connections.")
-            return
-
-        try:
-            # Send a request to populate the client
-            session.get(url)
-
-            # This is hypothetical and would require modifications to the current implementation
-            # The goal is to demonstrate the security analysis concept
-            ssl_socket = session.client.get_last_socket()  # Hypothetical method
-
-            if ssl_socket:
-                cert_info = SSLHandler.get_certificate_info(ssl_socket)
-                security_assessment = SSLHandler.get_security_assessment(cert_info)
-
-                print("\nSSL/TLS Security Assessment:")
-                for key, value in security_assessment.items():
-                    print(f"{key.replace('_', ' ').title()}: {value}")
-            else:
-                print("Could not retrieve SSL socket information.")
-
-        except Exception as e:
-            self.logger.error(f"SSL analysis failed: {e}")
-
     def run(self, argv=None):
         """Execute the CLI workflow.
 
@@ -205,6 +147,9 @@ class HTTPAnalyzerCLI:
             level=logging.DEBUG if args.verbose else logging.INFO,
             format='%(asctime)s - %(levelname)s - %(message)s'
         )
+
+        # Determine if color should be used
+        use_color = not args.no_color
 
         # Validate input
         try:
@@ -258,12 +203,29 @@ class HTTPAnalyzerCLI:
                 # This should not happen due to argparse choices, but include for safety
                 raise ValueError(f"Unsupported HTTP method: {args.method}")
 
-            # Display response
-            self.display_response(response, args.verbose)
+            # Format and display response
+            formatted_output = ResponseFormatter.format_response(
+                response,
+                verbose=args.verbose,
+                pretty_html=args.pretty_html,
+                use_color=use_color
+            )
+
+            # Print each line of the formatted output
+            for line in formatted_output:
+                print(line)
 
             # Perform SSL analysis if requested
             if args.analyze_ssl:
-                self.analyze_security(session, args.url)
+                ssl_output = SecurityAnalyzer.analyze_ssl(
+                    session,
+                    args.url,
+                    use_color=use_color
+                )
+
+                # Print each line of the SSL analysis output
+                for line in ssl_output:
+                    print(line)
 
             # Save to output file if specified
             if args.output:

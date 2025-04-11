@@ -21,6 +21,13 @@ setup(
             "pytest-cov==6.1.1",
             "python-dateutil==2.9.0"
         ],
+        "html": [
+            "beautifulsoup4>=4.9.3"
+        ],
+        # Combined optional dependencies
+        "full": [
+            "beautifulsoup4>=4.9.3"
+        ]
     },
     entry_points={
         "console_scripts": [

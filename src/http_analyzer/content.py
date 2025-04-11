@@ -2,6 +2,9 @@ from gzip import BadGzipFile, GzipFile
 from json import loads
 from json import dumps
 import logging
+
+from http_analyzer.html_handler import HTMLHandler
+
 logger = logging.getLogger(__name__)
 from zlib import decompress as zlib_decompress
 from zlib import error as zlib_error
@@ -35,11 +38,13 @@ class ContentHandler:
         mime = separate_content[0]
         # Extract charset from content_type if present and encoding not provided
         charset = separate_content[1].split("=")[1] if len(separate_content) > 1 and encoding is None else encoding
-        # TODO: Handle decompression here
         # Delegate to appropriate decoder method based on MIME type
         if mime == "application/json":
             return loads(content_bytes)
-        elif "text/" in mime or mime == "application/xml" or mime == "application/xhtml+xml":
+        elif mime == "text/html" or mime == "application/xhtml+xml":
+            # Delegate HTML processing to the HTMLHandler
+            return HTMLHandler.parse_html(content_bytes, charset or "utf-8")
+        elif "text/" in mime or mime == "application/xml":
             return content_bytes.decode(charset or "utf-8")
         else:
             return content_bytes
