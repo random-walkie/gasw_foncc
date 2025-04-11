@@ -28,7 +28,7 @@ class HTTPSession:
         self.client = HTTPClient()
         self.content_handler = ContentHandler()
 
-    def post(self, url, data=None, headers=None, json=None, timeout=200):
+    def post(self, url, data=None, headers=None, json=None, timeout=10):
         """Send a POST request to the specified URL.
 
         Args:
@@ -116,7 +116,7 @@ class HTTPSession:
         # Return the response object
         return response_obj
 
-    def get(self, url, headers=None, timeout=200):
+    def get(self, url, headers=None, timeout=10):
         """Send a GET request to the specified URL.
 
         Args:

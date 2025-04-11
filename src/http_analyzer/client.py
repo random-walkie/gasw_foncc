@@ -74,14 +74,43 @@ class HTTPClient:
             # Send it over the socket
             sock.sendall(formatted_request)
 
-            # Read the response
-            # Read the raw response bytes from the socket
+            # Read the response with better timeout handling
             response_data = b""
+            sock.settimeout(timeout)  # Ensure timeout is set for receiving
+
+            # Read until we have a complete HTTP message or timeout
             while True:
-                chunk = sock.recv(4096)
-                if not chunk:
-                    break
-                response_data += chunk
+                try:
+                    chunk = sock.recv(4096)
+                    if not chunk:
+                        break
+                    response_data += chunk
+
+                    # Optional: Check if we have a complete HTTP message
+                    if b"\r\n\r\n" in response_data:
+                        # If we've received headers, try to determine content length
+                        headers_end = response_data.find(b"\r\n\r\n") + 4
+                        headers = response_data[:headers_end]
+
+                        # Check if we have Content-Length header
+                        content_length_match = b"Content-Length: " in headers
+                        if content_length_match:
+                            # Extract content length value
+                            header_start = headers.find(b"Content-Length: ") + 16
+                            header_end = headers.find(b"\r\n", header_start)
+                            content_length = int(headers[header_start:header_end])
+
+                            # If we've received the complete message, break
+                            if len(response_data) >= headers_end + content_length:
+                                break
+
+                except socket.timeout:
+                    # If we've received some data but timed out before completion,
+                    # we'll still try to parse what we have
+                    if response_data:
+                        break
+                    else:
+                        raise TimeoutError("Request timed out - no data received")
 
             # Parse response into HTTPResponse object
             response = HTTPResponse(response_data)
