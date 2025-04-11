@@ -372,70 +372,74 @@ executing the command `http-analyzer https://example.com --analyze-ssl --pretty-
 
 ```mermaid
 sequenceDiagram
-    participant CLI as HTTPAnalyzerCLI
-    participant Session as HTTPSession
-    participant Client as HTTPClient
-    participant Request as HTTPRequest
-    participant SSL as SSLHandler
-    participant Response as HTTPResponse
-    participant Content as ContentHandler
-    participant HTML as HTMLHandler
-    participant Security as SecurityAnalyzer
-    participant Format as ResponseFormatter
+   participant CLI as HTTPAnalyzerCLI
+   participant Session as HTTPSession
+   participant Client as HTTPClient
+   participant Request as HTTPRequest
+   participant SSL as SSLHandler
+   participant Response as HTTPResponse
+   participant Content as ContentHandler
+   participant HTML as HTMLHandler
+   participant Security as SecurityAnalyzer
+   participant Format as ResponseFormatter
 
-    Note over CLI: User runs: http-analyzer https://example.com --analyze-ssl --pretty-html
-    
-    CLI->>+Session: session.get("https://example.com", headers={}, timeout=10)
-    Session->>+Request: Create HTTPRequest("GET", "https://example.com")
-    Request-->>-Session: return request_obj
-    
-    Session->>+Client: client.send_request(request_obj, timeout=10)
-    Client->>+Request: request.format_request()
-    Request-->>-Client: return formatted HTTP request string
-    
-    Note over Client: Create socket connection
-    
-    Client->>+SSL: SSLHandler.wrap_socket(sock, "example.com")
-    SSL-->>-Client: return ssl_socket
-    
-    Note over Client: Send HTTP request over ssl_socket
-    Note over Client: Receive raw HTTP response
-    
-    Client->>+Response: Create HTTPResponse(raw_response)
-    Response->>Response: parse_response()
-    
-    alt Content needs decompression
-        Response->>+Content: ContentHandler.handle_compression(body, encoding)
-        Content-->>-Response: return decompressed_body
-    end
-    
-    Client-->>-Session: return response_obj
-    
-    Session->>Session: Process cookies from response
-    Session->>Session: Add to request/response history
-    
-    Session-->>-CLI: return response_obj
-    
-    CLI->>+Format: ResponseFormatter.format_response(response, verbose=false, pretty_html=true)
-    
-    alt Response contains HTML and pretty_html=true
-        Format->>+HTML: HTMLHandler.extract_metadata(html)
-        HTML-->>-Format: return metadata
-        Format->>+HTML: HTMLHandler.extract_forms(html)
-        HTML-->>-Format: return forms
-        Format->>Format: Format HTML structure
-    end
-    
-    Format-->>-CLI: return formatted_output
-    
-    CLI->>+Security: SecurityAnalyzer.analyze_ssl("https://example.com")
-    Security->>+SSL: SSLHandler.get_certificate_info(ssl_socket)
-    SSL-->>-Security: return cert_info
-    Security->>+SSL: SSLHandler.get_security_assessment(cert_info)
-    SSL-->>-Security: return security_assessment
-    Security-->>-CLI: return ssl_output
-    
-    Note over CLI: Display formatted output and SSL analysis
+   Note over CLI: User runs: http-analyzer https://example.com --analyze-ssl --pretty-html
+
+   CLI->>+Session: session.get("https://example.com", headers={}, timeout=10)
+   Session->>+Request: Create HTTPRequest("GET", "https://example.com")
+   Request-->>-Session: return request_obj
+
+   Session->>+Client: client.send_request(request_obj, timeout=10)
+   Client->>+Request: request.format_request()
+   Request-->>-Client: return formatted HTTP request string
+
+   Note over Client: Create socket connection
+
+   Client->>+SSL: SSLHandler.wrap_socket(sock, "example.com")
+   SSL-->>-Client: return ssl_socket
+
+   Note over Client: Send HTTP request over ssl_socket
+   Note over Client: Receive raw HTTP response
+
+   Client->>+Response: Create HTTPResponse(raw_response)
+   Response->>Response: parse_response()
+   Response-->>-Client: return parsed response object
+
+   alt Content needs decompression
+      Response->>+Content: ContentHandler.handle_compression(body, encoding)
+      Content-->>-Response: return decompressed_body
+   end
+
+   Response->>+Content: ContentHandler.decode_content(body, content_type)
+   Content-->>-Response: return decoded_body
+
+   Client-->>-Session: return response_obj
+
+   Session->>Session: Process cookies from response
+   Session->>Session: Add to request/response history
+
+   Session-->>-CLI: return response_obj
+
+   CLI->>+Format: ResponseFormatter.format_response(response, verbose=false, pretty_html=true)
+
+   alt Response contains HTML and pretty_html=true
+      Format->>+HTML: HTMLHandler.extract_metadata(html)
+      HTML-->>-Format: return metadata
+      Format->>+HTML: HTMLHandler.extract_forms(html)
+      HTML-->>-Format: return forms
+      Format->>Format: Format HTML structure
+   end
+
+   Format-->>-CLI: return formatted_output
+
+   CLI->>+Security: SecurityAnalyzer.analyze_ssl("https://example.com")
+   Security->>+SSL: SSLHandler.get_certificate_info(ssl_socket)
+   SSL-->>-Security: return cert_info
+   Security->>+SSL: SSLHandler.get_security_assessment(cert_info)
+   SSL-->>-Security: return security_assessment
+   Security-->>-CLI: return ssl_output
+
+   Note over CLI: Display formatted output and SSL analysis
 ```
 
 ### Command-line Arguments
