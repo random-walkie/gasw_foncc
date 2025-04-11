@@ -1,9 +1,9 @@
 import unittest
 from unittest.mock import Mock, patch
 import socket
-from src.http_analyzer.client import HTTPClient
-from src.http_analyzer.request import HTTPRequest
-from src.http_analyzer.response import HTTPResponse
+from http_analyzer.client import HTTPClient
+from http_analyzer.request import HTTPRequest
+from http_analyzer.response import HTTPResponse
 
 class TestHTTPClient(unittest.TestCase):
     """Test suite for the HTTPClient class.
@@ -52,7 +52,7 @@ class TestHTTPClient(unittest.TestCase):
         self.assertEqual(response.body, b"Test response")
 
     @patch('socket.socket')
-    @patch('src.http_analyzer.ssl_handler.SSLHandler.wrap_socket')
+    @patch('http_analyzer.ssl_handler.SSLHandler.wrap_socket')
     def test_send_request_https(self, mock_wrap_socket, mock_socket_class):
         """Test sending a request over HTTPS."""
         # Setup mock socket
