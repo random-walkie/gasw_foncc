@@ -36,7 +36,7 @@ def format_json(json_data, color=True, indent=2):
         json_str = re.sub(r'("[\w-]+"):', r'{}\1{}:'.format(Colors.YELLOW, Colors.RESET), json_str)
 
         # Highlight string values
-        json_str = re.sub(r': "([^"]*)"', r': {}"\\1"{}'.format(Colors.GREEN, Colors.RESET), json_str)
+        json_str = re.sub(r': (".*?")', r': {}\1{}'.format(Colors.GREEN, Colors.RESET), json_str)
 
         # Highlight numbers
         json_str = re.sub(r': (\d+)', r': {}\1{}'.format(Colors.CYAN, Colors.RESET), json_str)

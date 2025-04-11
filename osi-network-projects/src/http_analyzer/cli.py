@@ -33,7 +33,7 @@ class HTTPAnalyzerCLI:
             epilog=textwrap.dedent('''\
                 Examples:
                   http-analyzer https://example.com
-                  http-analyzer -m POST -d '{"key":"value"}' https://api.example.com
+                  http-analyzer -m POST -d '{"key":"value"}' https://example.com
                   http-analyzer -v --analyze-ssl https://secure.example.com
                   http-analyzer --pretty-html https://example.com
                 ''')
@@ -179,6 +179,7 @@ class HTTPAnalyzerCLI:
                 try:
                     json_data = json.loads(args.json)
                 except json.JSONDecodeError:
+                    print(json_data)
                     self.logger.error("Invalid JSON data")
                     return 1
             elif args.data:
