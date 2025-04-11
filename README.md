@@ -2,10 +2,8 @@
 
 This repository contains my coursework, projects, and study materials for the Fundamentals of Networks and Cloud Computing course. The repository serves as a comprehensive resource for learning networking concepts with a particular focus on the OSI model.
 
-## Repository Contents
-
-### OSI Layer Learning Projects
-A collection of hands-on projects that demonstrate networking concepts across all OSI layers:
+## OSI Layer Learning Projects
+`osi-networks-projects` is a collection of hands-on projects that demonstrate networking concepts across all OSI layers:
 
 1. **TCP Connection Monitor** - Explores OSI Layers 1-4 (Physical, Data Link, Network, Transport) by capturing and analyzing TCP connections.
 
@@ -13,18 +11,7 @@ A collection of hands-on projects that demonstrate networking concepts across al
 
 These projects are designed to provide practical experience with theoretical networking concepts that appear in the course curriculum and exams.
 
-### Coursework
-This section contains my completed coursework assignments, including:
-- Weekly lab exercises
-- Assignment submissions
-
-### Exam Preparation
-Materials to help study for exams:
-- Concept summaries
-- Practice questions
-- Diagrams illustrating important network concepts
-
-## Installation and Setup for Projects
+### Installation and Setup for `osi-networks-projects`
 
 To work with the networking projects included in this repository:
 
@@ -46,7 +33,7 @@ source venv/bin/activate
 pip install -e .
 ```
 
-## Project Usage
+### Project Usage
 
 After installation, you can use each tool via its command-line interface:
 
@@ -61,6 +48,58 @@ http-analyzer https://example.com --verbose --pretty-html
 See the individual project READMEs for more detailed usage instructions:
 - [TCP Connection Monitor Documentation](tcp-connection-monitor/README.md)
 - [HTTP Request Analyzer Documentation](osi-network-projects/src/http_analyzer/README.md)
+
+### Disclosure Statement
+The `osi-networks-project` is the result of a collaborative development effort between me and [Claude](www.claude.ai), an AI assistant created by Anthropic.
+
+#### Repository Contents
+The project was conceived and developed through an interactive, iterative process. While the initial conceptualization and architectural decisions were made by me, the implementation details,
+code writing, and refinement were achieved through a collaborative dialogue with AI assistance.
+
+#### Roles and Contributions
+
+##### Me:
+
++ Project conceptualization
++ Domain expertise in networking and OSI model
++ Overall architectural guidance
++ Code implementation
++ Iterative refinement of code and documentation
++ Critical review and validation
+
+##### Claude (Anthropic AI):
+
++ Code implementation
++ Architectural suggestions
++ Detailed technical documentation
++ Test case generation
++ Iterative refinement of code and documentation
+
+#### Transparency
+This project exemplifies the potential of human-AI collaboration in software development. While the AI provided substantial technical assistance, all critical decisions and final approvals were made by the human developer.
+
+#### Ethical Considerations
+
+The project was developed with a strong educational focus.
+All code was generated with careful consideration of best practices.
+The collaboration aimed to create a learning resource for network protocol understanding
+
+#### Disclaimer
+This project is an experimental collaboration and is provided as an educational tool. Users should exercise their own judgment and conduct their own testing.
+
+
+## Coursework
+This section contains my completed coursework assignments, including:
+- Weekly lab exercises
+- Assignment submissions
+
+## Exam Preparation
+Materials to help study for exams:
+- Concept summaries
+- Practice questions
+- Diagrams illustrating important network concepts
+
+
 
 ## Learning Approach
 
@@ -81,3 +120,6 @@ The projects demonstrate:
 ## License
 
 MIT.
+
+## Acknowledgments
+Special thanks to Anthropic for developing Claude, an AI assistant that can engage in meaningful, collaborative software development.
