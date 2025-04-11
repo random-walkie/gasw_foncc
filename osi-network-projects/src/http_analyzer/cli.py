@@ -218,7 +218,6 @@ class HTTPAnalyzerCLI:
             # Perform SSL analysis if requested
             if args.analyze_ssl:
                 ssl_output = SecurityAnalyzer.analyze_ssl(
-                    session,
                     args.url,
                     use_color=use_color
                 )

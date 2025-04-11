@@ -133,7 +133,7 @@ class SSLHandler:
             assessment['trusted_issuer'] = 'Untrusted'
 
         # Evaluate cipher strength
-        strong_ciphers = ['AES256', 'CHACHA20']
+        strong_ciphers = ['AES256', 'CHACHA20', 'AES128']
         original_cipher = cert_info['cipher']
         cipher = original_cipher.replace('_', '')
         if any(strong_cipher in cipher.upper() for strong_cipher in strong_ciphers):

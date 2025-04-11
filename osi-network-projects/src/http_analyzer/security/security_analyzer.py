@@ -4,6 +4,8 @@ This module provides functions for analyzing SSL/TLS connections.
 """
 
 import logging
+import socket
+import ssl
 from http_analyzer.ssl_handler import SSLHandler
 from http_analyzer.formatters.terminal_colors import Colors
 
@@ -14,11 +16,10 @@ class SecurityAnalyzer:
     """Analyzes security aspects of HTTP connections."""
 
     @staticmethod
-    def analyze_ssl(session, url, use_color=True):
+    def analyze_ssl(url, use_color=True):
         """Analyze and format SSL/TLS security information.
 
         Args:
-            session: HTTPSession object
             url: Target URL
             use_color: Whether to use colored output
 
@@ -32,19 +33,26 @@ class SecurityAnalyzer:
             return output
 
         try:
-            # Send a request to populate the client connections
-            session.get(url)
+            # Parse the URL to extract host and port
+            from urllib.parse import urlparse
+            parsed_url = urlparse(url)
+            host = parsed_url.hostname
+            port = parsed_url.port or 443
 
-            # Try to get the SSL socket - this would need to be implemented in the client
-            ssl_socket = None
+            # Create a socket and wrap it with SSL
+            try:
+                # Create a socket
+                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                sock.settimeout(10)  # Set a timeout for connection
 
-            # Look for an existing connection to the host in the session's client
-            for conn_id, socket in session.client.connections.items():
-                if url.split('//')[1].split('/')[0] in conn_id:
-                    ssl_socket = socket
-                    break
+                # Wrap the socket with SSL
+                ssl_context = ssl.create_default_context()
+                ssl_socket = ssl_context.wrap_socket(sock, server_hostname=host)
 
-            if ssl_socket:
+                # Connect to the server
+                ssl_socket.connect((host, port))
+
+                # Get certificate information
                 cert_info = SSLHandler.get_certificate_info(ssl_socket)
                 security_assessment = SSLHandler.get_security_assessment(cert_info)
 
@@ -78,8 +86,13 @@ class SecurityAnalyzer:
                             output.append(f"{Colors.CYAN}{key.replace('_', ' ').title()}:{Colors.RESET} {value}")
                         else:
                             output.append(f"{key.replace('_', ' ').title()}: {value}")
-            else:
-                output.append("Could not retrieve SSL socket information.")
+
+                # Close the SSL socket
+                ssl_socket.close()
+
+            except (socket.error, ssl.SSLError) as conn_error:
+                output.append(f"Connection error: {conn_error}")
+                return output
 
         except Exception as e:
             logger.error(f"SSL analysis failed: {e}")
