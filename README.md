@@ -50,7 +50,7 @@ See the individual project READMEs for more detailed usage instructions:
 - [HTTP Request Analyzer Documentation](osi-network-projects/src/http_analyzer/README.md)
 
 ### Disclosure Statement
-The `osi-networks-project` is the result of a collaborative development effort between me and [Claude](www.claude.ai), an AI assistant created by Anthropic.
+The `osi-networks-project` is the result of a collaborative development effort between me and [Claude](https://claude.ai), an AI assistant created by Anthropic.
 
 #### Repository Contents
 The project was conceived and developed through an interactive, iterative process. While the initial conceptualization and architectural decisions were made by me, the implementation details,
