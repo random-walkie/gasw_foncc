@@ -1,5 +1,5 @@
 import unittest
-from src.http_analyzer.response import HTTPResponse
+from response import HTTPResponse
 
 class TestHTTPResponse(unittest.TestCase):
     """Test suite for the HTTPResponse class.

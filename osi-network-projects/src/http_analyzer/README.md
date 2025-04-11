@@ -275,23 +275,27 @@ Sources:
 ## Project Structure
 
 ```
-http-request-analyzer/
-├── README.md
-├── http_analyzer/
-│   ├── __init__.py
-│   ├── __main__.py          # Application entry point
-│   ├── cli.py               # Command-line interface handling
-│   ├── client.py            # HTTP client implementation (Layer 5)
-│   ├── request.py           # Request construction and formatting
-│   ├── response.py          # Response parsing and analysis
-│   ├── session.py           # Session management (Layer 5)
-│   ├── content.py           # Content handling and processing (Layer 6)
-│   └── ssl_handler.py       # SSL/TLS encryption handling (Layer 6)
-└── tests/
-    ├── __init__.py
-    ├── test_client.py
-    ├── test_request.py
-    └── test_response.py
+http_analyzer/
+├── __init__.py
+├── __main__.py             # Application entry point
+├── cli.py                  # Command-line interface
+├── client.py               # Low-level HTTP communication
+├── content.py              # Content handling and processing
+├── formatters/             # Response formatting utilities
+│   ├── html_formatter.py
+│   ├── json_formatter.py
+│   └── terminal_colors.py
+├── html_fallback_parser.py # Fallback HTML parsing
+├── html_handler.py         # HTML content parsing
+├── request.py              # HTTP request construction
+├── response.py             # HTTP response parsing
+├── security/               # Security analysis
+│   └── security_analyzer.py
+├── session.py              # Session management
+└── ssl_handler.py          # SSL/TLS handling
+
+tests/
+└── http_analyzer/          # Corresponding test files
 ```
 
 ## Setup and Installation
@@ -306,56 +310,91 @@ This project uses a virtual environment to manage dependencies. See README in ma
 
 The project is organized around several key components that mirror the structure of HTTP communication:
 
-### HTTP Request
-Models an HTTP request with all its components:
-- HTTP method (GET, POST, etc.)
-- URL and its components (scheme, host, path, query parameters)
-- Headers (standard and custom)
-- Request body (for methods like POST)
-- Formatting for wire transmission
+1. **HTTPClient (`client.py`)**
+   - Handles low-level socket communication
+   - Manages connection establishment and request sending
+   - Supports both HTTP and HTTPS
+   - Implements connection reuse and timeout handling
 
-### HTTP Response
-Represents an HTTP response with parsing capabilities:
-- Status code and message
-- Response headers
-- Response body
-- Content-type handling
-- Encoding detection and conversion
+2. **HTTPRequest (`request.py`)**
+   - Constructs HTTP requests
+   - Parses and formats URLs
+   - Manages request headers and bodies
+   - Supports various HTTP methods (GET, POST)
 
-### HTTP Client
-Implements the core HTTP communication functionality:
-- Socket-based communication
-- SSL/TLS encryption for HTTPS
-- Request transmission
-- Response reception and parsing
-- Connection management
+3. **HTTPResponse (`response.py`)**
+   - Parses raw HTTP response data
+   - Extracts status codes, headers, and body
+   - Provides content decoding
+   - Handles different content types
 
-### Session Management
-Handles persistent state across multiple requests:
-- Cookie storage and transmission
-- Authentication token management
-- Request history tracking
-- Redirect following
-- Session analysis and statistics
+4. **HTTPSession (`session.py`)**
+   - Manages session-level HTTP interactions
+   - Tracks cookies across requests
+   - Maintains request history
+   - Handles authentication and state preservation
 
-### Content Handling
-Processes different content types:
-- JSON parsing and formatting
-- Form data encoding
-- HTML basic analysis
-- Image and binary data handling
-- Character set conversions
+### Specialized Handlers
+
+1. **ContentHandler (`content.py`)**
+   - Transforms data between different formats
+   - Handles JSON, form data, and text processing
+   - Manages character encoding
+   - Implements compression handling
+
+2. **SSLHandler (`ssl_handler.py`)**
+   - Manages SSL/TLS encryption
+   - Performs certificate validation
+   - Provides security assessments
+   - Handles TLS connection details
+
+3. **HTMLHandler (`html_handler.py`)**
+   - Parses HTML content
+   - Extracts metadata
+   - Supports fallback parsing when BeautifulSoup is unavailable
+
+### Formatters and Utilities
+
+1. **CLI Interface (`cli.py`)**
+   - Provides command-line argument parsing
+   - Manages request execution
+   - Handles output formatting
+
+2. **Response Formatters**
+   - HTML formatting
+   - JSON syntax highlighting
+   - Terminal color support
 
 ## Usage
 
 See README in main repository.
 
 ### Command-line Arguments
-- `url`: The URL to analyze
-- `-m, --method`: HTTP method to use (default: GET)
-- `-f, --follow-redirects`: Follow redirects automatically
-- `-v, --verbose`: Show detailed information including headers
-- `-d, --data`: Data to send with POST requests
+```
+HTTP Request Analyzer - Explore Network Protocols
+
+positional arguments:
+  url                   URL to send request to
+
+options:
+  -h, --help            show this help message and exit
+  -m {GET,POST}, --method {GET,POST}
+                        HTTP method to use (default: GET)
+  -f, --follow-redirects
+                        Follow HTTP redirects
+  -v, --verbose         Show detailed output
+  -d DATA, --data DATA  Request body data for POST/PUT requests
+  -j JSON, --json JSON  JSON data to send with request
+  -H HEADER, --header HEADER
+                        Custom HTTP headers (can be used multiple times)
+  -o OUTPUT, --output OUTPUT
+                        Save response body to a file
+  -t TIMEOUT, --timeout TIMEOUT
+                        Request timeout in seconds (default: 10)
+  --analyze-ssl         Perform SSL/TLS security analysis for HTTPS
+  --pretty-html         Format HTML responses for better readability
+  --no-color            Disable colored output
+```
 
 ## Learning Outcomes
 

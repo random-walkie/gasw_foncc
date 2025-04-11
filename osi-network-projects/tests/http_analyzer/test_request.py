@@ -1,5 +1,5 @@
 import unittest
-from src.http_analyzer.request import HTTPRequest
+from request import HTTPRequest
 
 class TestHTTPRequest(unittest.TestCase):
     """Test suite for the HTTPRequest class.

@@ -1,41 +1,66 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="osi-network-projects",  # Name for the combined project
+    name="osi-network-projects",
     version="0.1.0",
     description="Tools for exploring networking concepts: HTTP Analyzer and TCP Monitors",
     author="Your Name",
     author_email="your.email@example.com",
-    packages=find_packages(where="src", exclude=["tests*", "tests.*"]),  # Discover HTTP and TCP packages in src/
-    package_dir={"": "src"},  # Map root namespace to src/
-    install_requires=[
-        "colorama>=0.4.4",  # Shared dependency for terminal colors
-        "scapy>=2.4.5",  # For packet capture (used by tcp_monitor)
-        "psutil>=5.8.0",  # For TCP monitor
-        "cryptography>=3.4.0",  # For SSL/TLS support in HTTP analyzer
+
+    # Find all packages in src directory
+    packages=find_packages(where="src", exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
+    package_dir={"": "src"},
+
+    # Explicitly include test packages if you want them installed
+    # This is optional and depends on your specific needs
+    package_data={
+        # Include test data files if any
+        "": ["*.txt", "*.json", "*.csv"],
+    },
+
+    # Test suite configuration
+    test_suite="tests",
+
+    setup_requires=[
+        'setuptools>=61.0.0'
     ],
+
+    install_requires=[
+        "colorama>=0.4.4",
+        "scapy>=2.4.5",
+        "psutil>=5.8.0",
+        "cryptography>=3.4.0",
+    ],
+
     extras_require={
-        # Development dependencies for testing and linting
         "dev": [
             "pytest>=8.3.5",
             "pytest-cov==6.1.1",
-            "python-dateutil==2.9.0"
+            "python-dateutil==2.9.0",
+            "attrs>=21.4.0"
         ],
         "html": [
             "beautifulsoup4>=4.9.3"
         ],
-        # Combined optional dependencies
         "full": [
             "beautifulsoup4>=4.9.3"
         ]
     },
+
+    # Configure test discovery and running
+    options={
+        'test': {
+            'test_suite': 'tests',
+        }
+    },
+
     entry_points={
         "console_scripts": [
-            # Define CLI commands for HTTP Analyzer and TCP Monitor
             "http-analyzer=http_analyzer.__main__:main",
             "tcp-monitor=tcp_monitor.__main__:main",
         ],
     },
+
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
@@ -43,5 +68,6 @@ setup(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
     ],
-    python_requires=">=3.7",  # Minimum Python version required
+
+    python_requires=">=3.7",
 )

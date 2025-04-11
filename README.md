@@ -31,7 +31,7 @@ To work with the networking projects included in this repository:
 ```bash
 # Clone the repository
 git clone https://github.com/random-walkie/gasw_foncc.git
-cd gasw_foncc
+cd gasw_foncc/osi-network-projects/
 
 # Create virtual environment
 python -m venv venv
@@ -55,12 +55,12 @@ After installation, you can use each tool via its command-line interface:
 tcp-monitor --interface eth0 --duration 60
 
 # HTTP Request Analyzer
-http-analyzer https://example.com --verbose
+http-analyzer https://example.com --verbose --pretty-html
 ```
 
 See the individual project READMEs for more detailed usage instructions:
 - [TCP Connection Monitor Documentation](tcp-connection-monitor/README.md)
-- [HTTP Request Analyzer Documentation](http-request-analyzer/README.md)
+- [HTTP Request Analyzer Documentation](osi-network-projects/src/http_analyzer/README.md)
 
 ## Learning Approach
 

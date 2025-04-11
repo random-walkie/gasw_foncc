@@ -1,6 +1,6 @@
 from gzip import compress as gzip_compress
 import unittest
-from src.http_analyzer.content import ContentHandler
+from content import ContentHandler
 
 
 class TestContentHandler(unittest.TestCase):
