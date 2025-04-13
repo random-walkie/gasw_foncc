@@ -1,6 +1,4 @@
 import ssl
-import socket
-from unittest.mock import inplace
 
 from dateutil import parser
 from datetime import datetime, timezone

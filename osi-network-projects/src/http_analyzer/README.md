@@ -14,67 +14,6 @@ This project is designed to help you understand the upper layers of the OSI mode
 
 ## Network Concepts Demonstrated
 
-### HTTPClient Class (Session Layer - Layer 5)
-Connection Establishment
-At the Session Layer (Layer 5), the HTTPClient establishes and maintains connections between applications. HTTP connections traditionally followed a pattern where each request required a new TCP connection. Modern HTTP (HTTP/1.1+) introduced persistent connections, allowing multiple requests to use the same connection.
-When the client creates a socket connection to a server, it's implementing a fundamental Session Layer function. The code sets up communication parameters (like timeouts) and handles the dialog coordination between client and server applications.
-The Session Layer is responsible for:
-
-Setting up connections between applications
-Maintaining those connections during data exchange
-Properly terminating connections
-Synchronizing data flow with checkpoints
-
-According to Andrew S. Tanenbaum in "Computer Networks" (5th edition): "The session layer allows users on different machines to establish sessions between them. Sessions offer various services, including dialog control (keeping track of whose turn it is to transmit), token management (preventing two parties from attempting the same critical operation simultaneously), and synchronization (checkpointing long transfers to allow them to continue from where they left off after a crash)."
-Sources:
-
-+ [RFC 7230: HTTP/1.1 Message Syntax and Routing](https://tools.ietf.org/html/rfc7230)
-+ Kurose, J. F., & Ross, K. W. (2017). Computer Networking: A Top-Down Approach (7th ed.). Pearson.
-
-#### Socket Communication
-Socket programming is how the HTTPClient will communicate over the network. A socket is an endpoint for sending and receiving data across a network. In Python, the socket module provides a low-level networking interface.
-When the client code creates a socket:
-
-```python
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-```
-
-You're specifying:
-
-+ `AF_INET`: Using IPv4 addressing (Layer 3 - Network)
-+ `SOCK_STREAM`: Using TCP (Layer 4 - Transport)
-
-Then, when connecting to a server:
-
-```python
-sock.connect((host, port))
-```
-You're establishing a TCP connection at the Transport Layer that will be used by the Session Layer logic to maintain application dialog.
-Sources:
-
-+ Stevens, W. R., Fenner, B., & Rudoff, A. M. (2003). UNIX Network Programming: The Sockets Networking API (Vol. 1, 3rd ed.). Addison-Wesley Professional.
-+ [Python Socket Documentation](https://docs.python.org/3/library/socket.html)
-
-
-### HTTPSession Class (Session Layer - Layer 5)
-#### Session Management
-HTTP is fundamentally a stateless protocol, but web applications often need to maintain state across multiple requests. This state management happens at the Session Layer. The HTTPSession class implements this through techniques like:
-
-1. Cookie Management: Cookies are small pieces of data stored by the client and sent with each request to the same server. They enable the server to recognize clients across multiple requests.
-2. Authentication Persistence: Maintaining authentication credentials (like OAuth tokens or session IDs) across requests.
-
-The W3C explains: "An HTTP cookie (web cookie, browser cookie) is a small piece of data that a server sends to a user's web browser. The browser may store the cookie and send it back to the same server with later requests. Typically, an HTTP cookie is used to tell if two requests come from the same browser—keeping a user logged in, for example."
-Session state can be maintained in various ways:
-
-+ Client-side (cookies)
-+ Server-side (sessions with client-side session IDs)
-+ URL parameters (less common now due to security concerns)
-
-Sources:
-
-+ [RFC 6265: HTTP State Management Mechanism](https://tools.ietf.org/html/rfc6265)
-+ Fielding, R. T., & Taylor, R. N. (2002). Principled design of the modern Web architecture. ACM Transactions on Internet Technology, 2(2), 115-150.
-
 ### HTTPRequest and HTTPResponse Classes (Application Layer - Layer 7)
 #### HTTP Protocol
 HTTP (Hypertext Transfer Protocol) operates at the Application Layer (Layer 7) of the OSI model. The HTTPRequest and HTTPResponse classes implement the client side of this protocol.
@@ -239,6 +178,67 @@ Sources:
 + [OWASP Transport Layer Protection Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Protection_Cheat_Sheet.html)
 + [Qualys SSL Labs Server Rating Guide](https://github.com/ssllabs/research/wiki/SSL-Server-Rating-Guide)
 + Bhargavan, K., Lavaud, A. D., Fournet, C., Pironti, A., & Strub, P. Y. (2014). Triple handshakes and cookie cutters: Breaking and fixing authentication over TLS. In 2014 IEEE Symposium on Security and Privacy.
+
+### HTTPClient Class (Session Layer - Layer 5)
+Connection Establishment
+At the Session Layer (Layer 5), the HTTPClient establishes and maintains connections between applications. HTTP connections traditionally followed a pattern where each request required a new TCP connection. Modern HTTP (HTTP/1.1+) introduced persistent connections, allowing multiple requests to use the same connection.
+When the client creates a socket connection to a server, it's implementing a fundamental Session Layer function. The code sets up communication parameters (like timeouts) and handles the dialog coordination between client and server applications.
+The Session Layer is responsible for:
+
++ Setting up connections between applications
++ Maintaining those connections during data exchange
++ Properly terminating connections
++ Synchronizing data flow with checkpoints
+
+According to Andrew S. Tanenbaum in "Computer Networks" (5th edition): "The session layer allows users on different machines to establish sessions between them. Sessions offer various services, including dialog control (keeping track of whose turn it is to transmit), token management (preventing two parties from attempting the same critical operation simultaneously), and synchronization (checkpointing long transfers to allow them to continue from where they left off after a crash)."
+Sources:
+
++ [RFC 7230: HTTP/1.1 Message Syntax and Routing](https://tools.ietf.org/html/rfc7230)
++ Kurose, J. F., & Ross, K. W. (2017). Computer Networking: A Top-Down Approach (7th ed.). Pearson.
+
+#### Socket Communication
+Socket programming is how the HTTPClient will communicate over the network. A socket is an endpoint for sending and receiving data across a network. In Python, the socket module provides a low-level networking interface.
+When the client code creates a socket:
+
+```python
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+```
+
+You're specifying:
+
++ `AF_INET`: Using IPv4 addressing (Layer 3 - Network)
++ `SOCK_STREAM`: Using TCP (Layer 4 - Transport)
+
+Then, when connecting to a server:
+
+```python
+sock.connect((host, port))
+```
+You're establishing a TCP connection at the Transport Layer that will be used by the Session Layer logic to maintain application dialog.
+Sources:
+
++ Stevens, W. R., Fenner, B., & Rudoff, A. M. (2003). UNIX Network Programming: The Sockets Networking API (Vol. 1, 3rd ed.). Addison-Wesley Professional.
++ [Python Socket Documentation](https://docs.python.org/3/library/socket.html)
+
+
+### HTTPSession Class (Session Layer - Layer 5)
+#### Session Management
+HTTP is fundamentally a stateless protocol, but web applications often need to maintain state across multiple requests. This state management happens at the Session Layer. The HTTPSession class implements this through techniques like:
+
+1. Cookie Management: Cookies are small pieces of data stored by the client and sent with each request to the same server. They enable the server to recognize clients across multiple requests.
+2. Authentication Persistence: Maintaining authentication credentials (like OAuth tokens or session IDs) across requests.
+
+The W3C explains: "An HTTP cookie (web cookie, browser cookie) is a small piece of data that a server sends to a user's web browser. The browser may store the cookie and send it back to the same server with later requests. Typically, an HTTP cookie is used to tell if two requests come from the same browser—keeping a user logged in, for example."
+Session state can be maintained in various ways:
+
++ Client-side (cookies)
++ Server-side (sessions with client-side session IDs)
++ URL parameters (less common now due to security concerns)
+
+Sources:
+
++ [RFC 6265: HTTP State Management Mechanism](https://tools.ietf.org/html/rfc6265)
++ Fielding, R. T., & Taylor, R. N. (2002). Principled design of the modern Web architecture. ACM Transactions on Internet Technology, 2(2), 115-150.
 
 #### Integration of OSI Layers in HTTP Communication
 The HTTP Request Analyzer demonstrates how the upper OSI layers work together in web communication:
