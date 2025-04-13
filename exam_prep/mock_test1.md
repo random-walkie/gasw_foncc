@@ -4,15 +4,23 @@
 
 For these questions, you'll need to select the appropriate option or options that correctly complete the statement or answer the question.
 
+# Mock Exam 1: Comprehensive Network Fundamentals
+
+## Part 1: Option Selection Questions (10 marks)
+
+For these questions, you'll need to select the appropriate option or options that correctly complete the statement or answer the question.
+
 ### Question 1
-Select all the components that are classified as end devices in a network:
-- [ ] Routers
-- [ ] Computers
-- [ ] Switches
-- [ ] VoIP phones
-- [ ] Firewalls
-- [ ] Network printers
-- [ ] Wireless access points
+<form>
+  <p>Select all the components that are classified as end devices in a network:</p>
+  <label><input type="checkbox" name="q1"> Routers</label><br>
+  <label><input type="checkbox" name="q1"> Computers</label><br>
+  <label><input type="checkbox" name="q1"> Switches</label><br>
+  <label><input type="checkbox" name="q1"> VoIP phones</label><br>
+  <label><input type="checkbox" name="q1"> Firewalls</label><br>
+  <label><input type="checkbox" name="q1"> Network printers</label><br>
+  <label><input type="checkbox" name="q1"> Wireless access points</label>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -23,12 +31,14 @@ Select all the components that are classified as end devices in a network:
 </details>
 
 ### Question 2
-Select all network topologies that use a central connection point:
-- [ ] Bus
-- [ ] Star
-- [ ] Mesh
-- [ ] Ring
-- [ ] Tree
+<form>
+  <p>Select all network topologies that use a central connection point:</p>
+  <label><input type="checkbox" name="q2"> Bus</label><br>
+  <label><input type="checkbox" name="q2"> Star</label><br>
+  <label><input type="checkbox" name="q2"> Mesh</label><br>
+  <label><input type="checkbox" name="q2"> Ring</label><br>
+  <label><input type="checkbox" name="q2"> Tree</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -39,14 +49,16 @@ Select all network topologies that use a central connection point:
 </details>
 
 ### Question 3
-Identify all the protocols that operate at the Transport layer:
-- [ ] HTTP
-- [ ] TCP
-- [ ] IP
-- [ ] UDP
-- [ ] Ethernet
-- [ ] FTP
-- [ ] SMTP
+<form>
+  <p>Identify all the protocols that operate at the Transport layer:</p>
+  <label><input type="checkbox" name="q3"> HTTP</label><br>
+  <label><input type="checkbox" name="q3"> TCP</label><br>
+  <label><input type="checkbox" name="q3"> IP</label><br>
+  <label><input type="checkbox" name="q3"> UDP</label><br>
+  <label><input type="checkbox" name="q3"> Ethernet</label><br>
+  <label><input type="checkbox" name="q3"> FTP</label><br>
+  <label><input type="checkbox" name="q3"> SMTP</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -57,13 +69,15 @@ Identify all the protocols that operate at the Transport layer:
 </details>
 
 ### Question 4
-Select all statements that correctly describe characteristics of packet-switched networks:
-- [ ] Resources are reserved for the duration of the connection
-- [ ] Messages are broken into packets
-- [ ] All packets must follow the same path
-- [ ] Packets can take different paths to the destination
-- [ ] Connection establishment is required before data transfer
-- [ ] Network resources can be shared among multiple communications
+<form>
+  <p>Select all statements that correctly describe characteristics of packet-switched networks:</p>
+  <label><input type="checkbox" name="q4"> Resources are reserved for the duration of the connection</label><br>
+  <label><input type="checkbox" name="q4"> Messages are broken into packets</label><br>
+  <label><input type="checkbox" name="q4"> All packets must follow the same path</label><br>
+  <label><input type="checkbox" name="q4"> Packets can take different paths to the destination</label><br>
+  <label><input type="checkbox" name="q4"> Connection establishment is required before data transfer</label><br>
+  <label><input type="checkbox" name="q4"> Network resources can be shared among multiple communications</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -74,14 +88,16 @@ Select all statements that correctly describe characteristics of packet-switched
 </details>
 
 ### Question 5
-Select all components of the CIA triad in information security:
-- [ ] Confidentiality
-- [ ] Integrity
-- [ ] Authentication
-- [ ] Availability
-- [ ] Authorization
-- [ ] Accountability
-- [ ] Non-repudiation
+<form>
+  <p>Select all components of the CIA triad in information security:</p>
+  <label><input type="checkbox" name="q5"> Confidentiality</label><br>
+  <label><input type="checkbox" name="q5"> Integrity</label><br>
+  <label><input type="checkbox" name="q5"> Authentication</label><br>
+  <label><input type="checkbox" name="q5"> Availability</label><br>
+  <label><input type="checkbox" name="q5"> Authorization</label><br>
+  <label><input type="checkbox" name="q5"> Accountability</label><br>
+  <label><input type="checkbox" name="q5"> Non-repudiation</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -94,11 +110,13 @@ Select all components of the CIA triad in information security:
 ## Part 2: Multiple-Choice Questions (90 marks)
 
 ### Question 1
-Which statement best describes the relationship between the OSI and TCP/IP models?
-- A) The TCP/IP model has more layers than the OSI model
-- B) The OSI model has more layers than the TCP/IP model
-- C) Both models have the same number of layers
-- D) The models are unrelated and serve different purposes
+<form>
+  <p>Which statement best describes the relationship between the OSI and TCP/IP models?</p>
+  <label><input type="radio" name="mc1"> A) The TCP/IP model has more layers than the OSI model</label><br>
+  <label><input type="radio" name="mc1"> B) The OSI model has more layers than the TCP/IP model</label><br>
+  <label><input type="radio" name="mc1"> C) Both models have the same number of layers</label><br>
+  <label><input type="radio" name="mc1"> D) The models are unrelated and serve different purposes</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -109,11 +127,13 @@ Which statement best describes the relationship between the OSI and TCP/IP model
 </details>
 
 ### Question 2
-What is the main function of the Network layer in the OSI model?
-- A) Providing reliable data transfer between applications
-- B) Converting data into signals for transmission
-- C) Routing packets between different networks using logical addressing
-- D) Establishing sessions between applications
+<form>
+  <p>What is the main function of the Network layer in the OSI model?</p>
+  <label><input type="radio" name="mc2"> A) Providing reliable data transfer between applications</label><br>
+  <label><input type="radio" name="mc2"> B) Converting data into signals for transmission</label><br>
+  <label><input type="radio" name="mc2"> C) Routing packets between different networks using logical addressing</label><br>
+  <label><input type="radio" name="mc2"> D) Establishing sessions between applications</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -124,11 +144,13 @@ What is the main function of the Network layer in the OSI model?
 </details>
 
 ### Question 3
-Which of the following correctly describes encapsulation in the context of networking?
-- A) The process of encrypting data for secure transmission
-- B) The process of adding headers and trailers as data passes down the protocol stack
-- C) The process of compressing data to reduce bandwidth usage
-- D) The process of translating domain names to IP addresses
+<form>
+  <p>Which of the following correctly describes encapsulation in the context of networking?</p>
+  <label><input type="radio" name="mc3"> A) The process of encrypting data for secure transmission</label><br>
+  <label><input type="radio" name="mc3"> B) The process of adding headers and trailers as data passes down the protocol stack</label><br>
+  <label><input type="radio" name="mc3"> C) The process of compressing data to reduce bandwidth usage</label><br>
+  <label><input type="radio" name="mc3"> D) The process of translating domain names to IP addresses</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -139,11 +161,13 @@ Which of the following correctly describes encapsulation in the context of netwo
 </details>
 
 ### Question 4
-What is the purpose of a subnet mask in IP addressing?
-- A) To encrypt IP addresses for secure transmission
-- B) To identify which portion of an IP address represents the network and which represents the host
-- C) To translate between IPv4 and IPv6 addresses
-- D) To prevent IP address spoofing
+<form>
+  <p>What is the purpose of a subnet mask in IP addressing?</p>
+  <label><input type="radio" name="mc4"> A) To encrypt IP addresses for secure transmission</label><br>
+  <label><input type="radio" name="mc4"> B) To identify which portion of an IP address represents the network and which represents the host</label><br>
+  <label><input type="radio" name="mc4"> C) To translate between IPv4 and IPv6 addresses</label><br>
+  <label><input type="radio" name="mc4"> D) To prevent IP address spoofing</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -154,11 +178,13 @@ What is the purpose of a subnet mask in IP addressing?
 </details>
 
 ### Question 5
-Which statement accurately describes the difference between symmetric and asymmetric key cryptography?
-- A) Symmetric uses the same key for encryption and decryption, while asymmetric uses different keys
-- B) Symmetric is more secure, while asymmetric is faster
-- C) Symmetric works with any data size, while asymmetric has size limitations
-- D) Symmetric requires a third party, while asymmetric is peer-to-peer
+<form>
+  <p>Which statement accurately describes the difference between symmetric and asymmetric key cryptography?</p>
+  <label><input type="radio" name="mc5"> A) Symmetric uses the same key for encryption and decryption, while asymmetric uses different keys</label><br>
+  <label><input type="radio" name="mc5"> B) Symmetric is more secure, while asymmetric is faster</label><br>
+  <label><input type="radio" name="mc5"> C) Symmetric works with any data size, while asymmetric has size limitations</label><br>
+  <label><input type="radio" name="mc5"> D) Symmetric requires a third party, while asymmetric is peer-to-peer</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -169,11 +195,13 @@ Which statement accurately describes the difference between symmetric and asymme
 </details>
 
 ### Question 6
-What is the primary function of the Data Link layer's LLC sublayer?
-- A) Converting bits into signals for transmission
-- B) Managing media access and handling collisions
-- C) Providing an interface between the Network layer and the MAC sublayer
-- D) Establishing end-to-end connections between applications
+<form>
+  <p>What is the primary function of the Data Link layer's LLC sublayer?</p>
+  <label><input type="radio" name="mc6"> A) Converting bits into signals for transmission</label><br>
+  <label><input type="radio" name="mc6"> B) Managing media access and handling collisions</label><br>
+  <label><input type="radio" name="mc6"> C) Providing an interface between the Network layer and the MAC sublayer</label><br>
+  <label><input type="radio" name="mc6"> D) Establishing end-to-end connections between applications</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -184,11 +212,13 @@ What is the primary function of the Data Link layer's LLC sublayer?
 </details>
 
 ### Question 7
-Which network organization type would be most appropriate for a small home office with 3-4 computers that need to share files occasionally?
-- A) Client-server network
-- B) Peer-to-peer network
-- C) Full mesh network
-- D) Hierarchical network
+<form>
+  <p>Which network organization type would be most appropriate for a small home office with 3-4 computers that need to share files occasionally?</p>
+  <label><input type="radio" name="mc7"> A) Client-server network</label><br>
+  <label><input type="radio" name="mc7"> B) Peer-to-peer network</label><br>
+  <label><input type="radio" name="mc7"> C) Full mesh network</label><br>
+  <label><input type="radio" name="mc7"> D) Hierarchical network</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -199,11 +229,13 @@ Which network organization type would be most appropriate for a small home offic
 </details>
 
 ### Question 8
-Which statement best describes the relationship between Ethernet and the OSI model?
-- A) Ethernet is a protocol that operates only at the Physical layer
-- B) Ethernet is a protocol that operates at the Network layer
-- C) Ethernet is a protocol that operates at both the Data Link and Physical layers
-- D) Ethernet is a protocol that operates at all seven layers of the OSI model
+<form>
+  <p>Which statement best describes the relationship between Ethernet and the OSI model?</p>
+  <label><input type="radio" name="mc8"> A) Ethernet is a protocol that operates only at the Physical layer</label><br>
+  <label><input type="radio" name="mc8"> B) Ethernet is a protocol that operates at the Network layer</label><br>
+  <label><input type="radio" name="mc8"> C) Ethernet is a protocol that operates at both the Data Link and Physical layers</label><br>
+  <label><input type="radio" name="mc8"> D) Ethernet is a protocol that operates at all seven layers of the OSI model</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -214,11 +246,13 @@ Which statement best describes the relationship between Ethernet and the OSI mod
 </details>
 
 ### Question 9
-What is the main advantage of UDP over TCP?
-- A) Guaranteed delivery of all packets
-- B) Connection establishment before data transfer
-- C) Lower latency due to no acknowledgment or retransmission mechanisms
-- D) Flow control to prevent overwhelming the receiver
+<form>
+  <p>What is the main advantage of UDP over TCP?</p>
+  <label><input type="radio" name="mc9"> A) Guaranteed delivery of all packets</label><br>
+  <label><input type="radio" name="mc9"> B) Connection establishment before data transfer</label><br>
+  <label><input type="radio" name="mc9"> C) Lower latency due to no acknowledgment or retransmission mechanisms</label><br>
+  <label><input type="radio" name="mc9"> D) Flow control to prevent overwhelming the receiver</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -229,11 +263,13 @@ What is the main advantage of UDP over TCP?
 </details>
 
 ### Question 10
-What does port number 443 typically represent in networking?
-- A) HTTP traffic
-- B) HTTPS (secure HTTP) traffic
-- C) FTP traffic
-- D) SMTP traffic
+<form>
+  <p>What does port number 443 typically represent in networking?</p>
+  <label><input type="radio" name="mc10"> A) HTTP traffic</label><br>
+  <label><input type="radio" name="mc10"> B) HTTPS (secure HTTP) traffic</label><br>
+  <label><input type="radio" name="mc10"> C) FTP traffic</label><br>
+  <label><input type="radio" name="mc10"> D) SMTP traffic</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -244,11 +280,13 @@ What does port number 443 typically represent in networking?
 </details>
 
 ### Question 11
-Which technology is used to allow multiple devices on a private network to share a single public IP address?
-- A) DNS (Domain Name System)
-- B) DHCP (Dynamic Host Configuration Protocol)
-- C) NAT (Network Address Translation)
-- D) ARP (Address Resolution Protocol)
+<form>
+  <p>Which technology is used to allow multiple devices on a private network to share a single public IP address?</p>
+  <label><input type="radio" name="mc11"> A) DNS (Domain Name System)</label><br>
+  <label><input type="radio" name="mc11"> B) DHCP (Dynamic Host Configuration Protocol)</label><br>
+  <label><input type="radio" name="mc11"> C) NAT (Network Address Translation)</label><br>
+  <label><input type="radio" name="mc11"> D) ARP (Address Resolution Protocol)</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -259,11 +297,13 @@ Which technology is used to allow multiple devices on a private network to share
 </details>
 
 ### Question 12
-What is the primary purpose of the Physical layer in the OSI model?
-- A) To establish end-to-end connections between applications
-- B) To determine the best path for data transmission
-- C) To manage access to the shared medium
-- D) To convert data into signals for transmission over the physical medium
+<form>
+  <p>What is the primary purpose of the Physical layer in the OSI model?</p>
+  <label><input type="radio" name="mc12"> A) To establish end-to-end connections between applications</label><br>
+  <label><input type="radio" name="mc12"> B) To determine the best path for data transmission</label><br>
+  <label><input type="radio" name="mc12"> C) To manage access to the shared medium</label><br>
+  <label><input type="radio" name="mc12"> D) To convert data into signals for transmission over the physical medium</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -274,11 +314,13 @@ What is the primary purpose of the Physical layer in the OSI model?
 </details>
 
 ### Question 13
-In which type of attack does an attacker exploit improperly validated input to execute arbitrary SQL commands on a database?
-- A) Man-in-the-middle attack
-- B) Denial of Service attack
-- C) SQL injection attack
-- D) Buffer overflow attack
+<form>
+  <p>In which type of attack does an attacker exploit improperly validated input to execute arbitrary SQL commands on a database?</p>
+  <label><input type="radio" name="mc13"> A) Man-in-the-middle attack</label><br>
+  <label><input type="radio" name="mc13"> B) Denial of Service attack</label><br>
+  <label><input type="radio" name="mc13"> C) SQL injection attack</label><br>
+  <label><input type="radio" name="mc13"> D) Buffer overflow attack</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -289,11 +331,13 @@ In which type of attack does an attacker exploit improperly validated input to e
 </details>
 
 ### Question 14
-What is the purpose of CSMA/CD in Ethernet networks?
-- A) To encrypt data for secure transmission
-- B) To manage collisions when multiple devices try to transmit simultaneously
-- C) To compress data for more efficient transmission
-- D) To authenticate devices before allowing network access
+<form>
+  <p>What is the purpose of CSMA/CD in Ethernet networks?</p>
+  <label><input type="radio" name="mc14"> A) To encrypt data for secure transmission</label><br>
+  <label><input type="radio" name="mc14"> B) To manage collisions when multiple devices try to transmit simultaneously</label><br>
+  <label><input type="radio" name="mc14"> C) To compress data for more efficient transmission</label><br>
+  <label><input type="radio" name="mc14"> D) To authenticate devices before allowing network access</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -304,11 +348,13 @@ What is the purpose of CSMA/CD in Ethernet networks?
 </details>
 
 ### Question 15
-Which of the following best describes the difference between a router and a switch?
-- A) Routers operate at the Data Link layer, while switches operate at the Network layer
-- B) Routers connect different networks using logical addressing, while switches connect devices within the same network using physical addressing
-- C) Routers create collision domains, while switches create broadcast domains
-- D) Routers handle wired connections, while switches handle wireless connections
+<form>
+  <p>Which of the following best describes the difference between a router and a switch?</p>
+  <label><input type="radio" name="mc15"> A) Routers operate at the Data Link layer, while switches operate at the Network layer</label><br>
+  <label><input type="radio" name="mc15"> B) Routers connect different networks using logical addressing, while switches connect devices within the same network using physical addressing</label><br>
+  <label><input type="radio" name="mc15"> C) Routers create collision domains, while switches create broadcast domains</label><br>
+  <label><input type="radio" name="mc15"> D) Routers handle wired connections, while switches handle wireless connections</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -319,11 +365,13 @@ Which of the following best describes the difference between a router and a swit
 </details>
 
 ### Question 16
-What is a primary advantage of IPv6 over IPv4?
-- A) Simpler header structure
-- B) Vastly expanded address space
-- C) Faster routing
-- D) Better security by default
+<form>
+  <p>What is a primary advantage of IPv6 over IPv4?</p>
+  <label><input type="radio" name="mc16"> A) Simpler header structure</label><br>
+  <label><input type="radio" name="mc16"> B) Vastly expanded address space</label><br>
+  <label><input type="radio" name="mc16"> C) Faster routing</label><br>
+  <label><input type="radio" name="mc16"> D) Better security by default</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -334,11 +382,13 @@ What is a primary advantage of IPv6 over IPv4?
 </details>
 
 ### Question 17
-Which of the following is NOT a characteristic of symmetric key cryptography?
-- A) Uses the same key for encryption and decryption
-- B) Faster than asymmetric cryptography
-- C) Relies on public and private key pairs
-- D) Good for encrypting large amounts of data
+<form>
+  <p>Which of the following is NOT a characteristic of symmetric key cryptography?</p>
+  <label><input type="radio" name="mc17"> A) Uses the same key for encryption and decryption</label><br>
+  <label><input type="radio" name="mc17"> B) Faster than asymmetric cryptography</label><br>
+  <label><input type="radio" name="mc17"> C) Relies on public and private key pairs</label><br>
+  <label><input type="radio" name="mc17"> D) Good for encrypting large amounts of data</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -349,11 +399,13 @@ Which of the following is NOT a characteristic of symmetric key cryptography?
 </details>
 
 ### Question 18
-What is the function of the Presentation layer in the OSI model?
-- A) Establishing and terminating connections between applications
-- B) Data translation, compression, and encryption
-- C) Determining the best path for data transmission
-- D) Managing device-to-device communication on a local network
+<form>
+  <p>What is the function of the Presentation layer in the OSI model?</p>
+  <label><input type="radio" name="mc18"> A) Establishing and terminating connections between applications</label><br>
+  <label><input type="radio" name="mc18"> B) Data translation, compression, and encryption</label><br>
+  <label><input type="radio" name="mc18"> C) Determining the best path for data transmission</label><br>
+  <label><input type="radio" name="mc18"> D) Managing device-to-device communication on a local network</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -364,11 +416,13 @@ What is the function of the Presentation layer in the OSI model?
 </details>
 
 ### Question 19
-What is the main purpose of the Session layer in the OSI model?
-- A) To establish, manage, and terminate sessions between applications
-- B) To route packets between different networks
-- C) To convert data into signals for transmission
-- D) To provide reliable data transfer between hosts
+<form>
+  <p>What is the main purpose of the Session layer in the OSI model?</p>
+  <label><input type="radio" name="mc19"> A) To establish, manage, and terminate sessions between applications</label><br>
+  <label><input type="radio" name="mc19"> B) To route packets between different networks</label><br>
+  <label><input type="radio" name="mc19"> C) To convert data into signals for transmission</label><br>
+  <label><input type="radio" name="mc19"> D) To provide reliable data transfer between hosts</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -379,11 +433,13 @@ What is the main purpose of the Session layer in the OSI model?
 </details>
 
 ### Question 20
-What is throughput in the context of networking?
-- A) The maximum speed advertised by your internet service provider
-- B) The measure of the transfer of bits across the media over a given period of time
-- C) The time it takes for a packet to travel from source to destination
-- D) The maximum capacity of a network cable
+<form>
+  <p>What is throughput in the context of networking?</p>
+  <label><input type="radio" name="mc20"> A) The maximum speed advertised by your internet service provider</label><br>
+  <label><input type="radio" name="mc20"> B) The measure of the transfer of bits across the media over a given period of time</label><br>
+  <label><input type="radio" name="mc20"> C) The time it takes for a packet to travel from source to destination</label><br>
+  <label><input type="radio" name="mc20"> D) The maximum capacity of a network cable</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -394,11 +450,13 @@ What is throughput in the context of networking?
 </details>
 
 ### Question 21
-Which statement best describes the difference between a hub and a switch?
-- A) Hubs operate at the Network layer, while switches operate at the Data Link layer
-- B) Hubs forward data to all connected devices, while switches selectively forward data based on MAC addresses
-- C) Hubs are used for wireless networks, while switches are used for wired networks
-- D) Hubs provide greater bandwidth than switches
+<form>
+  <p>Which statement best describes the difference between a hub and a switch?</p>
+  <label><input type="radio" name="mc21"> A) Hubs operate at the Network layer, while switches operate at the Data Link layer</label><br>
+  <label><input type="radio" name="mc21"> B) Hubs forward data to all connected devices, while switches selectively forward data based on MAC addresses</label><br>
+  <label><input type="radio" name="mc21"> C) Hubs are used for wireless networks, while switches are used for wired networks</label><br>
+  <label><input type="radio" name="mc21"> D) Hubs provide greater bandwidth than switches</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -409,11 +467,13 @@ Which statement best describes the difference between a hub and a switch?
 </details>
 
 ### Question 22
-What is the purpose of the MAC address table in a switch?
-- A) To encrypt MAC addresses for secure transmission
-- B) To map IP addresses to MAC addresses
-- C) To map MAC addresses to the physical switch ports where devices are connected
-- D) To authenticate users before allowing network access
+<form>
+  <p>What is the purpose of the MAC address table in a switch?</p>
+  <label><input type="radio" name="mc22"> A) To encrypt MAC addresses for secure transmission</label><br>
+  <label><input type="radio" name="mc22"> B) To map IP addresses to MAC addresses</label><br>
+  <label><input type="radio" name="mc22"> C) To map MAC addresses to the physical switch ports where devices are connected</label><br>
+  <label><input type="radio" name="mc22"> D) To authenticate users before allowing network access</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -424,11 +484,13 @@ What is the purpose of the MAC address table in a switch?
 </details>
 
 ### Question 23
-In the context of TCP/IP communication, what is a socket?
-- A) A physical connector on a network device
-- B) The combination of an IP address and a port number
-- C) A programming interface for network communication
-- D) The encryption key used for secure communication
+<form>
+  <p>In the context of TCP/IP communication, what is a socket?</p>
+  <label><input type="radio" name="mc23"> A) A physical connector on a network device</label><br>
+  <label><input type="radio" name="mc23"> B) The combination of an IP address and a port number</label><br>
+  <label><input type="radio" name="mc23"> C) A programming interface for network communication</label><br>
+  <label><input type="radio" name="mc23"> D) The encryption key used for secure communication</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -439,11 +501,13 @@ In the context of TCP/IP communication, what is a socket?
 </details>
 
 ### Question 24
-What type of attack involves overwhelming a server with a flood of TCP SYN packets without completing the handshake?
-- A) SQL injection attack
-- B) Man-in-the-middle attack
-- C) SYN flood attack
-- D) Phishing attack
+<form>
+  <p>What type of attack involves overwhelming a server with a flood of TCP SYN packets without completing the handshake?</p>
+  <label><input type="radio" name="mc24"> A) SQL injection attack</label><br>
+  <label><input type="radio" name="mc24"> B) Man-in-the-middle attack</label><br>
+  <label><input type="radio" name="mc24"> C) SYN flood attack</label><br>
+  <label><input type="radio" name="mc24"> D) Phishing attack</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -454,11 +518,13 @@ What type of attack involves overwhelming a server with a flood of TCP SYN packe
 </details>
 
 ### Question 25
-What is the main function of the Open Shortest Path First (OSPF) protocol?
-- A) Translating domain names to IP addresses
-- B) Routing packets between autonomous systems
-- C) Calculating shortest paths for packet routing within an autonomous system
-- D) Managing dynamic IP address assignment
+<form>
+  <p>What is the main function of the Open Shortest Path First (OSPF) protocol?</p>
+  <label><input type="radio" name="mc25"> A) Translating domain names to IP addresses</label><br>
+  <label><input type="radio" name="mc25"> B) Routing packets between autonomous systems</label><br>
+  <label><input type="radio" name="mc25"> C) Calculating shortest paths for packet routing within an autonomous system</label><br>
+  <label><input type="radio" name="mc25"> D) Managing dynamic IP address assignment</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -469,11 +535,13 @@ What is the main function of the Open Shortest Path First (OSPF) protocol?
 </details>
 
 ### Question 26
-Which of the following best describes the purpose of a firewall in network security?
-- A) To encrypt data transmitted across the network
-- B) To filter network traffic based on predetermined security rules
-- C) To detect and remove malware from network packets
-- D) To authenticate users before allowing network access
+<form>
+  <p>Which of the following best describes the purpose of a firewall in network security?</p>
+  <label><input type="radio" name="mc26"> A) To encrypt data transmitted across the network</label><br>
+  <label><input type="radio" name="mc26"> B) To filter network traffic based on predetermined security rules</label><br>
+  <label><input type="radio" name="mc26"> C) To detect and remove malware from network packets</label><br>
+  <label><input type="radio" name="mc26"> D) To authenticate users before allowing network access</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -484,11 +552,13 @@ Which of the following best describes the purpose of a firewall in network secur
 </details>
 
 ### Question 27
-What does CSMA/CA stand for, and where is it primarily used?
-- A) Carrier Sense Multiple Access with Collision Avoidance, used in wireless networks
-- B) Carrier Sense Multiple Access with Collision Detection, used in wired Ethernet
-- C) Centralized System Multiple Access with Collision Avoidance, used in token ring networks
-- D) Connected Segment Multiple Access with Collision Awareness, used in fiber networks
+<form>
+  <p>What does CSMA/CA stand for, and where is it primarily used?</p>
+  <label><input type="radio" name="mc27"> A) Carrier Sense Multiple Access with Collision Avoidance, used in wireless networks</label><br>
+<label><input type="radio" name="mc27"> B) Carrier Sense Multiple Access with Collision Detection, used in wired Ethernet</label><br>
+  <label><input type="radio" name="mc27"> C) Centralized System Multiple Access with Collision Avoidance, used in token ring networks</label><br>
+  <label><input type="radio" name="mc27"> D) Connected Segment Multiple Access with Collision Awareness, used in fiber networks</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -499,11 +569,13 @@ What does CSMA/CA stand for, and where is it primarily used?
 </details>
 
 ### Question 28
-Which of the following is NOT a characteristic of circuit-switched networks?
-- A) Dedicated communication path established before data transfer
-- B) Resources reserved for the duration of the communication
-- C) Packets can take different paths to the destination
-- D) Connection must be terminated to free up resources
+<form>
+  <p>Which of the following is NOT a characteristic of circuit-switched networks?</p>
+  <label><input type="radio" name="mc28"> A) Dedicated communication path established before data transfer</label><br>
+  <label><input type="radio" name="mc28"> B) Resources reserved for the duration of the communication</label><br>
+  <label><input type="radio" name="mc28"> C) Packets can take different paths to the destination</label><br>
+  <label><input type="radio" name="mc28"> D) Connection must be terminated to free up resources</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -514,11 +586,13 @@ Which of the following is NOT a characteristic of circuit-switched networks?
 </details>
 
 ### Question 29
-What is the primary function of a hash function in information security?
-- A) To encrypt data for secure transmission
-- B) To compress data for efficient storage
-- C) To generate a fixed-size value to verify data integrity
-- D) To authenticate users before allowing access
+<form>
+  <p>What is the primary function of a hash function in information security?</p>
+  <label><input type="radio" name="mc29"> A) To encrypt data for secure transmission</label><br>
+  <label><input type="radio" name="mc29"> B) To compress data for efficient storage</label><br>
+  <label><input type="radio" name="mc29"> C) To generate a fixed-size value to verify data integrity</label><br>
+  <label><input type="radio" name="mc29"> D) To authenticate users before allowing access</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -529,11 +603,13 @@ What is the primary function of a hash function in information security?
 </details>
 
 ### Question 30
-Which of the following best describes the function of the Address Resolution Protocol (ARP)?
-- A) Translating domain names to IP addresses
-- B) Mapping IP addresses to MAC addresses on a local network
-- C) Assigning IP addresses to hosts dynamically
-- D) Routing packets between different networks
+<form>
+  <p>Which of the following best describes the function of the Address Resolution Protocol (ARP)?</p>
+  <label><input type="radio" name="mc30"> A) Translating domain names to IP addresses</label><br>
+  <label><input type="radio" name="mc30"> B) Mapping IP addresses to MAC addresses on a local network</label><br>
+  <label><input type="radio" name="mc30"> C) Assigning IP addresses to hosts dynamically</label><br>
+  <label><input type="radio" name="mc30"> D) Routing packets between different networks</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -544,11 +620,13 @@ Which of the following best describes the function of the Address Resolution Pro
 </details>
 
 ### Question 31
-What is latency in the context of networking?
-- A) The maximum data transfer rate of a network
-- B) The delay between sending and receiving data
-- C) The total amount of data that can be transmitted
-- D) The number of network hops required to reach a destination
+<form>
+  <p>What is latency in the context of networking?</p>
+  <label><input type="radio" name="mc31"> A) The maximum data transfer rate of a network</label><br>
+  <label><input type="radio" name="mc31"> B) The delay between sending and receiving data</label><br>
+  <label><input type="radio" name="mc31"> C) The total amount of data that can be transmitted</label><br>
+  <label><input type="radio" name="mc31"> D) The number of network hops required to reach a destination</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -559,11 +637,13 @@ What is latency in the context of networking?
 </details>
 
 ### Question 32
-What does a subnet mask of 255.255.255.0 indicate about an IP address?
-- A) All hosts on the subnet can communicate directly
-- B) The first 24 bits represent the network portion of the address
-- C) There are 254 usable host addresses available
-- D) The address belongs to a Class A network
+<form>
+  <p>What does a subnet mask of 255.255.255.0 indicate about an IP address?</p>
+  <label><input type="radio" name="mc32"> A) All hosts on the subnet can communicate directly</label><br>
+  <label><input type="radio" name="mc32"> B) The first 24 bits represent the network portion of the address</label><br>
+  <label><input type="radio" name="mc32"> C) There are 254 usable host addresses available</label><br>
+  <label><input type="radio" name="mc32"> D) The address belongs to a Class A network</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -574,11 +654,13 @@ What does a subnet mask of 255.255.255.0 indicate about an IP address?
 </details>
 
 ### Question 33
-What is the primary purpose of a Virtual Private Network (VPN)?
-- A) To increase internet connection speed
-- B) To create a secure, encrypted connection over a less secure network
-- C) To manage dynamic IP address assignment
-- D) To filter network traffic based on security rules
+<form>
+  <p>What is the primary purpose of a Virtual Private Network (VPN)?</p>
+  <label><input type="radio" name="mc33"> A) To increase internet connection speed</label><br>
+  <label><input type="radio" name="mc33"> B) To create a secure, encrypted connection over a less secure network</label><br>
+  <label><input type="radio" name="mc33"> C) To manage dynamic IP address assignment</label><br>
+  <label><input type="radio" name="mc33"> D) To filter network traffic based on security rules</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -589,11 +671,13 @@ What is the primary purpose of a Virtual Private Network (VPN)?
 </details>
 
 ### Question 34
-Which of the following is a characteristic of a packet-switched network but NOT a circuit-switched network?
-- A) Guaranteed bandwidth for the duration of the communication
-- B) Resources are allocated on demand
-- C) Connection must be established before data transfer
-- D) Fixed path for the entire communication session
+<form>
+  <p>Which of the following is a characteristic of a packet-switched network but NOT a circuit-switched network?</p>
+  <label><input type="radio" name="mc34"> A) Guaranteed bandwidth for the duration of the communication</label><br>
+  <label><input type="radio" name="mc34"> B) Resources are allocated on demand</label><br>
+  <label><input type="radio" name="mc34"> C) Connection must be established before data transfer</label><br>
+  <label><input type="radio" name="mc34"> D) Fixed path for the entire communication session</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -604,11 +688,13 @@ Which of the following is a characteristic of a packet-switched network but NOT 
 </details>
 
 ### Question 35
-In the context of networking, what is a protocol?
-- A) The physical medium used for data transmission
-- B) A set of rules governing communication between network devices
-- C) A network security device that filters traffic
-- D) A unique identifier assigned to a network device
+<form>
+  <p>In the context of networking, what is a protocol?</p>
+  <label><input type="radio" name="mc35"> A) The physical medium used for data transmission</label><br>
+  <label><input type="radio" name="mc35"> B) A set of rules governing communication between network devices</label><br>
+  <label><input type="radio" name="mc35"> C) A network security device that filters traffic</label><br>
+  <label><input type="radio" name="mc35"> D) A unique identifier assigned to a network device</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -619,11 +705,13 @@ In the context of networking, what is a protocol?
 </details>
 
 ### Question 36
-What happens during the de-encapsulation process as data moves up the OSI layers?
-- A) Headers and trailers are added at each layer
-- B) Data is compressed for efficient transmission
-- C) Headers and trailers are removed at each layer
-- D) Data is encrypted for secure transmission
+<form>
+  <p>What happens during the de-encapsulation process as data moves up the OSI layers?</p>
+  <label><input type="radio" name="mc36"> A) Headers and trailers are added at each layer</label><br>
+  <label><input type="radio" name="mc36"> B) Data is compressed for efficient transmission</label><br>
+  <label><input type="radio" name="mc36"> C) Headers and trailers are removed at each layer</label><br>
+  <label><input type="radio" name="mc36"> D) Data is encrypted for secure transmission</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -634,11 +722,13 @@ What happens during the de-encapsulation process as data moves up the OSI layers
 </details>
 
 ### Question 37
-What is the primary difference between a private IP address and a public IP address?
-- A) Private addresses are assigned by DHCP, while public addresses are statically assigned
-- B) Private addresses can only be used with IPv4, while public addresses work with both IPv4 and IPv6
-- C) Private addresses are used within local networks and not routable on the internet, while public addresses are globally unique and routable on the internet
-- D) Private addresses are more secure than public addresses
+<form>
+  <p>What is the primary difference between a private IP address and a public IP address?</p>
+  <label><input type="radio" name="mc37"> A) Private addresses are assigned by DHCP, while public addresses are statically assigned</label><br>
+  <label><input type="radio" name="mc37"> B) Private addresses can only be used with IPv4, while public addresses work with both IPv4 and IPv6</label><br>
+  <label><input type="radio" name="mc37"> C) Private addresses are used within local networks and not routable on the internet, while public addresses are globally unique and routable on the internet</label><br>
+  <label><input type="radio" name="mc37"> D) Private addresses are more secure than public addresses</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -649,11 +739,13 @@ What is the primary difference between a private IP address and a public IP addr
 </details>
 
 ### Question 38
-What type of attack attempts to trick users into revealing sensitive information by masquerading as a trustworthy entity?
-- A) DoS (Denial of Service) attack
-- B) Buffer overflow attack
-- C) Phishing attack
-- D) SQL injection attack
+<form>
+  <p>What type of attack attempts to trick users into revealing sensitive information by masquerading as a trustworthy entity?</p>
+  <label><input type="radio" name="mc38"> A) DoS (Denial of Service) attack</label><br>
+  <label><input type="radio" name="mc38"> B) Buffer overflow attack</label><br>
+  <label><input type="radio" name="mc38"> C) Phishing attack</label><br>
+  <label><input type="radio" name="mc38"> D) SQL injection attack</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -664,11 +756,13 @@ What type of attack attempts to trick users into revealing sensitive information
 </details>
 
 ### Question 39
-What is the main limitation of symmetric key cryptography in a network environment?
-- A) It is too slow for practical use
-- B) It provides inadequate encryption strength
-- C) It cannot encrypt large amounts of data
-- D) Securely distributing the shared key between parties
+<form>
+  <p>What is the main limitation of symmetric key cryptography in a network environment?</p>
+  <label><input type="radio" name="mc39"> A) It is too slow for practical use</label><br>
+  <label><input type="radio" name="mc39"> B) It provides inadequate encryption strength</label><br>
+  <label><input type="radio" name="mc39"> C) It cannot encrypt large amounts of data</label><br>
+  <label><input type="radio" name="mc39"> D) Securely distributing the shared key between parties</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -679,11 +773,13 @@ What is the main limitation of symmetric key cryptography in a network environme
 </details>
 
 ### Question 40
-What is the purpose of the Diffie-Hellman key exchange algorithm?
-- A) To encrypt data for secure transmission
-- B) To securely establish a shared secret key over an insecure channel
-- C) To authenticate users before allowing network access
-- D) To digitally sign messages for non-repudiation
+<form>
+  <p>What is the purpose of the Diffie-Hellman key exchange algorithm?</p>
+  <label><input type="radio" name="mc40"> A) To encrypt data for secure transmission</label><br>
+  <label><input type="radio" name="mc40"> B) To securely establish a shared secret key over an insecure channel</label><br>
+  <label><input type="radio" name="mc40"> C) To authenticate users before allowing network access</label><br>
+  <label><input type="radio" name="mc40"> D) To digitally sign messages for non-repudiation</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -694,11 +790,13 @@ What is the purpose of the Diffie-Hellman key exchange algorithm?
 </details>
 
 ### Question 41
-What is the function of the File Transfer Protocol (FTP) in the TCP/IP protocol suite?
-- A) Managing the transfer of hypertext documents
-- B) Providing reliable file transfer between hosts on a network
-- C) Mapping domain names to IP addresses
-- D) Managing device-to-device communication on a local network
+<form>
+  <p>What is the function of the File Transfer Protocol (FTP) in the TCP/IP protocol suite?</p>
+  <label><input type="radio" name="mc41"> A) Managing the transfer of hypertext documents</label><br>
+  <label><input type="radio" name="mc41"> B) Providing reliable file transfer between hosts on a network</label><br>
+  <label><input type="radio" name="mc41"> C) Mapping domain names to IP addresses</label><br>
+  <label><input type="radio" name="mc41"> D) Managing device-to-device communication on a local network</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -709,11 +807,13 @@ What is the function of the File Transfer Protocol (FTP) in the TCP/IP protocol 
 </details>
 
 ### Question 42
-Which of the following accurately describes the difference between goodput and throughput?
-- A) Goodput is the theoretical maximum capacity, while throughput is the actual achieved rate
-- B) Goodput is the amount of useful data transferred, while throughput includes protocol overhead
-- C) Goodput is for wired networks, while throughput is for wireless networks
-- D) Goodput includes error correction, while throughput does not
+<form>
+  <p>Which of the following accurately describes the difference between goodput and throughput?</p>
+  <label><input type="radio" name="mc42"> A) Goodput is the theoretical maximum capacity, while throughput is the actual achieved rate</label><br>
+  <label><input type="radio" name="mc42"> B) Goodput is the amount of useful data transferred, while throughput includes protocol overhead</label><br>
+  <label><input type="radio" name="mc42"> C) Goodput is for wired networks, while throughput is for wireless networks</label><br>
+  <label><input type="radio" name="mc42"> D) Goodput includes error correction, while throughput does not</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -724,11 +824,13 @@ Which of the following accurately describes the difference between goodput and t
 </details>
 
 ### Question 43
-What problem does Network Address Translation (NAT) help solve?
-- A) Slow network performance
-- B) IPv4 address exhaustion
-- C) Weak encryption
-- D) Inefficient routing
+<form>
+  <p>What problem does Network Address Translation (NAT) help solve?</p>
+  <label><input type="radio" name="mc43"> A) Slow network performance</label><br>
+  <label><input type="radio" name="mc43"> B) IPv4 address exhaustion</label><br>
+  <label><input type="radio" name="mc43"> C) Weak encryption</label><br>
+  <label><input type="radio" name="mc43"> D) Inefficient routing</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -739,11 +841,13 @@ What problem does Network Address Translation (NAT) help solve?
 </details>
 
 ### Question 44
-What is the purpose of the Domain Name System (DNS) in networking?
-- A) Assigning IP addresses to hosts dynamically
-- B) Filtering network traffic based on domain names
-- C) Translating domain names to IP addresses
-- D) Routing packets between different networks
+<form>
+  <p>What is the purpose of the Domain Name System (DNS) in networking?</p>
+  <label><input type="radio" name="mc44"> A) Assigning IP addresses to hosts dynamically</label><br>
+  <label><input type="radio" name="mc44"> B) Filtering network traffic based on domain names</label><br>
+  <label><input type="radio" name="mc44"> C) Translating domain names to IP addresses</label><br>
+  <label><input type="radio" name="mc44"> D) Routing packets between different networks</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
@@ -754,11 +858,13 @@ What is the purpose of the Domain Name System (DNS) in networking?
 </details>
 
 ### Question 45
-Which of the following is NOT a function of the Transport layer in the OSI model?
-- A) Segmentation of data
-- B) Flow control
-- C) Error detection and recovery
-- D) Path determination
+<form>
+  <p>Which of the following is NOT a function of the Transport layer in the OSI model?</p>
+  <label><input type="radio" name="mc45"> A) Segmentation of data</label><br>
+  <label><input type="radio" name="mc45"> B) Flow control</label><br>
+  <label><input type="radio" name="mc45"> C) Error detection and recovery</label><br>
+  <label><input type="radio" name="mc45"> D) Path determination</label><br>
+</form>
 
 <details>
 <summary>Show answer</summary>
