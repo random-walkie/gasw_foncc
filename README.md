@@ -113,8 +113,7 @@ The projects demonstrate:
 
 ## Course Information
 
-**Course Code:** M1l325895  
-**Instructor:** Dr Winfred Ingabire  
+**Course Code:** M1l325895
 **Term:** Spring 2025
 
 ## License
