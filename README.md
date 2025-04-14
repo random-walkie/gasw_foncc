@@ -5,7 +5,7 @@ This repository contains my coursework, projects, and study materials for the Fu
 ## OSI Layer Learning Projects
 `osi-networks-projects` is a collection of hands-on projects that demonstrate networking concepts across all OSI layers:
 
-1. **TCP Connection Monitor** - Explores OSI Layers 1-4 (Physical, Data Link, Network, Transport) by capturing and analyzing TCP connections.
+1. **TCP Connection Monitor [IN PROGRESS]** - Explores OSI Layers 1-4 (Physical, Data Link, Network, Transport) by capturing and analyzing TCP connections.
 
 2. **HTTP Request Analyzer** - Explores OSI Layers 5-7 (Session, Presentation, Application) by implementing a custom HTTP client that can analyze requests and responses.
 
@@ -113,7 +113,7 @@ The projects demonstrate:
 
 ## Course Information
 
-**Course Code:** M1l325895
+**Course Code:** M1l325895   
 **Term:** Spring 2025
 
 ## License
