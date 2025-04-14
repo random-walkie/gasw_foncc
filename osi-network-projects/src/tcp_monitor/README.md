@@ -1,0 +1,663 @@
+# TCP Connection Monitor
+
+A Python tool that captures, analyzes, and visualizes TCP connection data, providing insight into the lower layers of the OSI model. This project demonstrates OSI Layers 1-4 (Physical, Data Link, Network, and Transport) by implementing a packet capture and analysis system from the ground up.
+
+## Educational Purpose
+
+This project is designed to help you understand the lower layers of the OSI model through practical implementation. By building this tool, you'll gain insights into:
+
+- How network interfaces function at the Physical layer (Layer 1)
+- How frames are processed at the Data Link layer (Layer 2)
+- How IP routing works at the Network layer (Layer 3)
+- How TCP connections operate at the Transport layer (Layer 4)
+- The end-to-end process of establishing, maintaining, and terminating TCP connections
+- The relationship between TCP and underlying network protocols
+
+## Network Concepts Demonstrated
+
+### Packet Capture (Physical Layer - Layer 1)
+
+#### Network Interface Access
+The physical layer defines the electrical, mechanical, and functional specifications for activating and maintaining the physical link between systems. In our TCP Monitor tool, this layer is represented by direct access to network interfaces:
+
+```python
+# Example of accessing network interface
+interface = get_network_interface("eth0")
+```
+
+When the tool captures packets directly from a network interface, it's interacting with the physical layer where raw bits are transmitted and received. According to the IEEE 802 standards, the physical layer "defines the means of transmitting raw bits rather than logical data packets over a physical link connecting network nodes."
+
+The physical layer is responsible for:
+- Bit-level transmission
+- Hardware specifications
+- Signal characteristics
+- Data encoding
+- Physical network topologies
+
+Sources:
+- IEEE Standards Association. (2017). IEEE Standard for Ethernet. IEEE Std 802.3-2018.
+- Stallings, W. (2016). Data and Computer Communications (10th ed.). Pearson.
+
+### Frame Analysis (Data Link Layer - Layer 2)
+
+#### Ethernet Frames
+The Data Link layer provides node-to-node data transfer across a physical network. It handles framing, addressing using MAC addresses, and error detection. In the TCP Monitor, we analyze Ethernet frames:
+
+```python
+def analyze_ethernet_frame(frame_data):
+    # Extract source and destination MAC addresses
+    dst_mac = format_mac_address(frame_data[0:6])
+    src_mac = format_mac_address(frame_data[6:12])
+    
+    # Extract EtherType (determines the payload type)
+    ethertype = int.from_bytes(frame_data[12:14], byteorder='big')
+    
+    return {
+        'src_mac': src_mac,
+        'dst_mac': dst_mac,
+        'ethertype': hex(ethertype)
+    }
+```
+
+Ethernet is the most common Data Link layer protocol. An Ethernet frame consists of:
+- Preamble and Start Frame Delimiter (often handled by hardware)
+- Destination MAC address (6 bytes)
+- Source MAC address (6 bytes)
+- EtherType/Length field (2 bytes)
+- Payload data
+- Frame Check Sequence (4 bytes)
+
+According to the IEEE: "The data link layer provides for the transfer of data between network entities and the detection and possible correction of errors that may occur in the physical layer."
+
+Sources:
+- IEEE 802.3-2018: IEEE Standard for Ethernet
+- Kurose, J. F., & Ross, K. W. (2017). Computer Networking: A Top-Down Approach (7th ed.). Pearson.
+
+#### MAC Addressing
+Media Access Control (MAC) addressing is a crucial concept at the Data Link layer:
+
+```python
+def format_mac_address(mac_bytes):
+    return ':'.join(f'{b:02x}' for b in mac_bytes)
+```
+
+MAC addresses are 48-bit (6-byte) identifiers assigned to network interfaces for communications at the data link layer. They are unique identifiers assigned to devices by manufacturers and are used for local network communications.
+
+Unlike IP addresses which can change, MAC addresses are typically fixed and "burned in" to the network interface card. According to Cisco documentation: "MAC addresses function at the data link layer (Layer 2) of the OSI reference model and enable devices to communicate at the data link level."
+
+Sources:
+- Cisco Networking Academy. (2014). Introduction to Networks Companion Guide. Cisco Press.
+- IEEE Standards Association. (2017). Guidelines for 48-bit Global Identifier (EUI-48). IEEE.
+
+### IP Packet Analysis (Network Layer - Layer 3)
+
+#### IP Headers
+The Network layer provides routing and addressing functions, allowing data to be transferred across network boundaries. IP (Internet Protocol) is the primary protocol at this layer:
+
+```python
+def analyze_ip_packet(packet_data):
+    # Extract protocol version (IPv4 or IPv6)
+    version = (packet_data[0] >> 4) & 0xF
+    
+    if version == 4:  # IPv4
+        # Extract header length, TTL, protocol, source IP, dest IP
+        ihl = packet_data[0] & 0xF
+        header_length = ihl * 4
+        ttl = packet_data[8]
+        protocol = packet_data[9]
+        src_ip = format_ipv4_address(packet_data[12:16])
+        dst_ip = format_ipv4_address(packet_data[16:20])
+        # Extract additional fields...
+    
+    elif version == 6:  # IPv6
+        # Extract IPv6-specific fields...
+        
+    return {
+        'version': version,
+        'src_ip': src_ip,
+        'dst_ip': dst_ip,
+        'protocol': protocol,
+        'ttl': ttl,
+        # Other fields...
+    }
+```
+
+An IPv4 header includes:
+- Version (4 bits)
+- Internet Header Length (IHL) (4 bits)
+- Type of Service/DSCP (8 bits)
+- Total Length (16 bits)
+- Identification (16 bits)
+- Flags and Fragment Offset (16 bits)
+- Time to Live (TTL) (8 bits)
+- Protocol (8 bits)
+- Header Checksum (16 bits)
+- Source IP Address (32 bits)
+- Destination IP Address (32 bits)
+- Options (if present)
+
+The Internet Protocol provides the addressing and routing mechanism that enables packets to travel across networks. Andrew S. Tanenbaum describes IP as "a connectionless protocol that does not assume reliability from lower layers. IP does not provide reliability, flow control, or error recovery."
+
+Sources:
+- RFC 791: Internet Protocol. IETF.
+- Tanenbaum, A. S., & Wetherall, D. J. (2011). Computer Networks (5th ed.). Pearson.
+
+#### IP Addressing and Routing
+IP addressing is fundamental to Network layer operation:
+
+```python
+def format_ipv4_address(ip_bytes):
+    return '.'.join(str(b) for b in ip_bytes)
+
+def get_network_prefix(ip_address, subnet_mask):
+    # Calculate network prefix
+    ip_parts = [int(part) for part in ip_address.split('.')]
+    mask_parts = [int(part) for part in subnet_mask.split('.')]
+    
+    network_parts = [ip_parts[i] & mask_parts[i] for i in range(4)]
+    return '.'.join(str(part) for part in network_parts)
+```
+
+The Network layer handles:
+- Logical addressing (IP addresses)
+- Routing between different networks
+- Packet fragmentation and reassembly
+- Traffic control
+
+IP addresses are logical addresses that identify devices on a network. Unlike MAC addresses, they are hierarchical and can be subnetted. This hierarchy enables routing, which is the process of forwarding packets between networks based on destination IP addresses.
+
+As Kurose and Ross explain: "The Internet's network layer routes a datagram through a series of routers between the source and destination. At the source, the network layer receives a segment from the transport layer and encapsulates it in a datagram. At the destination, the network layer extracts the transport-layer segment from the datagram and passes it up to the transport layer."
+
+Sources:
+- RFC 950: Internet Standard Subnetting Procedure. IETF.
+- Comer, D. (2014). Internetworking with TCP/IP: Principles, Protocols, and Architecture (6th ed.). Pearson.
+
+### TCP Connection Analysis (Transport Layer - Layer 4)
+
+#### TCP Headers and Connection States
+The Transport layer provides end-to-end communication services for applications. TCP (Transmission Control Protocol) is a connection-oriented protocol at this layer:
+
+```python
+def analyze_tcp_segment(segment_data):
+    # Extract source and destination ports
+    src_port = int.from_bytes(segment_data[0:2], byteorder='big')
+    dst_port = int.from_bytes(segment_data[2:4], byteorder='big')
+    
+    # Extract sequence and acknowledgment numbers
+    seq_num = int.from_bytes(segment_data[4:8], byteorder='big')
+    ack_num = int.from_bytes(segment_data[8:12], byteorder='big')
+    
+    # Extract data offset and flags
+    data_offset = (segment_data[12] >> 4) & 0xF
+    header_length = data_offset * 4
+    
+    # TCP flags
+    flags = segment_data[13]
+    fin = (flags & 0x01) != 0
+    syn = (flags & 0x02) != 0
+    rst = (flags & 0x04) != 0
+    psh = (flags & 0x08) != 0
+    ack = (flags & 0x10) != 0
+    urg = (flags & 0x20) != 0
+    
+    # Window size and checksum
+    window = int.from_bytes(segment_data[14:16], byteorder='big')
+    checksum = int.from_bytes(segment_data[16:18], byteorder='big')
+    
+    return {
+        'src_port': src_port,
+        'dst_port': dst_port,
+        'seq_num': seq_num,
+        'ack_num': ack_num,
+        'header_length': header_length,
+        'flags': {
+            'fin': fin,
+            'syn': syn,
+            'rst': rst,
+            'psh': psh,
+            'ack': ack,
+            'urg': urg
+        },
+        'window': window,
+        'checksum': checksum
+    }
+```
+
+A TCP header includes:
+- Source Port (16 bits)
+- Destination Port (16 bits)
+- Sequence Number (32 bits)
+- Acknowledgment Number (32 bits)
+- Data Offset/Header Length (4 bits)
+- Reserved (6 bits)
+- Control Flags (6 bits): URG, ACK, PSH, RST, SYN, FIN
+- Window Size (16 bits)
+- Checksum (16 bits)
+- Urgent Pointer (16 bits)
+- Options (if present)
+
+TCP is a reliable, connection-oriented protocol that provides:
+- Guaranteed delivery of data packets
+- In-order delivery
+- Flow control
+- Congestion control
+
+According to RFC 793: "The Transmission Control Protocol (TCP) is intended for use as a highly reliable host-to-host protocol between hosts in packet-switched computer communication networks, and in interconnected systems of such networks."
+
+Sources:
+- RFC 793: Transmission Control Protocol. IETF.
+- Peterson, L. L., & Davie, B. S. (2012). Computer Networks: A Systems Approach (5th ed.). Morgan Kaufmann.
+
+#### TCP Connection States
+TCP connections follow a state machine, moving through different states during their lifecycle:
+
+```python
+class TCPConnection:
+    def __init__(self, src_ip, dst_ip, src_port, dst_port):
+        self.src_ip = src_ip
+        self.dst_ip = dst_ip
+        self.src_port = src_port
+        self.dst_port = dst_port
+        self.state = "CLOSED"
+        self.seq_num = 0
+        self.ack_num = 0
+        self.last_activity = time.time()
+        self.bytes_sent = 0
+        self.bytes_received = 0
+        
+    def update_state(self, flags):
+        # TCP state machine implementation
+        if self.state == "CLOSED":
+            if flags['syn'] and not flags['ack']:
+                self.state = "SYN_SENT"
+                
+        elif self.state == "SYN_SENT":
+            if flags['syn'] and flags['ack']:
+                self.state = "ESTABLISHED"
+                
+        elif self.state == "ESTABLISHED":
+            if flags['fin']:
+                self.state = "FIN_WAIT_1"
+                
+        # And so on for all TCP states...
+```
+
+The TCP connection lifecycle typically includes:
+1. Connection establishment (3-way handshake)
+2. Data transfer
+3. Connection termination (4-way handshake)
+
+The states include:
+- CLOSED
+- LISTEN
+- SYN_SENT
+- SYN_RECEIVED
+- ESTABLISHED
+- FIN_WAIT_1
+- FIN_WAIT_2
+- CLOSE_WAIT
+- CLOSING
+- LAST_ACK
+- TIME_WAIT
+
+As described by W. Richard Stevens in "TCP/IP Illustrated": "TCP is a state machine. The state determines what a TCP endpoint can and cannot do at any given time with respect to the connection."
+
+Sources:
+- Stevens, W. R. (1994). TCP/IP Illustrated, Volume 1: The Protocols. Addison-Wesley.
+- RFC 793: Transmission Control Protocol. IETF.
+
+#### Port Numbers and Sockets
+TCP uses port numbers to identify specific applications or services:
+
+```python
+def get_service_name(port):
+    """Map well-known port numbers to service names."""
+    well_known_ports = {
+        20: "FTP-DATA",
+        21: "FTP",
+        22: "SSH",
+        23: "TELNET",
+        25: "SMTP",
+        53: "DNS",
+        80: "HTTP",
+        110: "POP3",
+        143: "IMAP",
+        443: "HTTPS",
+        # And many more...
+    }
+    
+    return well_known_ports.get(port, f"PORT-{port}")
+```
+
+The combination of an IP address and a port number is called a socket. Sockets provide the interface between the Transport layer and the Session layer above it. They enable applications to communicate using TCP/IP protocols.
+
+Port numbers are 16-bit unsigned integers (0-65535) divided into ranges:
+- Well-Known Ports (0-1023): Assigned by IANA for common protocols
+- Registered Ports (1024-49151): Can be registered with IANA for specific applications
+- Dynamic/Private Ports (49152-65535): Used for temporary connections
+
+According to the IETF: "A port number is a 16-bit unsigned integer, thus ranging from 0 to 65535. For TCP, port number 0 is reserved and cannot be used, while for UDP, the source port is optional and a value of zero means no port."
+
+Sources:
+- RFC 6335: Internet Assigned Numbers Authority (IANA) Procedures for the Management of the Service Name and Transport Protocol Port Number Registry. IETF.
+- Fall, K. R., & Stevens, W. R. (2011). TCP/IP Illustrated, Volume 1: The Protocols (2nd ed.). Addison-Wesley.
+
+### TCP Traffic Visualization and Analysis
+
+#### Connection Tracking and Statistics
+One of the core functions of the TCP Monitor is tracking and analyzing active connections:
+
+```python
+class ConnectionTracker:
+    def __init__(self):
+        self.connections = {}
+        
+    def get_connection_key(self, src_ip, dst_ip, src_port, dst_port):
+        # Create a unique key for this connection
+        return f"{src_ip}:{src_port}-{dst_ip}:{dst_port}"
+        
+    def update_connection(self, packet_info):
+        # Extract connection info from packet
+        src_ip = packet_info['ip']['src_ip']
+        dst_ip = packet_info['ip']['dst_ip']
+        src_port = packet_info['tcp']['src_port']
+        dst_port = packet_info['tcp']['dst_port']
+        
+        # Get connection key
+        key = self.get_connection_key(src_ip, dst_ip, src_port, dst_port)
+        
+        # Create or update connection
+        if key not in self.connections:
+            self.connections[key] = TCPConnection(src_ip, dst_ip, src_port, dst_port)
+            
+        # Update connection state based on flags
+        self.connections[key].update_state(packet_info['tcp']['flags'])
+        
+        # Update connection statistics
+        payload_size = packet_info['tcp'].get('payload_size', 0)
+        self.connections[key].bytes_sent += payload_size
+        self.connections[key].last_activity = time.time()
+```
+
+Connection tracking involves:
+- Monitoring packet flows between IP:port pairs
+- Tracking connection states
+- Calculating statistics like data transfer volume and connection duration
+- Detecting connection establishment and termination
+
+In real-world applications, connection tracking is essential for features like:
+- Network monitoring and troubleshooting
+- Intrusion detection systems
+- Firewall stateful inspection
+- Network traffic analysis
+- Quality of Service (QoS) enforcement
+
+Sources:
+- Kozierok, C. M. (2005). The TCP/IP Guide. No Starch Press.
+- Song, D. (2001). Passive OS Fingerprinting: Details and Techniques. Presented at the SANS Network Security Conference.
+
+#### TCP Time Sequence Diagrams
+Another powerful analysis tool is the TCP Time Sequence Diagram, which visualizes the packet flow between endpoints:
+
+```python
+def generate_time_sequence_diagram(connection):
+    """Generate a diagram showing packet flow over time for a TCP connection."""
+    # Setup plotting environment
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    # Plot sequence numbers over time
+    ax.plot(connection.time_points, connection.seq_points, 'b-', label='SEQ')
+    ax.plot(connection.time_points, connection.ack_points, 'r-', label='ACK')
+    
+    # Mark special events like SYN, FIN
+    for i, flag in enumerate(connection.flags):
+        if flag['syn']:
+            ax.annotate('SYN', (connection.time_points[i], connection.seq_points[i]))
+        if flag['fin']:
+            ax.annotate('FIN', (connection.time_points[i], connection.seq_points[i]))
+    
+    # Add labels and legend
+    ax.set_xlabel('Time (seconds)')
+    ax.set_ylabel('Sequence Number')
+    ax.set_title(f'TCP Time Sequence Diagram: {connection.src_ip}:{connection.src_port} - {connection.dst_ip}:{connection.dst_port}')
+    ax.legend()
+    
+    return fig
+```
+
+TCP Time Sequence Diagrams help visualize:
+- The 3-way handshake process
+- Data transfer patterns
+- Acknowledgments and retransmissions
+- Connection termination process
+- Round-trip time (RTT)
+- Potential network issues like packet loss or reordering
+
+According to Richard Stevens: "Time sequence diagrams are valuable tools for visualizing the behavior of TCP connections. They allow us to see packet flows, retransmissions, and potential performance issues at a glance."
+
+Sources:
+- Stevens, W. R. (1994). TCP/IP Illustrated, Volume 1: The Protocols. Addison-Wesley.
+- Jain, R. (1986). A Timeout Based Congestion Control Scheme for Window Flow-Controlled Networks. IEEE Journal on Selected Areas in Communications.
+
+### Integration of OSI Layers in TCP Communication
+
+The TCP Monitor demonstrates how the lower OSI layers work together in network communication:
+
+1. Physical Layer (Layer 1):
+    - Physical network interface access
+    - Raw bit capture from the network medium
+    - Signal detection and encoding
+
+2. Data Link Layer (Layer 2):
+    - Ethernet frame encapsulation
+    - MAC addressing
+    - Error detection
+
+3. Network Layer (Layer 3):
+    - IP packet encapsulation
+    - Logical addressing (IP addresses)
+    - Routing between networks
+
+4. Transport Layer (Layer 4):
+    - TCP segment encapsulation
+    - Port addressing
+    - Connection management
+    - Reliable data delivery
+
+In practice, these layers are not strictly isolated but work together. For example, when analyzing a TCP segment, we must first process the Ethernet frame (Layer 2) and IP packet (Layer 3) that encapsulate it.
+
+Andrew S. Tanenbaum explains: "Each layer in the OSI model adds headers to the data as it passes down the stack, and removes them as it passes back up. This process, known as encapsulation and de-encapsulation, is fundamental to layered network architectures."
+
+Sources:
+- Tanenbaum, A. S., & Wetherall, D. J. (2011). Computer Networks (5th ed.). Prentice Hall.
+- Fall, K. R., & Stevens, W. R. (2011). TCP/IP Illustrated, Volume 1: The Protocols (2nd ed.). Addison-Wesley Professional.
+
+## Project Structure
+
+```
+tcp_monitor/
+├── __init__.py
+├── __main__.py             # Application entry point
+├── cli.py                  # Command-line interface
+├── capture/
+│   ├── __init__.py
+│   ├── packet_capture.py   # Raw packet capture from interfaces
+│   └── pcap_reader.py      # PCAP file reading
+├── analyzers/
+│   ├── __init__.py
+│   ├── ethernet_analyzer.py # Layer 2 analysis
+│   ├── ip_analyzer.py       # Layer 3 analysis
+│   └── tcp_analyzer.py      # Layer 4 analysis
+├── tracking/
+│   ├── __init__.py
+│   ├── connection.py       # TCP connection representation
+│   └── connection_tracker.py # Connection state management
+├── visualization/
+│   ├── __init__.py
+│   ├── connection_table.py # Tabular display of connections
+│   ├── time_sequence.py    # TCP sequence diagrams
+│   └── traffic_graph.py    # Network traffic visualization
+└── utils/
+    ├── __init__.py
+    ├── addressing.py       # MAC/IP address utilities
+    └── protocol_maps.py    # Protocol number to name mapping
+
+tests/
+└── tcp_monitor/            # Corresponding test files
+```
+
+## Setup and Installation
+
+This project uses a virtual environment to manage dependencies. See the README in the main repository.
+
+### Prerequisites
+- Python 3.6+
+- Scapy library
+- Administrator/root privileges (for raw packet capture)
+- Basic understanding of TCP/IP networking
+
+## Core Components
+
+The project is organized around several key components that mirror the structure of TCP/IP network communication:
+
+1. **Packet Capture (`capture/packet_capture.py`)**
+    - Uses raw sockets or Scapy to capture packets
+    - Supports both live capture and PCAP file reading
+    - Provides filtering capabilities
+    - Handles packet buffering and processing
+
+2. **Protocol Analyzers**
+    - `ethernet_analyzer.py`: Parses Ethernet frames (Layer 2)
+    - `ip_analyzer.py`: Parses IP packets (Layer 3)
+    - `tcp_analyzer.py`: Parses TCP segments (Layer 4)
+    - Each analyzer extracts relevant headers and data
+
+3. **Connection Tracking (`tracking/connection_tracker.py`)**
+    - Identifies and tracks TCP connections
+    - Maintains connection state information
+    - Calculates connection statistics
+    - Detects connection establishment and termination
+
+4. **Visualization Components**
+    - `connection_table.py`: Tabular display of active connections
+    - `time_sequence.py`: Visualization of TCP sequence/acknowledgment numbers
+    - `traffic_graph.py`: Network traffic flow visualization
+
+## Usage
+
+As an example, the sequence diagram below illustrates the flow of data through the TCP Monitor when executing the command `tcp-monitor --interface eth0 --duration 60`:
+
+```mermaid
+sequenceDiagram
+    participant CLI as TCP Monitor CLI
+    participant Capture as PacketCapture
+    participant EtherAnalyzer as EthernetAnalyzer
+    participant IPAnalyzer as IPAnalyzer
+    participant TCPAnalyzer as TCPAnalyzer
+    participant Tracker as ConnectionTracker
+    participant Visualizer as Visualizer
+
+    Note over CLI: User runs: tcp-monitor --interface eth0 --duration 60
+
+    CLI->>+Capture: start_capture("eth0", duration=60)
+    
+    loop For each packet
+        Capture->>Capture: capture_packet()
+        Capture->>+EtherAnalyzer: analyze_frame(raw_packet)
+        EtherAnalyzer-->>-Capture: ethernet_info
+        
+        alt If ethernet_info['ethertype'] == 0x0800 (IPv4)
+            Capture->>+IPAnalyzer: analyze_packet(ethernet_payload)
+            IPAnalyzer-->>-Capture: ip_info
+            
+            alt If ip_info['protocol'] == 6 (TCP)
+                Capture->>+TCPAnalyzer: analyze_segment(ip_payload)
+                TCPAnalyzer-->>-Capture: tcp_info
+                
+                Capture->>+Tracker: update_connection(ethernet_info, ip_info, tcp_info)
+                Tracker->>Tracker: get_or_create_connection()
+                Tracker->>Tracker: update_connection_state()
+                Tracker->>Tracker: update_statistics()
+                Tracker-->>-Capture: updated_connection
+            end
+        end
+        
+        Capture->>CLI: packet_processed_callback()
+    end
+    
+    Capture-->>-CLI: capture_complete()
+    
+    CLI->>+Visualizer: generate_connection_table(Tracker.connections)
+    Visualizer-->>-CLI: connection_table
+    
+    CLI->>+Visualizer: generate_traffic_graph(Tracker.connections)
+    Visualizer-->>-CLI: traffic_graph
+    
+    CLI->>+Visualizer: generate_time_sequence_diagram(selected_connection)
+    Visualizer-->>-CLI: sequence_diagram
+    
+    Note over CLI: Display visualization results
+```
+
+### Command-line Arguments
+```
+TCP Connection Monitor - Analyze Network Traffic at OSI Layers 1-4
+
+positional arguments:
+  interface             Network interface to capture from (e.g., eth0)
+
+options:
+  -h, --help            show this help message and exit
+  -f FILE, --file FILE  Read packets from PCAP file instead of live capture
+  -d DURATION, --duration DURATION
+                        Capture duration in seconds (default: 60)
+  -c COUNT, --count COUNT
+                        Maximum number of packets to capture
+  -p PORT, --port PORT  Filter by TCP port number
+  -i IP, --ip IP        Filter by IP address
+  -v, --verbose         Enable verbose output
+  -o OUTPUT, --output OUTPUT
+                        Save capture to PCAP file
+  --no-color            Disable colored output
+  --graph               Generate network traffic graph
+  --sequence            Generate TCP sequence diagrams for connections
+```
+
+## Learning Outcomes
+
+After completing this project, you should be able to:
+
+1. Explain how data is encapsulated at different OSI layers
+2. Understand the structure and purpose of Ethernet frames, IP packets, and TCP segments
+3. Describe the TCP connection establishment and termination process
+4. Identify common network protocols by their port numbers
+5. Interpret TCP flags and connection states
+6. Analyze packet capture data to troubleshoot network issues
+7. Visualize TCP connection flows and sequence patterns
+
+## Future Enhancements
+
+To extend this project and deepen your understanding, consider adding:
+
+1. UDP packet analysis
+2. ICMP protocol support
+3. IPv6 protocol analysis
+4. TCP performance metrics (throughput, latency, jitter)
+5. Anomaly detection (SYN floods, port scans)
+6. Real-time alerting
+7. More sophisticated visualization options
+8. Protocol-specific analysis for HTTP, DNS, etc.
+
+## Security and Ethical Considerations
+
+This tool should be used responsibly. While it's designed for educational purposes, packet capture has privacy and legal implications:
+
+- Only capture traffic on networks you own or have permission to monitor
+- Be aware of privacy regulations regarding network monitoring
+- Do not use for malicious purposes such as eavesdropping
+- Captured data may contain sensitive information; handle it appropriately
+- In some jurisdictions, network monitoring may be subject to legal restrictions
+
+## License
+
+MIT.
