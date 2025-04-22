@@ -178,49 +178,27 @@ Sources:
 The Transport layer provides end-to-end communication services for applications. TCP (Transmission Control Protocol) is a connection-oriented protocol at this layer:
 
 ```python
-def analyze_tcp_segment(segment_data):
-    # Extract source and destination ports
-    src_port = int.from_bytes(segment_data[0:2], byteorder='big')
-    dst_port = int.from_bytes(segment_data[2:4], byteorder='big')
-    
-    # Extract sequence and acknowledgment numbers
-    seq_num = int.from_bytes(segment_data[4:8], byteorder='big')
-    ack_num = int.from_bytes(segment_data[8:12], byteorder='big')
-    
-    # Extract data offset and flags
-    data_offset = (segment_data[12] >> 4) & 0xF
-    header_length = data_offset * 4
-    
-    # TCP flags
-    flags = segment_data[13]
-    fin = (flags & 0x01) != 0
-    syn = (flags & 0x02) != 0
-    rst = (flags & 0x04) != 0
-    psh = (flags & 0x08) != 0
-    ack = (flags & 0x10) != 0
-    urg = (flags & 0x20) != 0
-    
-    # Window size and checksum
-    window = int.from_bytes(segment_data[14:16], byteorder='big')
-    checksum = int.from_bytes(segment_data[16:18], byteorder='big')
-    
-    return {
-        'src_port': src_port,
-        'dst_port': dst_port,
-        'seq_num': seq_num,
-        'ack_num': ack_num,
-        'header_length': header_length,
-        'flags': {
-            'fin': fin,
-            'syn': syn,
-            'rst': rst,
-            'psh': psh,
-            'ack': ack,
-            'urg': urg
-        },
-        'window': window,
-        'checksum': checksum
-    }
+def analyze_segment(tcp_segment: bytes) -> dict:
+   binary_header_length = '0'
+   try:
+      # Extract 13th byte at index 12; unpack into integer; shift bits 4 positions to the right
+      binary_header_length = format(unpack('>B', tcp_segment[12:13])[0] >> 4, '04b')
+   except StructError:
+      logger.error("Error unpacking buffer, when analyzing TCP segment.")
+
+   header_length = int(binary_header_length, 2) * 4
+
+   if header_length < 20:
+      raise ValueError("TCP header shorter than 20 bytes.")
+   elif header_length > 20:
+      tcp_results = TCPAnalyzer.analyze_header_with_options(tcp_segment)
+   else:
+      tcp_results = TCPAnalyzer.analyze_header(tcp_segment)
+
+   tcp_results['header_length'] = header_length
+   tcp_results.update(TCPAnalyzer.analyze_payload(tcp_segment, header_length=header_length))
+
+   return tcp_results
 ```
 
 A TCP header includes:
@@ -253,31 +231,61 @@ TCP connections follow a state machine, moving through different states during t
 
 ```python
 class TCPConnection:
-    def __init__(self, src_ip, dst_ip, src_port, dst_port):
-        self.src_ip = src_ip
-        self.dst_ip = dst_ip
-        self.src_port = src_port
-        self.dst_port = dst_port
-        self.state = "CLOSED"
-        self.seq_num = 0
-        self.ack_num = 0
-        self.last_activity = time.time()
-        self.bytes_sent = 0
-        self.bytes_received = 0
-        
-    def update_state(self, flags):
-        # TCP state machine implementation
-        if self.state == "CLOSED":
-            if flags['syn'] and not flags['ack']:
-                self.state = "SYN_SENT"
-                
-        elif self.state == "SYN_SENT":
-            if flags['syn'] and flags['ack']:
-                self.state = "ESTABLISHED"
-                
-        elif self.state == "ESTABLISHED":
-            if flags['fin']:
-                self.state = "FIN_WAIT_1"
+   def __init__(self, src_ip, dst_ip, src_port, dst_port) -> None:
+      # Store connection identifiers
+      self.src_ip = src_ip
+      self.dst_ip = dst_ip
+      self.src_port = src_port
+      self.dst_port = dst_port
+
+      # Initialize TCP state
+      self.state = 'CLOSED'
+
+      # Initialize sequence tracking
+      self.seq_num = 0
+      self.ack_num = 0
+
+      # Initialize statistics
+      self.bytes_sent = 0
+      self.bytes_received = 0
+      self.packets_sent = 0
+      self.packets_received = 0
+      self.payload_bytes_sent = 0
+      self.payload_bytes_received = 0
+
+      # Initialize timing information
+      self.start_time = time()
+      self.last_activity = time()
+
+   def update_state(self, flags=None, is_source=True) -> None:
+      if flags is None:
+         flags = {
+            'syn': False,
+            'ack': False,
+            'fin': False,
+            'rst': True
+         }
+
+      # Handle RST flag specially - always goes to CLOSED
+      if flags.get("rst"):
+         self.state = "CLOSED"
+
+      # Handle state transitions based on the current state and packet direction
+      if self.state == "CLOSED":
+         # Client (source) initiates connection with SYN
+         if flags.get("syn") and not flags.get("ack") and is_source:
+            self.state = "SYN_SENT"
+         # Server (destination) initiates connection (simultaneous open)
+         elif flags.get("syn") and flags.get("ack") and not is_source:
+            self.state = "SYN_RECEIVED"
+
+      elif self.state == "SYN_SENT":
+         # Server responds with SYN-ACK
+         if flags.get("syn") and flags.get("ack") and not is_source:
+            self.state = "SYN_RECEIVED"
+         # Simultaneous open - both sides sent SYN
+         elif flags.get("syn") and not flags.get("ack") and not is_source:
+            self.state = "SYN_RECEIVED"
                 
         # And so on for all TCP states...
 ```
@@ -312,21 +320,19 @@ TCP uses port numbers to identify specific applications or services:
 ```python
 def get_service_name(port):
     """Map well-known port numbers to service names."""
-    well_known_ports = {
-        20: "FTP-DATA",
-        21: "FTP",
-        22: "SSH",
-        23: "TELNET",
-        25: "SMTP",
-        53: "DNS",
-        80: "HTTP",
-        110: "POP3",
-        143: "IMAP",
-        443: "HTTPS",
+    if port == 80:
+       return 'HTTP'
+    elif port == 21:
+       return 'FTP'
+    elif port == 22:
+       return 'SSH'
+    elif port == 23:
+       return 'Telnet'
+    elif port == 25:
+       return 'SMTP'
+    elif port == 53:
+       return 'DNS'
         # And many more...
-    }
-    
-    return well_known_ports.get(port, f"PORT-{port}")
 ```
 
 The combination of an IP address and a port number is called a socket. Sockets provide the interface between the Transport layer and the Session layer above it. They enable applications to communicate using TCP/IP protocols.
