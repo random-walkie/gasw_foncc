@@ -89,7 +89,7 @@ class TCPConnection:
                 'syn': False,
                 'ack': False,
                 'fin': False,
-                'rst': False
+                'rst': True
             }
 
         # Handle RST flag specially - always goes to CLOSED
