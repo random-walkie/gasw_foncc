@@ -199,6 +199,51 @@ def analyze_segment(tcp_segment: bytes) -> dict:
    tcp_results.update(TCPAnalyzer.analyze_payload(tcp_segment, header_length=header_length))
 
    return tcp_results
+
+def analyze_header(tcp_segment: bytes) -> dict:
+   src_prt = unpack('>H', tcp_segment[:2])[0]
+   dst_prt = unpack('>H', tcp_segment[2:4])[0]
+   seq_num = unpack('>I', tcp_segment[4:8])[0]
+   ack_num = unpack('>I', tcp_segment[8:12])[0]
+   window_size = unpack('>H', tcp_segment[14:16])[0]
+   checksum = unpack('>H', tcp_segment[16:18])[0]
+   urgent_ptr = unpack('>H', tcp_segment[18:20])[0]
+
+   # Extract control bits from lowest 6 bits of second byte
+   binary_flags = format(unpack('>B', tcp_segment[13:14])[0], '06b')
+
+   flags = {
+      'urg': False,
+      'ack': False,
+      'psh': False,
+      'rst': False,
+      'syn': False,
+      'fin': False
+   }
+
+   if binary_flags[0] == '1':
+      flags['urg'] = True
+   if binary_flags[1] == '1':
+      flags['ack'] = True
+   if binary_flags[2] == '1':
+      flags['psh'] = True
+   if binary_flags[3] == '1':
+      flags['rst'] = True
+   if binary_flags[4] == '1':
+      flags['syn'] = True
+   if binary_flags[5] == '1':
+      flags['fin'] = True
+
+   return {
+      'src_port': src_prt,
+      'dst_port': dst_prt,
+      'seq_num': seq_num,
+      'ack_num': ack_num,
+      'flags': flags,
+      'window_size': window_size,
+      'checksum': checksum,
+      'urgent_ptr': urgent_ptr
+   }
 ```
 
 A TCP header includes:
@@ -223,7 +268,7 @@ TCP is a reliable, connection-oriented protocol that provides:
 According to RFC 793: "The Transmission Control Protocol (TCP) is intended for use as a highly reliable host-to-host protocol between hosts in packet-switched computer communication networks, and in interconnected systems of such networks."
 
 Sources:
-- RFC 793: Transmission Control Protocol. IETF.
+- [RFC 793: Transmission Control Protocol. IETF.](https://www.rfc-editor.org/rfc/rfc793)
 - Peterson, L. L., & Davie, B. S. (2012). Computer Networks: A Systems Approach (5th ed.). Morgan Kaufmann.
 
 #### TCP Connection States
@@ -297,22 +342,19 @@ The TCP connection lifecycle typically includes:
 
 The states include:
 - CLOSED
-- LISTEN
 - SYN_SENT
 - SYN_RECEIVED
 - ESTABLISHED
 - FIN_WAIT_1
 - FIN_WAIT_2
-- CLOSE_WAIT
 - CLOSING
-- LAST_ACK
 - TIME_WAIT
 
 As described by W. Richard Stevens in "TCP/IP Illustrated": "TCP is a state machine. The state determines what a TCP endpoint can and cannot do at any given time with respect to the connection."
 
 Sources:
 - Stevens, W. R. (1994). TCP/IP Illustrated, Volume 1: The Protocols. Addison-Wesley.
-- RFC 793: Transmission Control Protocol. IETF.
+- [RFC 793: Transmission Control Protocol. IETF.](https://www.rfc-editor.org/rfc/rfc793)
 
 #### Port Numbers and Sockets
 TCP uses port numbers to identify specific applications or services:
