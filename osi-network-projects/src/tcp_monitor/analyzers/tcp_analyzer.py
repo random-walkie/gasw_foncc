@@ -36,7 +36,7 @@ class TCPAnalyzer:
         is_control_packet(tcp_info: dict) -> bool:
             Determines if a TCP segment contains control information using its flags.
     """
-    def __init__(self, tcp_header: bytes = None, tcp_payload: bytes = None):
+    def __init__(self, tcp_header: bytes = None, tcp_payload: bytes = None) -> None:
         """
         Initializes the TCPAnalyzer instance with optional TCP header and payload data.
 
@@ -87,15 +87,15 @@ class TCPAnalyzer:
         elif header_length > 20:
             tcp_results = TCPAnalyzer.analyze_header_with_options(tcp_segment)
         else:
-            tcp_results = TCPAnalyzer.analyze_header(tcp_segment)
+            tcp_results = TCPAnalyzer.analyze_tcp_header(tcp_segment)
 
         tcp_results['header_length'] = header_length
-        tcp_results.update(TCPAnalyzer.analyze_payload(tcp_segment, header_length=header_length))
+        tcp_results.update(TCPAnalyzer.analyze_tcp_payload(tcp_segment, header_length=header_length))
 
         return tcp_results
 
     @staticmethod
-    def analyze_header(tcp_segment: bytes) -> dict:
+    def analyze_tcp_header(tcp_segment: bytes) -> dict:
         """
         Parses the TCP header of a given segment and extracts essential information.
 
@@ -162,7 +162,7 @@ class TCPAnalyzer:
         }
     
     @staticmethod
-    def analyze_payload(tcp_segment: bytes, header_length: int) -> dict:
+    def analyze_tcp_payload(tcp_segment: bytes, header_length: int) -> dict:
         """
         Extracts and processes the payload data from a given TCP segment.
 
