@@ -165,10 +165,10 @@ class TestTCPAnalyzer(unittest.TestCase):
         """Test handling of TCP segment that's too short to be valid."""
         # Create a segment that's shorter than the minimum TCP header size
         short_segment = self.tcp_header[:10]  # Only 10 bytes, not the 20+ required
-
-        # Should raise an exception or return an error indicator
-        with self.assertRaises(ValueError):
-            self.analyzer.analyze_segment(short_segment)
+        # Should return an error indicator
+        result = self.analyzer.analyze_segment(short_segment)
+        # Verify the result indicates an error
+        self.assertIn('error', result)
 
     def test_get_service_name(self):
         """Test identification of well-known services by port number."""
@@ -220,8 +220,8 @@ class TestTCPAnalyzer(unittest.TestCase):
                 b"\x00\x50"  # Destination port: 80
                 b"\x00\x00\x03\xE8"  # Sequence number: 1000
                 b"\x00\x00\x07\xD0"  # Acknowledgment number: 2000
-                + pack("!B", 0x50 | (flags >> 8))  # Data offset
-                + pack("!B", flags & 0xFF)  # Flags
+                + pack("!B", 0x50)           # Data offset: 5 (bits 4-7) with reserved bits (0-3) set to 0
+                + pack("!B", flags & 0x3F)   # Flags
                 + b"\x20\x00"  # Window size: 8192
                 b"\x12\x34"  # Checksum: 0x1234
                 b"\x00\x00"  # Urgent pointer: 0

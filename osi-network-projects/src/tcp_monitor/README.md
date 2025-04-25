@@ -95,31 +95,25 @@ Sources:
 The Network layer provides routing and addressing functions, allowing data to be transferred across network boundaries. IP (Internet Protocol) is the primary protocol at this layer:
 
 ```python
-def analyze_ip_packet(packet_data):
-    # Extract protocol version (IPv4 or IPv6)
-    version = (packet_data[0] >> 4) & 0xF
-    
-    if version == 4:  # IPv4
-        # Extract header length, TTL, protocol, source IP, dest IP
-        ihl = packet_data[0] & 0xF
-        header_length = ihl * 4
-        ttl = packet_data[8]
-        protocol = packet_data[9]
-        src_ip = format_ipv4_address(packet_data[12:16])
-        dst_ip = format_ipv4_address(packet_data[16:20])
-        # Extract additional fields...
-    
-    elif version == 6:  # IPv6
-        # Extract IPv6-specific fields...
-        
-    return {
-        'version': version,
-        'src_ip': src_ip,
-        'dst_ip': dst_ip,
-        'protocol': protocol,
-        'ttl': ttl,
-        # Other fields...
-    }
+def analyze_packet(ip_packet):
+   # Extract 1st byte of packet header
+   # Shift the value right by 4 bits, extracting the first 4 bits of the byte
+   ip_results = {}
+   if len(ip_packet) < 20:
+      ip_results['error'] = "IP packet too short to contain a valid header."
+      return ip_results
+   else:
+      version = ip_packet[0] >> 4
+      if version == 4:
+         ip_results = IPAnalyzer.analyze_ipv4_packet_header(ip_packet)
+      elif version == 6:
+         ip_results = IPAnalyzer.analyze_ipv6_packet_header(ip_packet)
+      else:
+         ip_results['error'] = f"Invalid IP version: {version}. Only IPv4 and IPv6 are supported."
+         return ip_results
+
+      ip_results['version'] = version
+      return IPAnalyzer.analyze_packet_payload(ip_packet, ip_results)
 ```
 
 An IPv4 header includes:
@@ -139,24 +133,11 @@ An IPv4 header includes:
 The Internet Protocol provides the addressing and routing mechanism that enables packets to travel across networks. Andrew S. Tanenbaum describes IP as "a connectionless protocol that does not assume reliability from lower layers. IP does not provide reliability, flow control, or error recovery."
 
 Sources:
-- RFC 791: Internet Protocol. IETF.
+- [RFC 791: Internet Protocol. IETF](https://datatracker.ietf.org/doc/html/rfc791)
 - Tanenbaum, A. S., & Wetherall, D. J. (2011). Computer Networks (5th ed.). Pearson.
 
 #### IP Addressing and Routing
-IP addressing is fundamental to Network layer operation:
-
-```python
-def format_ipv4_address(ip_bytes):
-    return '.'.join(str(b) for b in ip_bytes)
-
-def get_network_prefix(ip_address, subnet_mask):
-    # Calculate network prefix
-    ip_parts = [int(part) for part in ip_address.split('.')]
-    mask_parts = [int(part) for part in subnet_mask.split('.')]
-    
-    network_parts = [ip_parts[i] & mask_parts[i] for i in range(4)]
-    return '.'.join(str(part) for part in network_parts)
-```
+IP addressing is fundamental to Network layer operation.
 
 The Network layer handles:
 - Logical addressing (IP addresses)
@@ -169,7 +150,7 @@ IP addresses are logical addresses that identify devices on a network. Unlike MA
 As Kurose and Ross explain: "The Internet's network layer routes a datagram through a series of routers between the source and destination. At the source, the network layer receives a segment from the transport layer and encapsulates it in a datagram. At the destination, the network layer extracts the transport-layer segment from the datagram and passes it up to the transport layer."
 
 Sources:
-- RFC 950: Internet Standard Subnetting Procedure. IETF.
+- [RFC 950: Internet Standard Subnetting Procedure. IETF](https://datatracker.ietf.org/doc/html/rfc950).
 - Comer, D. (2014). Internetworking with TCP/IP: Principles, Protocols, and Architecture (6th ed.). Pearson.
 
 ### TCP Connection Analysis (Transport Layer - Layer 4)
@@ -179,38 +160,34 @@ The Transport layer provides end-to-end communication services for applications.
 
 ```python
 def analyze_segment(tcp_segment: bytes) -> dict:
-   binary_header_length = '0'
-   try:
-      # Extract 13th byte at index 12; unpack into integer; shift bits 4 positions to the right
-      binary_header_length = format(unpack('>B', tcp_segment[12:13])[0] >> 4, '04b')
-   except StructError:
-      logger.error("Error unpacking buffer, when analyzing TCP segment.")
-
-   header_length = int(binary_header_length, 2) * 4
-
-   if header_length < 20:
-      raise ValueError("TCP header shorter than 20 bytes.")
-   elif header_length > 20:
-      tcp_results = TCPAnalyzer.analyze_header_with_options(tcp_segment)
+   tcp_results = {}
+   if len(tcp_segment) < 20:
+      tcp_results['error'] = "TCP segment too short to contain a valid header."
+      return tcp_results
    else:
-      tcp_results = TCPAnalyzer.analyze_header(tcp_segment)
+      # Extract 13th byte at index 12; shift bits 4 positions to the right
+      binary_header_length = tcp_segment[12] >> 4
+      header_length = binary_header_length * 4
+      tcp_results = TCPAnalyzer.analyze_tcp_header(tcp_segment)
+      if header_length > 20:
+         tcp_results.update(TCPAnalyzer.analyze_header_with_options(tcp_segment))
 
    tcp_results['header_length'] = header_length
-   tcp_results.update(TCPAnalyzer.analyze_payload(tcp_segment, header_length=header_length))
+   tcp_results.update(TCPAnalyzer.analyze_tcp_payload(tcp_segment, header_length=header_length))
 
    return tcp_results
 
 def analyze_header(tcp_segment: bytes) -> dict:
-   src_prt = unpack('>H', tcp_segment[:2])[0]
-   dst_prt = unpack('>H', tcp_segment[2:4])[0]
-   seq_num = unpack('>I', tcp_segment[4:8])[0]
-   ack_num = unpack('>I', tcp_segment[8:12])[0]
-   window_size = unpack('>H', tcp_segment[14:16])[0]
-   checksum = unpack('>H', tcp_segment[16:18])[0]
-   urgent_ptr = unpack('>H', tcp_segment[18:20])[0]
+   src_prt = (tcp_segment[0] << 8) + tcp_segment[1]
+   dst_prt = (tcp_segment[2] << 8) + tcp_segment[3]
+   seq_num = (tcp_segment[4] << 24) + (tcp_segment[5] << 16) + (tcp_segment[6] << 8) + tcp_segment[7]
+   ack_num = (tcp_segment[8] << 24) + (tcp_segment[9] << 16) + (tcp_segment[10] << 8) + tcp_segment[11]
+   window_size = (tcp_segment[14] << 8) + tcp_segment[15]
+   checksum = (tcp_segment[16] << 8) + tcp_segment[17]
+   urgent_ptr = (tcp_segment[18] << 8) + tcp_segment[19]
 
    # Extract control bits from lowest 6 bits of second byte
-   binary_flags = format(unpack('>B', tcp_segment[13:14])[0], '06b')
+   binary_flags = format(tcp_segment[13], '08b')[-6:]
 
    flags = {
       'urg': False,

@@ -1,8 +1,3 @@
-from struct import unpack
-from struct import error as StructError
-from logging import getLogger
-logger = getLogger(__name__)
-
 class TCPAnalyzer:
     """
     TCPAnalyzer is a utility class designed to process and analyze Transmission Control 
@@ -73,21 +68,17 @@ class TCPAnalyzer:
         Raises:
             ValueError: If the TCP header length is invalid (shorter than 20 bytes).
         """
-        binary_header_length = '0'
-        try:
-            # Extract 13th byte at index 12; unpack into integer; shift bits 4 positions to the right
-            binary_header_length = format(unpack('>B', tcp_segment[12:13])[0] >> 4, '04b')
-        except StructError:
-            logger.error("Error unpacking buffer, when analyzing TCP segment.")
-
-        header_length = int(binary_header_length, 2) * 4
-
-        if header_length < 20:
-            raise ValueError("TCP header shorter than 20 bytes.")
-        elif header_length > 20:
-            tcp_results = TCPAnalyzer.analyze_header_with_options(tcp_segment)
+        tcp_results = {}
+        if len(tcp_segment) < 20:
+            tcp_results['error'] = "TCP segment too short to contain a valid header."
+            return tcp_results
         else:
+            # Extract 13th byte at index 12; shift bits 4 positions to the right
+            binary_header_length = tcp_segment[12] >> 4
+            header_length = binary_header_length * 4
             tcp_results = TCPAnalyzer.analyze_tcp_header(tcp_segment)
+            if header_length > 20:
+                tcp_results.update(TCPAnalyzer.analyze_header_with_options(tcp_segment))
 
         tcp_results['header_length'] = header_length
         tcp_results.update(TCPAnalyzer.analyze_tcp_payload(tcp_segment, header_length=header_length))
@@ -117,16 +108,16 @@ class TCPAnalyzer:
                   - `checksum` (int): TCP checksum value.
                   - `urgent_ptr` (int): Urgent pointer value.
         """
-        src_prt = unpack('>H', tcp_segment[:2])[0]
-        dst_prt = unpack('>H', tcp_segment[2:4])[0]
-        seq_num = unpack('>I', tcp_segment[4:8])[0]
-        ack_num = unpack('>I', tcp_segment[8:12])[0]
-        window_size = unpack('>H', tcp_segment[14:16])[0]
-        checksum = unpack('>H', tcp_segment[16:18])[0]
-        urgent_ptr = unpack('>H', tcp_segment[18:20])[0]
+        src_prt = (tcp_segment[0] << 8) + tcp_segment[1]
+        dst_prt = (tcp_segment[2] << 8) + tcp_segment[3]
+        seq_num = (tcp_segment[4] << 24) + (tcp_segment[5] << 16) + (tcp_segment[6] << 8) + tcp_segment[7]
+        ack_num = (tcp_segment[8] << 24) + (tcp_segment[9] << 16) + (tcp_segment[10] << 8) + tcp_segment[11]
+        window_size = (tcp_segment[14] << 8) + tcp_segment[15]
+        checksum = (tcp_segment[16] << 8) + tcp_segment[17]
+        urgent_ptr = (tcp_segment[18] << 8) + tcp_segment[19]
 
         # Extract control bits from lowest 6 bits of second byte
-        binary_flags = format(unpack('>B', tcp_segment[13:14])[0], '06b')
+        binary_flags = format(tcp_segment[13], '08b')[-6:]
 
         flags = {
             'urg': False,
@@ -211,8 +202,8 @@ class TCPAnalyzer:
                     - `SACK` (Selective Acknowledgment)
                     If the option is unrecognized, the code will be `UNKNOWN`.
         """
-        option_number = unpack('>B', tcp_segment[20:21])[0]
-        option_value = unpack('>H', tcp_segment[22:24])[0]
+        option_number = tcp_segment[20]
+        option_value = (tcp_segment[22] << 8) + tcp_segment[23]
         option_code = 'UNKNOWN'
 
         if option_number == 0:
@@ -306,8 +297,3 @@ class TCPAnalyzer:
             return True
         else:
             return False
-
-
-
-
-
