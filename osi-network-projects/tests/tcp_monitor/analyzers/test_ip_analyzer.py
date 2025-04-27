@@ -10,8 +10,6 @@ class TestIPAnalyzer(unittest.TestCase):
 
     def setUp(self):
         """Set up test environment before each test case."""
-        self.analyzer = IPAnalyzer()
-
         # Sample IPv4 packet (20 bytes header, no options, 4 bytes payload)
         # Version: 4, IHL: 5 (20 bytes), TOS: 0, Total Length: 24
         # ID: 0x1234, Flags: 0, Fragment Offset: 0
@@ -49,7 +47,7 @@ class TestIPAnalyzer(unittest.TestCase):
     def test_analyze_ipv4_packet(self):
         """Test analysis of a basic IPv4 packet."""
         # Analyze the IPv4 packet
-        result = self.analyzer.analyze_packet(bytes(self.ipv4_packet))
+        result = IPAnalyzer.analyze_packet(bytes(self.ipv4_packet))
 
         # Verify basic IPv4 header fields
         self.assertEqual(result['version'], 4)
@@ -73,7 +71,7 @@ class TestIPAnalyzer(unittest.TestCase):
     def test_analyze_ipv6_packet(self):
         """Test analysis of a basic IPv6 packet."""
         # Analyze the IPv6 packet
-        result = self.analyzer.analyze_packet(bytes(self.ipv6_packet))
+        result = IPAnalyzer.analyze_packet(bytes(self.ipv6_packet))
 
         # Verify basic IPv6 header fields
         self.assertEqual(result['version'], 6)
@@ -97,7 +95,7 @@ class TestIPAnalyzer(unittest.TestCase):
         fragmented_packet[7] = 0x05  # Fragment offset: 40 bytes (5 * 8)
 
         # Analyze the fragmented packet
-        result = self.analyzer.analyze_packet(bytes(fragmented_packet))
+        result = IPAnalyzer.analyze_packet(bytes(fragmented_packet))
 
         # Verify fragmentation fields
         self.assertEqual(result['flags']['mf'], True)
@@ -121,7 +119,7 @@ class TestIPAnalyzer(unittest.TestCase):
             modified_packet[9] = protocol_num
 
             # Analyze the packet
-            result = self.analyzer.analyze_packet(bytes(modified_packet))
+            result = IPAnalyzer.analyze_packet(bytes(modified_packet))
 
             # Verify the protocol name
             self.assertEqual(result['protocol_name'], expected_name)
@@ -141,7 +139,7 @@ class TestIPAnalyzer(unittest.TestCase):
         packet_with_options.insert(23, 0x00)  # Padding
 
         # Analyze the packet
-        result = self.analyzer.analyze_packet(bytes(packet_with_options))
+        result = IPAnalyzer.analyze_packet(bytes(packet_with_options))
 
         # Verify the header length was parsed correctly
         self.assertEqual(result['header_length'], 24)
@@ -167,7 +165,7 @@ class TestIPAnalyzer(unittest.TestCase):
 
         for ip_address, expected_type in test_cases:
             # Call the address type classifier method
-                addr_type = self.analyzer.get_ip_address_type(ip_address)
+                addr_type = IPAnalyzer.get_ip_address_type(ip_address)
                 self.assertEqual(addr_type, expected_type)
 
     def test_parse_invalid_packet(self):
@@ -176,7 +174,7 @@ class TestIPAnalyzer(unittest.TestCase):
         short_packet = bytes([0x45, 0x00, 0x00, 0x05])
 
         # This should not raise an exception but return an error indication
-        result = self.analyzer.analyze_packet(short_packet)
+        result = IPAnalyzer.analyze_packet(short_packet)
 
         # Verify the result indicates an error
         self.assertIn('error', result)
@@ -185,7 +183,7 @@ class TestIPAnalyzer(unittest.TestCase):
         invalid_version = bytearray(self.ipv4_packet)
         invalid_version[0] = 0x95  # Version 9, IHL 5
 
-        result = self.analyzer.analyze_packet(bytes(invalid_version))
+        result = IPAnalyzer.analyze_packet(bytes(invalid_version))
         self.assertIn('error', result)
 
 if __name__ == '__main__':

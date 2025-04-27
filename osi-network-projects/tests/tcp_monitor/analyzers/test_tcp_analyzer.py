@@ -11,8 +11,6 @@ class TestTCPAnalyzer(unittest.TestCase):
 
     def setUp(self):
         """Set up test environment before each test case."""
-        self.analyzer = TCPAnalyzer()
-
         # Create a sample TCP segment (header + payload)
         # Source port: 52800 (0xCE40)
         # Destination port: 80 (0x0050)
@@ -41,7 +39,7 @@ class TestTCPAnalyzer(unittest.TestCase):
 
     def test_parse_tcp_header_basic(self):
         """Test basic parsing of TCP header fields."""
-        tcp_info = self.analyzer.analyze_segment(self.tcp_segment)
+        tcp_info = TCPAnalyzer.analyze_segment(self.tcp_segment)
 
         # Check that all expected fields are present
         self.assertIn('src_port', tcp_info)
@@ -66,7 +64,7 @@ class TestTCPAnalyzer(unittest.TestCase):
 
     def test_parse_tcp_flags(self):
         """Test parsing of TCP flags field."""
-        tcp_info = self.analyzer.analyze_segment(self.tcp_segment)
+        tcp_info = TCPAnalyzer.analyze_segment(self.tcp_segment)
 
         # Verify flags dictionary
         self.assertIn('flags', tcp_info)
@@ -82,7 +80,7 @@ class TestTCPAnalyzer(unittest.TestCase):
 
     def test_parse_tcp_payload(self):
         """Test extraction of TCP payload data."""
-        tcp_info = self.analyzer.analyze_segment(self.tcp_segment)
+        tcp_info = TCPAnalyzer.analyze_segment(self.tcp_segment)
 
         # Check payload extraction
         self.assertIn('payload', tcp_info)
@@ -111,7 +109,7 @@ class TestTCPAnalyzer(unittest.TestCase):
 
         tcp_segment_with_options = tcp_header_with_options + self.tcp_payload
 
-        tcp_info = self.analyzer.analyze_segment(tcp_segment_with_options)
+        tcp_info = TCPAnalyzer.analyze_segment(tcp_segment_with_options)
 
         # Check header length is correctly parsed (6 words = 24 bytes)
         self.assertEqual(tcp_info['header_length'], 24)
@@ -139,7 +137,7 @@ class TestTCPAnalyzer(unittest.TestCase):
 
         all_flags_segment = all_flags_header + self.tcp_payload
 
-        tcp_info = self.analyzer.analyze_segment(all_flags_segment)
+        tcp_info = TCPAnalyzer.analyze_segment(all_flags_segment)
 
         # Verify all flags are set
         flags = tcp_info['flags']
@@ -155,7 +153,7 @@ class TestTCPAnalyzer(unittest.TestCase):
         # TCP segment with just the header and no payload
         empty_segment = self.tcp_header
 
-        tcp_info = self.analyzer.analyze_segment(empty_segment)
+        tcp_info = TCPAnalyzer.analyze_segment(empty_segment)
 
         # Check payload is empty
         self.assertEqual(tcp_info['payload'], b"")
@@ -166,21 +164,21 @@ class TestTCPAnalyzer(unittest.TestCase):
         # Create a segment that's shorter than the minimum TCP header size
         short_segment = self.tcp_header[:10]  # Only 10 bytes, not the 20+ required
         # Should return an error indicator
-        result = self.analyzer.analyze_segment(short_segment)
+        result = TCPAnalyzer.analyze_segment(short_segment)
         # Verify the result indicates an error
         self.assertIn('error', result)
 
     def test_get_service_name(self):
         """Test identification of well-known services by port number."""
         # Test well-known ports
-        self.assertEqual(self.analyzer.get_service_name(80), "HTTP")
-        self.assertEqual(self.analyzer.get_service_name(443), "HTTPS")
-        self.assertEqual(self.analyzer.get_service_name(22), "SSH")
-        self.assertEqual(self.analyzer.get_service_name(25), "SMTP")
+        self.assertEqual(TCPAnalyzer.get_service_name(80), "HTTP")
+        self.assertEqual(TCPAnalyzer.get_service_name(443), "HTTPS")
+        self.assertEqual(TCPAnalyzer.get_service_name(22), "SSH")
+        self.assertEqual(TCPAnalyzer.get_service_name(25), "SMTP")
 
         # Test unknown port
         unknown_port = 12345
-        self.assertEqual(self.analyzer.get_service_name(unknown_port), f"PORT-{unknown_port}")
+        self.assertEqual(TCPAnalyzer.get_service_name(unknown_port), f"PORT-{unknown_port}")
 
     def test_is_control_packet(self):
         """Test identification of TCP control packets (SYN, FIN, RST)."""
@@ -191,16 +189,16 @@ class TestTCPAnalyzer(unittest.TestCase):
         ack_segment = self._create_segment_with_flags(ack=True)
 
         # Parse segments
-        syn_info = self.analyzer.analyze_segment(syn_segment)
-        fin_info = self.analyzer.analyze_segment(fin_segment)
-        rst_info = self.analyzer.analyze_segment(rst_segment)
-        ack_info = self.analyzer.analyze_segment(ack_segment)
+        syn_info = TCPAnalyzer.analyze_segment(syn_segment)
+        fin_info = TCPAnalyzer.analyze_segment(fin_segment)
+        rst_info = TCPAnalyzer.analyze_segment(rst_segment)
+        ack_info = TCPAnalyzer.analyze_segment(ack_segment)
 
         # Check control packet identification
-        self.assertTrue(self.analyzer.is_control_packet(syn_info))
-        self.assertTrue(self.analyzer.is_control_packet(fin_info))
-        self.assertTrue(self.analyzer.is_control_packet(rst_info))
-        self.assertTrue(self.analyzer.is_control_packet(ack_info))
+        self.assertTrue(TCPAnalyzer.is_control_packet(syn_info))
+        self.assertTrue(TCPAnalyzer.is_control_packet(fin_info))
+        self.assertTrue(TCPAnalyzer.is_control_packet(rst_info))
+        self.assertTrue(TCPAnalyzer.is_control_packet(ack_info))
 
     def _create_segment_with_flags(self, fin=False, syn=False, rst=False,
                                    psh=False, ack=False, urg=False):

@@ -29,17 +29,14 @@ class IPAnalyzer:
             Returns the name of the protocol based on the protocol number,
             e.g., ICMP, TCP, UDP, etc.
     """
-    def __init__(self, ip_packet: bytes = None) -> None:
+    def __init__(self) -> None:
         """
-        Initializes the IPAnalyzer object.
+        Initializes an instance of the IPAnalyzer class.
 
-        Args:
-            ip_packet (bytes, optional): The raw IP packet to be analyzed. Defaults to None.
-
-        This constructor allows the user to optionally provide a raw IP packet 
-        to the IPAnalyzer instance for analysis.
+        Since this class contains only static methods, this initializer
+        does not perform any specific setup or hold any instance-specific
+        data. It exists for potential extension or instantiation needs.
         """
-        self.ip_packet = ip_packet
 
     @staticmethod
     def analyze_packet(ip_packet: bytes) -> dict:

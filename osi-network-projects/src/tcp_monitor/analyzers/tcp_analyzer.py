@@ -31,20 +31,15 @@ class TCPAnalyzer:
         is_control_packet(tcp_info: dict) -> bool:
             Determines if a TCP segment contains control information using its flags.
     """
-    def __init__(self, tcp_header: bytes = None, tcp_payload: bytes = None) -> None:
+    def __init__(self) -> None:
         """
-        Initializes the TCPAnalyzer instance with optional TCP header and payload data.
+        Initializes an instance of the TCPAnalyzer class.
 
-        Args:
-            tcp_header (bytes, optional): The TCP header data. Defaults to None.
-            tcp_payload (bytes, optional): The TCP payload data. Defaults to None.
-
-        Attributes:
-            self.tcp_header (bytes): Stores the provided TCP header data.
-            self.tcp_payload (bytes): Stores the provided TCP payload data.
+        Since this class contains only static methods, this initializer
+        does not perform any specific setup or hold any instance-specific
+        data. It exists for potential extension or instantiation needs.
         """
-        self.tcp_header = tcp_header
-        self.tcp_payload = tcp_payload
+        pass
 
     @staticmethod
     def analyze_segment(tcp_segment: bytes) -> dict:
