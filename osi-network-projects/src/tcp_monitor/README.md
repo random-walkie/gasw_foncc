@@ -44,19 +44,55 @@ Sources:
 The Data Link layer provides node-to-node data transfer across a physical network. It handles framing, addressing using MAC addresses, and error detection. In the TCP Monitor, we analyze Ethernet frames:
 
 ```python
-def analyze_ethernet_frame(frame_data):
-    # Extract source and destination MAC addresses
-    dst_mac = format_mac_address(frame_data[0:6])
-    src_mac = format_mac_address(frame_data[6:12])
-    
-    # Extract EtherType (determines the payload type)
-    ethertype = int.from_bytes(frame_data[12:14], byteorder='big')
-    
-    return {
-        'src_mac': src_mac,
-        'dst_mac': dst_mac,
-        'ethertype': hex(ethertype)
-    }
+def analyze_frame(frame_data):
+   # Check if the frame is too short
+   if len(frame) < 14:
+      return {'error': 'Frame too short to be a valid Ethernet frame'}
+
+   # Get both header and payload information
+   header_info = EthernetAnalyzer.analyze_ethernet_header(frame)
+   payload_info = EthernetAnalyzer.analyze_ethernet_payload(frame)
+
+   return {**header_info, **payload_info}
+
+def analyze_ethernet_header(frame: bytes) -> dict:
+   dst_mac = EthernetAnalyzer.format_mac_address(frame[0:6])
+   is_broadcast = False
+   is_multicast = False
+   if dst_mac == 'ff:ff:ff:ff:ff:ff':
+      is_broadcast = True
+   # Multicast destination MAC (first byte has least significant bit set)
+   elif dst_mac[0:2] == '01':
+      is_multicast = True
+   src_mac = EthernetAnalyzer.format_mac_address(frame[6:12])
+   ethertype = (frame[12] << 8) + frame[13]
+   ethertype_name = EthernetAnalyzer.get_ethertype_name(ethertype)
+
+   is_vlan_tagged = False
+   vlan_id = None
+   inner_ethertype = None
+   inner_ethertype_name = ''
+   if ethertype ==  0x8100:
+      is_vlan_tagged = True
+      vlan_id = (frame[14] << 8) + frame[15]
+      inner_ethertype = (frame[16] << 8) + frame[17]
+      inner_ethertype_name = EthernetAnalyzer.get_ethertype_name(inner_ethertype)
+
+   return {'dst_mac': dst_mac,
+           'is_broadcast': is_broadcast,
+           'is_multicast': is_multicast,
+           'src_mac': src_mac,
+           'ethertype': ethertype,
+           'ethertype_name': ethertype_name,
+           'is_vlan_tagged': is_vlan_tagged,
+           'vlan_id': vlan_id,
+           'inner_ethertype': inner_ethertype,
+           'inner_ethertype_name': inner_ethertype_name}
+
+def analyze_ethernet_payload(frame: bytes) -> dict:
+   payload = frame[14:]
+   payload_size = len(payload)
+   return {'payload': payload, 'payload_size': payload_size}
 ```
 
 Ethernet is the most common Data Link layer protocol. An Ethernet frame consists of:
@@ -70,15 +106,15 @@ Ethernet is the most common Data Link layer protocol. An Ethernet frame consists
 According to the IEEE: "The data link layer provides for the transfer of data between network entities and the detection and possible correction of errors that may occur in the physical layer."
 
 Sources:
-- IEEE 802.3-2018: IEEE Standard for Ethernet
+- [IEEE 802.3-2018: IEEE Standard for Ethernet](https://ieeexplore.ieee.org/document/8457469)
 - Kurose, J. F., & Ross, K. W. (2017). Computer Networking: A Top-Down Approach (7th ed.). Pearson.
 
 #### MAC Addressing
 Media Access Control (MAC) addressing is a crucial concept at the Data Link layer:
 
 ```python
-def format_mac_address(mac_bytes):
-    return ':'.join(f'{b:02x}' for b in mac_bytes)
+def format_mac_address(mac):
+   return ':'.join(mac.hex()[i:i+2] for i in range(0,12,2))
 ```
 
 MAC addresses are 48-bit (6-byte) identifiers assigned to network interfaces for communications at the data link layer. They are unique identifiers assigned to devices by manufacturers and are used for local network communications.
@@ -159,7 +195,7 @@ Sources:
 The Transport layer provides end-to-end communication services for applications. TCP (Transmission Control Protocol) is a connection-oriented protocol at this layer:
 
 ```python
-def analyze_tcp_segment(tcp_segment: bytes) -> dict:
+def analyze_segment(tcp_segment: bytes) -> dict:
    tcp_results = {}
    if len(tcp_segment) < 20:
       tcp_results['error'] = "TCP segment too short to contain a valid header."
