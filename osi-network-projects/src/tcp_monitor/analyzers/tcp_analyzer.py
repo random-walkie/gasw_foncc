@@ -74,8 +74,7 @@ class TCPAnalyzer:
             return tcp_results
         else:
             # Extract 13th byte at index 12; shift bits 4 positions to the right
-            binary_header_length = tcp_segment[12] >> 4
-            header_length = binary_header_length * 4
+            header_length = (tcp_segment[12] >> 4) * 4
             tcp_results = TCPAnalyzer.analyze_tcp_header(tcp_segment)
             if header_length > 20:
                 tcp_results.update(TCPAnalyzer.analyze_header_with_options(tcp_segment))
