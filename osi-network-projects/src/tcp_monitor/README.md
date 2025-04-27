@@ -159,7 +159,7 @@ Sources:
 The Transport layer provides end-to-end communication services for applications. TCP (Transmission Control Protocol) is a connection-oriented protocol at this layer:
 
 ```python
-def analyze_segment(tcp_segment: bytes) -> dict:
+def analyze_tcp_segment(tcp_segment: bytes) -> dict:
    tcp_results = {}
    if len(tcp_segment) < 20:
       tcp_results['error'] = "TCP segment too short to contain a valid header."
@@ -176,7 +176,7 @@ def analyze_segment(tcp_segment: bytes) -> dict:
 
    return tcp_results
 
-def analyze_header(tcp_segment: bytes) -> dict:
+def analyze_tcp_header(tcp_segment: bytes) -> dict:
    src_prt = (tcp_segment[0] << 8) + tcp_segment[1]
    dst_prt = (tcp_segment[2] << 8) + tcp_segment[3]
    seq_num = (tcp_segment[4] << 24) + (tcp_segment[5] << 16) + (tcp_segment[6] << 8) + tcp_segment[7]
