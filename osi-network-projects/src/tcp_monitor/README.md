@@ -22,7 +22,8 @@ The physical layer defines the electrical, mechanical, and functional specificat
 
 ```python
 # Example of accessing network interface
-interface = get_network_interface("eth0")
+packet_capture = PacketCapture()
+interface = packet_capture.interface
 ```
 
 When the tool captures packets directly from a network interface, it's interacting with the physical layer where raw bits are transmitted and received. According to the IEEE 802 standards, the physical layer "defines the means of transmitting raw bits rather than logical data packets over a physical link connecting network nodes."
